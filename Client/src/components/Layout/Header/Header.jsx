@@ -2,9 +2,13 @@ import "./Header.css";
 import Proptypes from "prop-types";
 import { CartContext } from "../../../context/CartContext";
 import { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = ({ setIsSearchShow }) => {
-  const {cartItems} = useContext(CartContext)
+  const { cartItems } = useContext(CartContext);
+
+  const { pathname } = useLocation();
+
   return (
     <header>
       <div className="global-notification">
@@ -19,25 +23,29 @@ const Header = ({ setIsSearchShow }) => {
             </div>
 
             <div className="header-left">
-              <a href="#" className="logo">
-                <img src="logo.png" alt="Logo" />
-              </a>
+              <Link to={"/"} className="logo">
+                <img src="/logo.png" alt="Logo" />
+              </Link>
             </div>
 
             <div className="header-center" id="sidebar">
               <nav className="navigation">
                 <ul className="menu-list">
                   <li className="menu-list-item">
-                    <a href="#" className="menu-link">
+                    <Link
+                      to={"/"}
+                      href="#"
+                      className={`menu-link ${pathname === "/" && "active"}`}
+                    >
                       Anasayfa
-                    </a>
+                    </Link>
                   </li>
 
                   <li className="menu-list-item">
-                    <a href="#" className="menu-link">
+                    <Link to={"/shop"} className={`menu-link ${pathname === "/shop" && "active"}`}>
                       Ürünler
                       <i className="bi bi-chevron-down"></i>
-                    </a>
+                    </Link>
 
                     <div className="menu-dropdown-wrapper">
                       <ul className="menu-dropdown-content">
@@ -52,15 +60,15 @@ const Header = ({ setIsSearchShow }) => {
                   </li>
 
                   <li className="menu-list-item">
-                    <a href="#" className="menu-link">
+                    <Link to={"/blog"} className={`menu-link ${pathname === "/blog" && "active"}`}>
                       Blog
-                    </a>
+                    </Link>
                   </li>
 
                   <li className="menu-list-item">
-                    <a href="#" className="menu-link">
+                    <Link to={"/contact"} className={`menu-link ${pathname === "/contact" && "active"}`}>
                       iletişim
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -78,9 +86,9 @@ const Header = ({ setIsSearchShow }) => {
                 </button>
 
                 <div>
-                  <a href="#" className="header-account">
+                  <Link to={"/auth"} className="header-account">
                     <i className="bi bi-person"></i>
-                  </a>
+                  </Link>
                 </div>
 
                 <a href="#">
@@ -88,10 +96,12 @@ const Header = ({ setIsSearchShow }) => {
                 </a>
 
                 <div className="header-cart">
-                  <a href="#" className="header-cart-link">
+                  <Link to={"/cart"} className="header-cart-link">
                     <i className="bi bi-bag"></i>
-                    <span className="header-cart-count">{cartItems.length}</span>
-                  </a>
+                    <span className="header-cart-count">
+                      {cartItems.length}
+                    </span>
+                  </Link>
                 </div>
               </div>
             </div>

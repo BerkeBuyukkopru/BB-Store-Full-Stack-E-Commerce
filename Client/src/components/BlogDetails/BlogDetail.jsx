@@ -8,7 +8,7 @@ const BlogDetail = () => {
         <article>
           <figure>
             <a href="#">
-              <img src="img/blogs/blog1.jpg" alt="" />
+              <img src="/img/blogs/blog1.jpg" alt="" />
             </a>
           </figure>
           <div className="blog-wrapper">

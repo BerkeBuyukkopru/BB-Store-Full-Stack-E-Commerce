@@ -1,4 +1,5 @@
 import "./Footer.css";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -7,9 +8,9 @@ const Footer = () => {
         <div className="container">
           <div className="footer-widgets">
             <div className="footer-logo">
-              <a href="#" className="logo">
-                <img src="logo.png" alt="Logo" />
-              </a>
+              <Link to={"/"} className="logo">
+                <img src="/logo.png" alt="Logo" />
+              </Link>
             </div>
             <div className="widget-nav-menu">
               <h4>Kurumsal</h4>
@@ -20,25 +21,19 @@ const Footer = () => {
                 <li>
                   <a href="#">M.S.S</a>
                 </li>
-                <li>
-                  <a href="#">İletişim</a>
-                </li>
               </ul>
             </div>
             <div className="widget-nav-menu">
               <h4>Mağaza</h4>
               <ul>
                 <li>
-                  <a href="#">Anasafya</a>
+                  <Link to={"/"}>Anasafya</Link>
                 </li>
                 <li>
-                  <a href="#">Kategoriler</a>
+                  <Link to={"/shop"}>Ürünler</Link>
                 </li>
                 <li>
-                  <a href="#">Blog</a>
-                </li>
-                <li>
-                  <a href="#">İletişim</a>
+                  <Link to={"/blog"}>Blog</Link>
                 </li>
               </ul>
             </div>
@@ -46,10 +41,10 @@ const Footer = () => {
               <h4>Destek</h4>
               <ul>
                 <li>
-                  <a href="#">Giriş Yap/Kayıt Ol</a>
+                  <Link to={"/auth"}>Giriş Yap/Kayıt Ol</Link>
                 </li>
                 <li>
-                  <a href="#">İletişim</a>
+                  <Link to={"/contact"}>İletişim</Link>
                 </li>
               </ul>
             </div>
