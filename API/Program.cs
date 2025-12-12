@@ -1,4 +1,5 @@
 using API.Models;
+using API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp =>
     sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<DatabaseSettings>>().Value);
 
 builder.Services.AddControllers();
+
+builder.Services.AddSingleton<CategoryRepository>();
 
 builder.Services.AddOpenApi();
 
