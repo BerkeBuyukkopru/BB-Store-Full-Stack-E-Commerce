@@ -149,9 +149,6 @@ public class ProductController : ControllerBase
         }
     }
 
-
-    // ProductController.cs içine eklenecek metot
-
     // Rota 5: DELETE /api/product/{id} (Ürün Silme)
     [HttpDelete("{id}")]
     [Authorize(Roles = "admin")]
