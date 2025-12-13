@@ -12,6 +12,7 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<CategoryRepository>();
+builder.Services.AddSingleton<UserRepository>();
 
 builder.Services.AddOpenApi();
 
