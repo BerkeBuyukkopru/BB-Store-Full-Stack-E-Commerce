@@ -75,7 +75,7 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-try
+        try
         {
             var user = await _userRepository.GetByEmailAsync(loginDto.Email);
             

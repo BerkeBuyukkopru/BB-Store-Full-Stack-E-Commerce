@@ -41,8 +41,8 @@ namespace API.Repositories
             updatedCategory.Id = id;
 
             var result = await _categories.ReplaceOneAsync(
-                category => category.Id == id, // Hangi belgeyi bul
-                updatedCategory // Ne ile değiştir
+                category => category.Id == id,
+                updatedCategory
             );
             return result.IsAcknowledged && result.ModifiedCount > 0;
         }

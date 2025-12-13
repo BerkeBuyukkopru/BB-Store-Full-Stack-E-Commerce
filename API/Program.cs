@@ -20,7 +20,7 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 // Kendi Repository'lerimizi ekliyoruz
 builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<UserRepository>();
-
+builder.Services.AddSingleton<ProductRepository>();
 // YENİ: Token oluşturma servisini DI'a ekliyoruz
 builder.Services.AddSingleton<ITokenService, TokenService>();
 
