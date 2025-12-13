@@ -17,7 +17,6 @@ namespace API.Repositories
         }
         public async Task<Coupon?> GetByCodeAsync(string code)
         {
-            // Koda göre tek bir kupon bulur.
             return await _coupons.Find(coupon => coupon.Code == code).FirstOrDefaultAsync();
         }
         public async Task<Coupon> CreateAsync(Coupon coupon)

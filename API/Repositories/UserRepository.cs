@@ -8,13 +8,10 @@ namespace API.Repositories
         private readonly IMongoCollection<User> _users;
         public UserRepository(IDatabaseSettings settings)
         {
-            // Bağlantı dizesi ile istemciyi oluştur
             var client = new MongoClient(settings.ConnectionString);
 
-            // Veritabanını seç
             var database = client.GetDatabase(settings.DatabaseName);
 
-            // 'categories' koleksiyonunu temsil eden nesneyi oluştur
             _users = database.GetCollection<User>("users");
         }
 
@@ -23,8 +20,6 @@ namespace API.Repositories
 
         public async Task CreateAsync(User newUser)
         {
-            newUser.CreatedAt = DateTime.UtcNow;
-            newUser.UpdatedAt = DateTime.UtcNow;
             await _users.InsertOneAsync(newUser);
         }
     }

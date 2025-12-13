@@ -11,14 +11,12 @@ public class AuthController : ControllerBase
     private readonly UserRepository _userRepository;
     private readonly ITokenService _tokenService;
 
-    // UserRepository'yi DI ile alıyoruz
-    public AuthController(UserRepository userRepository,ITokenService tokenService)
+    public AuthController(UserRepository userRepository, ITokenService tokenService)
     {
         _userRepository = userRepository;
         _tokenService = tokenService;
     }
 
-    // Rota: POST /api/auth/register
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
@@ -29,7 +27,6 @@ public class AuthController : ControllerBase
 
         try
         {
-            // E-posta Benzersizlik Kontrolü
             var existingUser = await _userRepository.GetByEmailAsync(registerDto.Email);
 
             if (existingUser != null)
@@ -37,7 +34,7 @@ public class AuthController : ControllerBase
                 return BadRequest(new { error = "Email adresi daha önce kayıt edilmiş." });
             }
 
-            // 2. Şifre Hashleme
+            // Şifre Hashleme
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
 
             // DTO'yu Model'e dönüştürme ve Hashlenmiş şifreyi atama
@@ -46,26 +43,24 @@ public class AuthController : ControllerBase
                 Name = registerDto.Name,
                 Surname = registerDto.Surname,
                 Email = registerDto.Email,
-                Password = hashedPassword,
-                Role = UserRole.user
+                PasswordHash = hashedPassword,
+                Role = UserRole.user,
+                CreatedAt = DateTime.UtcNow, // Zaman damgası ataması Controller'a alındı
+                UpdatedAt = DateTime.UtcNow
             };
 
             // Veritabanı kayıt
             await _userRepository.CreateAsync(newUser);
-
-            // Şifreyi yanıttan kaldır.
-            newUser.Password = null!;
 
             return CreatedAtAction(nameof(Register), new { id = newUser.Id }, newUser);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Server error." });
+            return StatusCode(500, new { error = "Internal server error." });
         }
     }
 
-    // Rota: POST /api/auth/login
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
@@ -78,24 +73,24 @@ public class AuthController : ControllerBase
         try
         {
             var user = await _userRepository.GetByEmailAsync(loginDto.Email);
-            
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
                 return Unauthorized(new { error = "Invalid credentials." });
             }
 
             // JWT TOKEN OLUŞTURMA ---
             var token = _tokenService.CreateToken(user);
-            
+
             // HTTP-ONLY COOKIE İLE TOKEN GÖNDERME ---
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true, // KRİTİK: JavaScript'in token'a erişimini engeller (XSS koruması)
-                Secure = true,   // Sadece HTTPS üzerinde gönderilir (Üretimde zorunlu)
+                Secure = true,   // Sadece HTTPS üzerinde gönderilir
                 SameSite = SameSiteMode.Strict, // CSRF riskini azaltır
-                Expires = DateTime.UtcNow.AddHours(1) // Token ömrü (örneğin 1 saat)
+                Expires = DateTime.UtcNow.AddHours(1) // Token ömrü
             };
-            
+
             // Token'ı yanıtın Cookie başlığına ekle
             Response.Cookies.Append("AuthToken", token, cookieOptions);
 

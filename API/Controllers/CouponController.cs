@@ -5,18 +5,16 @@ using API.Dtos;
 using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
-[Route("api/[controller]")] // Temel Rota: /api/coupon
+[Route("api/[controller]")]
 public class CouponController : ControllerBase
 {
     private readonly CouponRepository _couponRepository;
 
-    // Repository'yi Dependency Injection ile alıyoruz
     public CouponController(CouponRepository couponRepository)
     {
         _couponRepository = couponRepository;
     }
 
-    // Rota: POST /api/coupon 
     [HttpPost]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> Create([FromBody] CouponDto couponDto)
@@ -31,7 +29,7 @@ public class CouponController : ControllerBase
             var existingCoupon = await _couponRepository.GetByCodeAsync(couponDto.Code);
             if (existingCoupon != null)
             {
-                return BadRequest(new { error = "This coupon is already exists." }); // Kursun hata mesajına uyuldu
+                return BadRequest(new { error = "Bu Kupon Zaten Var." });
             }
             var newCoupon = new Coupon
             {
@@ -49,8 +47,8 @@ public class CouponController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error creating coupon: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "An internal server error occurred while creating the coupon." });
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Internal server error." });
         }
     }
 
@@ -64,8 +62,8 @@ public class CouponController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error retrieving coupons: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal server error." });
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Internal server error." });
         }
     }
 
@@ -78,15 +76,16 @@ public class CouponController : ControllerBase
 
             if (coupon == null)
             {
-                return NotFound(new { error = $"Ürün ID'si bulunamadı: {id}" });
+                return NotFound(new { error = "Ürün  bulunamadı." });
             }
 
             return Ok(new List<Coupon> { coupon });
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error retrieving product: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal server error." });
+            Console.WriteLine(ex.Message);
+
+            return StatusCode(500, new { error = "Internal server error." });
         }
     }
     [HttpGet("code/{couponCode}")]
@@ -96,25 +95,21 @@ public class CouponController : ControllerBase
         {
             var coupon = await _couponRepository.GetByCodeAsync(couponCode);
 
-            // Kupon bulunamazsa 404 döndür (Kurs mantığı)
             if (coupon == null)
             {
-                return NotFound(new { error = "Coupon not found." });
+                return NotFound(new { error = "Kupon Bulunamadı." });
             }
 
-            // Kurs, sadece indirim yüzdesini döndürmeyi talep ediyor.
             return Ok(new { discountPercent = coupon.DiscountPercent });
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error retrieving coupon by code: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal server error." });
+            Console.WriteLine(ex.Message);
+
+            return StatusCode(500, new { error = "Server error." });
         }
     }
 
-    // CouponController.cs içine eklenecek metot
-
-    // Rota 5: PUT /api/coupon/{id} (Kupon Güncelleme)
     [HttpPut("{id}")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> Update(string id, [FromBody] CouponUpdateDto couponUpdateDto)
@@ -129,7 +124,7 @@ public class CouponController : ControllerBase
             var existingCoupon = await _couponRepository.GetByIdAsync(id);
             if (existingCoupon == null)
             {
-                return NotFound(new { error = "Coupon not found." });
+                return NotFound(new { error = "Kupon Bulunamadı." });
             }
 
             if (couponUpdateDto.Code != null)
@@ -142,20 +137,21 @@ public class CouponController : ControllerBase
                 existingCoupon.DiscountPercent = couponUpdateDto.DiscountPercent.Value;
             }
 
-            await _couponRepository.UpdateAsync(id, existingCoupon);
+            var isSuccessful = await _couponRepository.UpdateAsync(id, existingCoupon);
 
+            if (!isSuccessful)
+            {
+                return StatusCode(500, new { error = "Güncelleme başarılı olamadı." });
+            }
             return Ok(existingCoupon);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error updating coupon: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Server error." });
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Server error." });
         }
     }
 
-    // CouponController.cs içine eklenecek metot
-
-    // Rota 6: DELETE /api/coupon/{id} (Kupon Silme)
     [HttpDelete("{id}")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> Delete(string id)
@@ -166,15 +162,15 @@ public class CouponController : ControllerBase
 
             if (deletedCoupon == null)
             {
-                return NotFound(new { error = "Coupon not found." });
+                return NotFound(new { error = "Silinecek Kupon Bulunamadı." });
             }
 
             return Ok(deletedCoupon);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error deleting coupon: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Server error." });
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Server Error" });
         }
     }
 }

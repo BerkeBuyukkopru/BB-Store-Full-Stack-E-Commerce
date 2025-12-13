@@ -11,10 +11,8 @@ namespace API.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; } // MongoDB ID'si
 
-        [Required]
         public string Code { get; set; } = string.Empty;
 
-        [Required]
         public int DiscountPercent { get; set; } 
         
         public DateTime CreatedAt { get; set; }

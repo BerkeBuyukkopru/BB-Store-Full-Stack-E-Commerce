@@ -17,20 +17,13 @@ namespace API.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
-        [Required(ErrorMessage = "İsim zorunludur.")]
         public string Name { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Soyisim zorunludur.")]
         public string Surname { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "E-posta zorunludur.")]
-        [EmailAddress(ErrorMessage = "Geçerli bir e-posta adresi girin.")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Şifre zorunludur.")]
-        [DataType(DataType.Password)]
-        [MinLength(6, ErrorMessage = "Şifre en az 6 karakter olmalıdır.")]
-        public string Password { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
 
         [BsonRepresentation(BsonType.String)]
         public UserRole Role { get; set; } = UserRole.user;

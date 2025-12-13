@@ -10,10 +10,8 @@ namespace API.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
-        [Required(ErrorMessage = "Kategori adı zorunludur.")]
         public string Name { get; set; } = string.Empty;
         
-        [Required(ErrorMessage = "Resim URL'si zorunludur.")]
         public string Img { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

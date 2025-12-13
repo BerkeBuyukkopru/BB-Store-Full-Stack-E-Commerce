@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using API.Models;
 using API.Repositories;
+using API.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -8,42 +10,47 @@ public class CategoryController : ControllerBase
 {
     private readonly CategoryRepository _categoryRepository;
 
-    // Repository'yi Dependency Injection (DI) ile alıyoruz
     public CategoryController(CategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
 
-    // Rota: POST /api/category
     [HttpPost]
-    public async Task<IActionResult> CreateCategory([FromBody] Category newCategory)
+    [Authorize(Roles = "admin")]
+    public async Task<IActionResult> Create([FromBody] CategoryDto categoryDto)
     {
-        if (string.IsNullOrWhiteSpace(newCategory.Name) || string.IsNullOrWhiteSpace(newCategory.Img))
+        if (!ModelState.IsValid)
         {
-            // HTTP 400 Bad Request
-            return BadRequest("Kategori adı ve resim URL'si zorunludur.");
+            return BadRequest(ModelState);
         }
 
         try
         {
+            var newCategory = new Category
+            {
+                Name = categoryDto.Name,
+                Img = categoryDto.Img,
+
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
             await _categoryRepository.CreateAsync(newCategory);
-            // HTTP 201 Created yanıtı ile yeni objeyi döndürür
+
             return CreatedAtAction(nameof(Get), new { id = newCategory.Id }, newCategory);
         }
         catch (Exception ex)
         {
-            // Geliştirme ortamında hatayı loglar ve HTTP 500 döndürür.
-            return StatusCode(500, $"Internal server error: {ex.Message}");
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Internal server error." });
         }
     }
 
-    // Rota: GET /api/category
     [HttpGet]
     public async Task<ActionResult<List<Category>>> Get()
     {
         try
         {
-            // Kategorileri Repository'den çekiyoruz
             var categories = await _categoryRepository.GetAllAsync();
 
             return Ok(categories);
@@ -52,12 +59,10 @@ public class CategoryController : ControllerBase
         {
             Console.WriteLine(ex.Message);
 
-            // HTTP 500 Internal Server Error yanıtı
             return StatusCode(500, new { error = "Internal server error." });
         }
     }
 
-    // Rota: GET /api/category
     [HttpGet("{id}")]
     public async Task<ActionResult<List<Category>>> Get(string id)
     {
@@ -77,29 +82,43 @@ public class CategoryController : ControllerBase
         {
             Console.WriteLine(ex.Message);
 
-            // HTTP 500 Internal Server Error yanıtı
             return StatusCode(500, new { error = "Server error." });
         }
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCategory(string id, [FromBody] Category updatedCategory)
+    [Authorize(Roles = "admin")] 
+    public async Task<IActionResult> Update(string id, [FromBody] CategoryUpdateDto categoryUpdateDto)
     {
-        if (string.IsNullOrWhiteSpace(updatedCategory.Name) || string.IsNullOrWhiteSpace(updatedCategory.Img))
+        if (!ModelState.IsValid) 
         {
-            return BadRequest("Kategori adı ve resim URL'si zorunludur.");
+            return BadRequest(ModelState);
         }
 
         try
         {
-            // Repository metodunu çağırarak güncellemeyi yap
-            var isSuccessful = await _categoryRepository.UpdateAsync(id, updatedCategory);
+            var existingCategory = await _categoryRepository.GetByIdAsync(id);
+            if (existingCategory == null)
+            {
+                return NotFound(new { error = "Kategori bulunamadı." });
+            }
+
+            if (categoryUpdateDto.Name != null)
+            {
+                existingCategory.Name = categoryUpdateDto.Name;
+            }
+            if (categoryUpdateDto.Img != null)
+            {
+                existingCategory.Img = categoryUpdateDto.Img;
+            }
+
+            var isSuccessful = await _categoryRepository.UpdateAsync(id, existingCategory);
 
             if (!isSuccessful)
             {
-                return NotFound(new { error = "Kategori bulunamadı veya değiştirilmedi." });
+                return StatusCode(500, new { error = "Güncelleme başarılı olamadı." });
             }
-            return Ok(updatedCategory);
+            return Ok(existingCategory);
         }
         catch (Exception ex)
         {
@@ -109,23 +128,24 @@ public class CategoryController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteCategory(string id)
     {
         try
         {
             var deletedCategory = await _categoryRepository.DeleteAsync(id);
 
-            if(deletedCategory == null)
+            if (deletedCategory == null)
             {
-                return NotFound(new { error = "Kategori Bulunamadı." });
+                return NotFound(new { error = "Silinecek Kategori Bulunamadı." });
             }
+
             return Ok(deletedCategory);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            return StatusCode(500, new{error="Server Error"});
+            return StatusCode(500, new { error = "Server Error" });
         }
     }
 }

@@ -5,18 +5,16 @@ using API.Dtos;
 using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
-[Route("api/[controller]")] // Temel Rota: /api/product
+[Route("api/[controller]")] 
 public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
 
-    // Repository'yi Dependency Injection ile alıyoruz
     public ProductController(ProductRepository productRepository)
     {
         _productRepository = productRepository;
     }
 
-    // Rota: /api/product 
     [HttpPost]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> Create([FromBody] ProductDto productDto)
@@ -49,8 +47,8 @@ public class ProductController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error creating product: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "An internal server error occurred while creating the product." });
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Internal server error." });
         }
     }
 
@@ -60,17 +58,19 @@ public class ProductController : ControllerBase
         try
         {
             var products = await _productRepository.GetAllAsync();
+            
             return Ok(products);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error retrieving products: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal server error." });
+            Console.WriteLine(ex.Message);
+
+            return StatusCode(500, new { error = "Internal server error." });
         }
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<List<Product>>> GetById(string id)
+    public async Task<ActionResult<List<Product>>> Get(string id)
     {
         try
         {
@@ -78,18 +78,18 @@ public class ProductController : ControllerBase
 
             if (product == null)
             {
-                return NotFound(new { error = $"Ürün ID'si bulunamadı: {id}" });
+                return NotFound(new { error = "Ürün bulunamadı" });
             }
 
             return Ok(new List<Product> { product });
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error retrieving product: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal server error." });
+            Console.WriteLine(ex.Message);
+
+            return StatusCode(500, new { error = "Server error." });
         }
     }
-
 
     [HttpPut("{id}")]
     [Authorize(Roles = "admin")]
@@ -105,7 +105,7 @@ public class ProductController : ControllerBase
             var existingProduct = await _productRepository.GetByIdAsync(id);
             if (existingProduct == null)
             {
-                return NotFound(new { error = $"Güncellenecek ürün ID'si bulunamadı: {id}" });
+                return NotFound(new { error = "Güncellenecek ürün  bulunamadı" });
             }
 
             if (productUpdateDto.Name != null)
@@ -138,18 +138,21 @@ public class ProductController : ControllerBase
                 existingProduct.Category = productUpdateDto.Category;
             }
 
-            await _productRepository.UpdateAsync(id, existingProduct);
+           var isSuccessful= await _productRepository.UpdateAsync(id, existingProduct);
 
+            if (!isSuccessful)
+            {
+                return StatusCode(500, new { error = "Güncelleme başarılı olamadı." });
+            }
             return Ok(existingProduct);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error updating product: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal server error." });
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Server error." });
         }
     }
 
-    // Rota 5: DELETE /api/product/{id} (Ürün Silme)
     [HttpDelete("{id}")]
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> Delete(string id)
@@ -160,15 +163,15 @@ public class ProductController : ControllerBase
 
             if (deletedProduct == null)
             {
-                return NotFound(new { error = $"Silinecek ürün ID'si bulunamadı: {id}" });
+                return NotFound(new { error = "Silinecek ürün ID'si bulunamadı." });
             }
 
             return Ok(deletedProduct);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error deleting product: {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal server error." });
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Server Error" });
         }
     }
 }

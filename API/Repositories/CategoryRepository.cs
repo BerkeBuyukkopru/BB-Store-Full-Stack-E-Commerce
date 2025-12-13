@@ -20,8 +20,6 @@ namespace API.Repositories
         }
         public async Task CreateAsync(Category newCategory)
         {
-            newCategory.CreatedAt = DateTime.UtcNow;
-            newCategory.UpdatedAt = DateTime.UtcNow;
             await _categories.InsertOneAsync(newCategory);
         }
 
