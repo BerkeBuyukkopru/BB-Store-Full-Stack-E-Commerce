@@ -68,7 +68,7 @@ public class CouponController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<List<Coupon>>> GetById(string id)
+    public async Task<ActionResult<Coupon>> GetById(string id)
     {
         try
         {

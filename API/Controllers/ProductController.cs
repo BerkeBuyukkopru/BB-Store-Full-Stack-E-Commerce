@@ -70,7 +70,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<List<Product>>> Get(string id)
+    public async Task<ActionResult<Product>> GetById(string id)
     {
         try
         {

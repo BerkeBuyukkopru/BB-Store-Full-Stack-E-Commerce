@@ -64,7 +64,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<List<Category>>> Get(string id)
+    public async Task<ActionResult<Category>> GetById(string id)
     {
         try
         {
@@ -129,7 +129,7 @@ public class CategoryController : ControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "admin")]
-    public async Task<IActionResult> DeleteCategory(string id)
+    public async Task<IActionResult> Delete(string id)
     {
         try
         {
