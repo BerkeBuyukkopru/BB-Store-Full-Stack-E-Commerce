@@ -2,14 +2,45 @@
   margin: 60px 0;
 }
 
-.account-wrapper {
+.auth-buttons {
   display: flex;
-  justify-content: space-between;
-  gap: 30px;
+  justify-content: center; /* Butonları ortala */
+  margin-bottom: 30px;
+  gap: 10px;
+}
+
+.auth-button {
+  background-color: transparent;
+  border: 2px solid #ccc;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  border-radius: 5px;
+}
+
+.auth-button:hover:not(.active) {
+  border-color: #000;
+  color: #000;
+}
+
+/* Aktif Sekme Stili */
+.auth-button.active {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+.account-wrapper {
+  max-width: 450px; /* Form genişliğini sınırlama */
+  margin: 0 auto; /* Ortala */
+  padding: 20px;
 }
 
 .account-column {
-  flex: 1;
+  width: 100%;
 }
 
 .account-column h2 {
@@ -54,22 +85,15 @@
   margin-top: 10px;
 }
 .account-column form .login button:hover {
-  background-color: rgba(0, 0, 0, 0.800);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .account-column form .form-link {
   color: black;
   font-size: 14px;
   text-decoration: underline;
-  transition: 0.2s ease ;
+  transition: 0.2s ease;
 }
-.account-column form .form-link:hover{
+.account-column form .form-link:hover {
   transform: scale(1.01);
-}
-
-/* responsive */
-@media (max-width: 768px) {
-  .account-wrapper {
-    flex-direction: column;
-  }
 }
