@@ -3,11 +3,14 @@ import Proptypes from "prop-types";
 import { CartContext } from "../../../context/CartContext";
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
 
 const Header = ({ setIsSearchShow }) => {
   const { cartItems } = useContext(CartContext);
 
   const { pathname } = useLocation();
+
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <header>
@@ -42,7 +45,12 @@ const Header = ({ setIsSearchShow }) => {
                   </li>
 
                   <li className="menu-list-item">
-                    <Link to={"/shop"} className={`menu-link ${pathname === "/shop" && "active"}`}>
+                    <Link
+                      to={"/shop"}
+                      className={`menu-link ${
+                        pathname === "/shop" && "active"
+                      }`}
+                    >
                       Ürünler
                       <i className="bi bi-chevron-down"></i>
                     </Link>
@@ -60,13 +68,23 @@ const Header = ({ setIsSearchShow }) => {
                   </li>
 
                   <li className="menu-list-item">
-                    <Link to={"/blog"} className={`menu-link ${pathname === "/blog" && "active"}`}>
+                    <Link
+                      to={"/blog"}
+                      className={`menu-link ${
+                        pathname === "/blog" && "active"
+                      }`}
+                    >
                       Blog
                     </Link>
                   </li>
 
                   <li className="menu-list-item">
-                    <Link to={"/contact"} className={`menu-link ${pathname === "/contact" && "active"}`}>
+                    <Link
+                      to={"/contact"}
+                      className={`menu-link ${
+                        pathname === "/contact" && "active"
+                      }`}
+                    >
                       iletişim
                     </Link>
                   </li>
@@ -103,6 +121,25 @@ const Header = ({ setIsSearchShow }) => {
                     </span>
                   </Link>
                 </div>
+
+                {user && (
+                  <button
+                    className="search-button"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Çıkış yapmak istediğinize emin misiniz?"
+                        )
+                      ) {
+                        {
+                          logout();
+                        }
+                      }
+                    }}
+                  >
+                    <i className="bi bi-box-arrow-right"></i>
+                  </button>
+                )}
               </div>
             </div>
           </div>

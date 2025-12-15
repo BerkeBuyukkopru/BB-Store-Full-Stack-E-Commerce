@@ -3,6 +3,7 @@ using API.Models;
 using API.Repositories;
 using API.Dtos;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -43,7 +44,7 @@ public class AuthController : ControllerBase
                 Name = registerDto.Name,
                 Surname = registerDto.Surname,
                 Email = registerDto.Email,
-                PasswordHash = hashedPassword,
+                Password = hashedPassword,
                 Role = UserRole.user,
                 CreatedAt = DateTime.UtcNow, // Zaman damgası ataması Controller'a alındı
                 UpdatedAt = DateTime.UtcNow
@@ -74,7 +75,7 @@ public class AuthController : ControllerBase
         {
             var user = await _userRepository.GetByEmailAsync(loginDto.Email);
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
             {
                 return Unauthorized(new { error = "Invalid credentials." });
             }
@@ -86,7 +87,7 @@ public class AuthController : ControllerBase
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true, // KRİTİK: JavaScript'in token'a erişimini engeller (XSS koruması)
-                Secure = true,   // Sadece HTTPS üzerinde gönderilir
+                Secure = false,   // Sadece HTTPS üzerinde gönderilir
                 SameSite = SameSiteMode.Strict, // CSRF riskini azaltır
                 Expires = DateTime.UtcNow.AddHours(1) // Token ömrü
             };
@@ -110,4 +111,56 @@ public class AuthController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Server error." });
         }
     }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        try
+        {
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { error = "Token has no user identifier." });
+            }
+
+            var userId = userIdClaim.Value;
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            if (user == null)
+            {
+                return Unauthorized(new { error = "Kullanıcı Bulunamadı." });
+            }
+
+            return Ok(new
+            {
+                id = user.Id,
+                email = user.Email,
+                name = user.Name,
+                surname = user.Surname,
+                role = user.Role.ToString().ToLower()
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Internal server error." });
+        }
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("AuthToken", new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTimeOffset.UtcNow.AddDays(-1) // Geçmiş bir zaman
+        });
+
+        return Ok(new { message = "Successfully logged out." });
+    }
+
 }

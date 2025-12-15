@@ -15,6 +15,10 @@ namespace API.Repositories
             _users = database.GetCollection<User>("users");
         }
 
+        public async Task<User?> GetByIdAsync(string id)
+        {
+            return await _users.Find(user => user.Id == id).FirstOrDefaultAsync();
+        }
         public async Task<User?> GetByEmailAsync(string email) =>
             await _users.Find(user => user.Email == email).FirstOrDefaultAsync();
 

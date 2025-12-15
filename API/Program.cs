@@ -15,19 +15,28 @@ builder.Services.Configure<DatabaseSettings>(
 builder.Services.AddSingleton<IDatabaseSettings>(sp =>
     sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<DatabaseSettings>>().Value);
 
-// --- 2. DI Kayıtları (Repository ve Service) ---
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+        .WithOrigins("http://localhost:5173") 
+        .AllowAnyMethod() // GET, POST, PUT, DELETE gibi tüm metodlara izin ver
+        .AllowAnyHeader() // Tüm başlık tiplerine izin ver
+        .AllowCredentials()); // Eğer HTTP-Only Cookie kullanılıyorsa KRİTİKTİR!
+});
 
-// Kendi Repository'lerimizi ekliyoruz
+// --- 3. DI Kayıtları (Repository ve Service) ---
+
 builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<ProductRepository>();
 builder.Services.AddSingleton<CouponRepository>();
 
-// YENİ: Token oluşturma servisini DI'a ekliyoruz
+// Token oluşturma servisi
 builder.Services.AddSingleton<ITokenService, TokenService>();
 
 
-// --- 3. JWT Kimlik Doğrulama Yapılandırması ---
+// --- 4. JWT Kimlik Doğrulama Yapılandırması ---
 var jwtSecret = builder.Configuration["JwtSettings:Secret"] ?? throw new ArgumentNullException("JWT Secret key appsettings.json dosyasında bulunamadı.");
 var key = Encoding.ASCII.GetBytes(jwtSecret);
 
@@ -41,6 +50,22 @@ builder.Services.AddAuthentication(options =>
     // Geliştirme aşamasında HTTPS'e zorlamamak için
     options.RequireHttpsMetadata = false; 
     options.SaveToken = true;
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // İsteğin Cookie'sini kontrol et
+            context.Token = context.Request.Cookies["AuthToken"];
+
+            // Token bulunduysa Context'e set edilir
+            if (context.Token == null)
+            {
+                // Eğer cookie'de token yoksa, standart başlıkta aranır (yedek olarak)
+                return Task.CompletedTask;
+            }
+            return Task.CompletedTask;
+        }
+    };
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true, // Issuer (Dağıtıcı/Yayıncı) doğrulanmalı
@@ -56,7 +81,7 @@ builder.Services.AddAuthentication(options =>
 // --- JWT Yapılandırması Sonu ---
 
 
-// --- 4. CONTROLLER VE SWAGGER YAPILANDIRMASI ---
+// --- 5. CONTROLLER VE SWAGGER YAPILANDIRMASI ---
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -68,7 +93,7 @@ builder.Services.AddOpenApi(); // Muhtemelen Swagger (OpenAPI) için
 
 var app = builder.Build();
 
-// --- 5. HTTP PIPELINE YAPILANDIRMASI ---
+// --- 6. HTTP PIPELINE YAPILANDIRMASI ---
 
 if (app.Environment.IsDevelopment())
 {
@@ -76,6 +101,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// **********************************************
+// YENİ EKLENEN KISIM: CORS MIDDLEWARE'i
+// CORS, UseAuthentication'dan ÖNCE GELMELİDİR.
+// **********************************************
+app.UseCors("CorsPolicy"); 
 
 // YENİ: JWT Kimlik Doğrulama (Authentication) middleware'ini ekliyoruz.
 // Authorization'dan ÖNCE GELMELİDİR.
