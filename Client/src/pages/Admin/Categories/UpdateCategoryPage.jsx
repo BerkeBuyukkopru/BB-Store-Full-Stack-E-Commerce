@@ -6,19 +6,17 @@ const UpdateCategoryPage = () => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const params = useParams();
-    const navigate = useNavigate(); // Yönlendirme için
+    const navigate = useNavigate(); 
     
     const categoryId = params.id;
-    // ✨ KRİTİK: Backend rotası /category olarak ayarlandı
     const apiUrl = import.meta.env.VITE_API_BASE_URL; 
 
-    // Kategori verilerini çekme işlemi (Sayfa yüklendiğinde formu doldurur)
+
     useEffect(() => {
         const fetchSingleCategory = async () => {
             setLoading(true);
             
             try {
-                // ✨ Rota düzeltildi: /api/categories yerine /category
                 const response = await fetch(`${apiUrl}/category/${categoryId}`, {
                     credentials: "include" // Admin yetkilendirmesi için
                 });
