@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "../../Reviews/Review";
+import PropTypes from "prop-types";
 import Review from "../../Reviews/Review";
 import "./Tabs.css";
 
-const Tabs = () => {
+const Tabs = ({ singleProduct }) => {
   const [activeTab, setActiveTab] = useState("desc");
 
   const handleTabClick = (e, tab) => {
@@ -20,7 +20,7 @@ const Tabs = () => {
             className={`tab-button ${activeTab === "desc" ? "active" : ""}`}
             onClick={(e) => handleTabClick(e, "desc")}
           >
-            Description
+            Açıklama
           </a>
         </li>
         <li>
@@ -29,7 +29,7 @@ const Tabs = () => {
             className={`tab-button ${activeTab === "info" ? "active" : ""}`}
             onClick={(e) => handleTabClick(e, "info")}
           >
-            Additional information
+            Ek Bilgi
           </a>
         </li>
         <li>
@@ -38,65 +38,68 @@ const Tabs = () => {
             className={`tab-button ${activeTab === "review" ? "active" : ""}`}
             onClick={(e) => handleTabClick(e, "review")}
           >
-            Reviews
+            Yorumlar
           </a>
         </li>
       </ul>
       <div className="tab-panel">
+        {/* Açıklama Paneli */}
         <div
           className={`tab-panel-descriptions content ${
             activeTab === "desc" ? "active" : ""
           }`}
         >
-          <p>
-            Quisque varius diam vel metus mattis, id aliquam diam rhoncus. Proin
-            vitae magna in dui finibus malesuada et at nulla. Morbi elit ex,
-            viverra vitae ante vel, blandit feugiat ligula. Fusce fermentum
-            iaculis nibh, at sodales leo maximus a. Nullam ultricies sodales
-            nunc, in pellentesque lorem mattis quis. Cras imperdiet est in nunc
-            tristique lacinia. Nullam aliquam mauris eu accumsan tincidunt.
-            Suspendisse velit ex, aliquet vel ornare vel, dignissim a tortor.
-          </p>
-          <br />
-          <p>
-            Quisque varius diam vel metus mattis, id aliquam diam rhoncus. Proin
-            vitae magna in dui finibus malesuada et at nulla. Morbi elit ex,
-            viverra vitae ante vel, blandit feugiat ligula. Fusce fermentum
-            iaculis nibh, at sodales leo maximus a. Nullam ultricies sodales
-            nunc, in pellentesque lorem mattis quis. Cras imperdiet est in nunc
-            tristique lacinia. Nullam aliquam mauris eu accumsan tincidunt.
-            Suspendisse velit ex, aliquet vel ornare vel, dignissim a tortor.
-          </p>
+          <div
+            className="product-description"
+            dangerouslySetInnerHTML={{ __html: singleProduct.description }}
+          ></div>
         </div>
+
+        {/* Ek Bilgi Paneli */}
         <div
           className={`tab-panel-information content ${
             activeTab === "info" ? "active" : ""
           }`}
           id="info"
         >
-          <h3>Additional information</h3>
+          <h3>Ek Bilgi</h3>
           <table>
             <tbody>
               <tr>
-                <th>Color</th>
+                <th>Renk</th>
                 <td>
                   <p>
-                    Apple Red, Bio Blue, Sweet Orange, Blue, Green, Pink, Black,
-                    White
+                    {/* ✨ RENK DİNAMİKLEŞTİRİLDİ */}
+                    {(singleProduct.colors || []).map((item, index) => (
+                      <span key={index}>
+                        {item.toUpperCase()}
+                        {index < singleProduct.colors.length - 1 && ", "}
+                      </span>
+                    ))}
                   </p>
                 </td>
               </tr>
               <tr>
-                <th>Size</th>
+                <th>Beden</th>
                 <td>
-                  <p>XXS, XS, S, M, L, XL, XXL</p>
+                  <p>
+                    {(singleProduct.sizes || []).map((item, index) => (
+                      <span key={index}>
+                        {item.toUpperCase()}
+                        {index < singleProduct.sizes.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </p>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        {/* Yorumlar Paneli */}
         <Review
           active={activeTab === "review" ? "content active" : "content"}
+          singleProduct={singleProduct}
         />
       </div>
     </div>
@@ -104,3 +107,7 @@ const Tabs = () => {
 };
 
 export default Tabs;
+
+Tabs.propTypes = {
+  singleProduct: PropTypes.object.isRequired,
+};

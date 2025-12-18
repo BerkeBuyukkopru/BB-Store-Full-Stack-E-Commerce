@@ -7,18 +7,19 @@ const CartTotals = () => {
 
   const { cartItems } = useContext(CartContext);
 
-  const cartItemTotals = cartItems.map((item)=>{
-    const itemTotal = item.price.newPrice * item.quantity;
-    return itemTotal
+  const cartItemTotals = cartItems.map((item) => {
+    return item.price * item.quantity;
   });
 
-  const subTotals = cartItemTotals.reduce((previousValue,currentValue)=>{
+  const subTotals = cartItemTotals.reduce((previousValue, currentValue) => {
     return previousValue + currentValue;
-  },0);
+  }, 0);
 
   const cargoPrice = 90;
 
-  const cartTotals = cargoChecked ? (subTotals+cargoPrice).toFixed(2):subTotals.toFixed(2);
+  const cartTotals = cargoChecked
+    ? (subTotals + cargoPrice).toFixed(2)
+    : subTotals.toFixed(2);
 
   return (
     <div className="cart-totals">
@@ -38,7 +39,12 @@ const CartTotals = () => {
                 <li>
                   <label>
                     Kargo: 90 TL
-                    <input type="checkbox" id="cargo" checked={cargoChecked} onChange={() => setCargoChecked(!cargoChecked)} />
+                    <input
+                      type="checkbox"
+                      id="cargo"
+                      checked={cargoChecked}
+                      onChange={() => setCargoChecked(!cargoChecked)}
+                    />
                   </label>
                 </li>
                 <li>
