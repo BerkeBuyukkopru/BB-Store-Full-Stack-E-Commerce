@@ -55,5 +55,11 @@ namespace API.Repositories
             return await _products.Find(filter).ToListAsync();
         }
 
+        public async Task<List<Product>> GetByIdsAsync(List<string> ids)
+        {
+            var filter = Builders<Product>.Filter.In(p => p.Id, ids);
+            return await _products.Find(filter).ToListAsync();
+        }
+
     }
 }

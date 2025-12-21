@@ -5,10 +5,12 @@ import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { SiteContext } from "../../../context/SiteContext";
+import { FavoritesContext } from "../../../context/FavoritesContext";
 import { message, Popconfirm } from "antd";
 
 const Header = ({ setIsSearchShow }) => {
   const { cartItems } = useContext(CartContext);
+  const { favorites } = useContext(FavoritesContext); // FavoritesContext
 
   const { pathname } = useLocation();
 
@@ -115,9 +117,9 @@ const Header = ({ setIsSearchShow }) => {
                   </Link>
                 </div>
 
-                <a href="#">
+                <Link to={"/favorites"} className="header-cart-link">
                   <i className="bi bi-heart"></i>
-                </a>
+                </Link>
 
                 <div className="header-cart">
                   <Link to={"/cart"} className="header-cart-link">

@@ -2,10 +2,12 @@ import PropTypes from "prop-types";
 import "./Info.css";
 import { useContext, useRef } from "react";
 import { CartContext } from "../../../context/CartContext"; // Senin context yolun
+import { FavoritesContext } from "../../../context/FavoritesContext";
 
 const Info = ({ singleProduct }) => {
   const quantityRef = useRef();
   const { addToCart, cartItems } = useContext(CartContext);
+  const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext); // FavoritesContext
 
   // ✨ Backend DTO Uyumu: productPrice üzerinden verileri alıyoruz
   const originalPrice = singleProduct.productPrice?.current || 0;
@@ -19,6 +21,21 @@ const Info = ({ singleProduct }) => {
   const isFilteredCard = cartItems.find(
     (cartItem) => cartItem.id === productId
   );
+
+  const isFavorite = favorites.some((fav) => (fav._id || fav.id) === productId);
+
+  const handleFavoriteClick = (e) => {
+      e.preventDefault(); // Link ise yönlendirmeyi engelle
+      if (isFavorite) {
+          removeFromFavorites(productId);
+      } else {
+          addToFavorites({
+              ...singleProduct,
+              id: productId, // Tutarlılık için
+              price: discountedPrice
+          });
+      }
+  };
 
   return (
     <div className="product-info">
@@ -102,15 +119,26 @@ const Info = ({ singleProduct }) => {
             >
               Sepete Ekle
             </button>
+            <button
+              className="btn btn-lg btn-primary"
+              type="button"
+              disabled={isFavorite}
+              onClick={() =>
+                  addToFavorites({
+                      ...singleProduct,
+                      id: productId,
+                      price: discountedPrice
+                  })
+              }
+              style={{ marginLeft: "10px", backgroundColor: isFavorite ? "#ccc" : "" }}
+            >
+              Favorilere Ekle
+            </button>
           </div>
           <div className="product-extra-buttons">
             <a href="#">
               <i className="bi bi-globe"></i>
               <span>Beden Tablosu</span>
-            </a>
-            <a href="#">
-              <i className="bi bi-heart"></i>
-              <span>Favorilere Ekle</span>
             </a>
             <a href="#">
               <i className="bi bi-share"></i>

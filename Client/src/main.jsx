@@ -3,7 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import CartProvider from "./context/CartProvider.jsx";
 import { AuthContextProvider } from "./context/AuthContextProvider.jsx";
-import SiteProvider from "./context/SiteContext";
+import SiteProvider from "./context/SiteContext.jsx";
+import FavoritesProvider from "./context/FavoritesContext.jsx";
 import { Layout } from "./layouts/Layout.jsx";
 import App from "./App.jsx";
 import "slick-carousel/slick/slick.css";
@@ -17,10 +18,12 @@ createRoot(document.getElementById("root")).render(
     <CartProvider>
       <AuthContextProvider>
         <SiteProvider>
+          <FavoritesProvider>
             <Layout>
-            <ScrollToTop />
-            <App />
+              <ScrollToTop />
+              <App />
             </Layout>
+          </FavoritesProvider>
         </SiteProvider>
       </AuthContextProvider>
     </CartProvider>

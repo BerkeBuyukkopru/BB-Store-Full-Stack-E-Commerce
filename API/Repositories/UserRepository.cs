@@ -38,8 +38,9 @@ namespace API.Repositories
         public async Task<long> CountAdminsAsync() =>
             await _users.CountDocumentsAsync(user => user.Role == Models.UserRole.admin);
 
-
-
-
+        public async Task UpdateAsync(string id, User updatedUser)
+        {
+            await _users.ReplaceOneAsync(user => user.Id == id, updatedUser);
+        }
     }
 }

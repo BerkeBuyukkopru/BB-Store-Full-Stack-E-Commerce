@@ -1,14 +1,18 @@
 import PropTypes from "prop-types";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { FavoritesContext } from "../../context/FavoritesContext";
 import "./ProductItem.css";
 import { Link } from "react-router-dom";
 
 const ProductItem = ({ productItem }) => {
   const { cartItems, addToCart } = useContext(CartContext);
+  const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext); // FavoritesContext entegrasyonu
 
   const productId = productItem._id || productItem.id;
-
+  
+  // Favori kontrolü
+  const isFavorite = favorites.some((fav) => (fav._id || fav.id) === productId);
 
   // ✨ Backend DTO Uyumu: productPrice içinden verileri alıyoruz
   const originalPrice = productItem.productPrice?.current || 0;
@@ -16,6 +20,18 @@ const ProductItem = ({ productItem }) => {
 
   // İndirimli fiyatı hesaplama
   const discountedPrice = originalPrice - (originalPrice * discountPercentage) / 100;
+
+  const handleFavoriteClick = () => {
+      if (isFavorite) {
+          removeFromFavorites(productId);
+      } else {
+          addToFavorites({
+              ...productItem,
+              id: productId,
+              price: discountedPrice
+          });
+      }
+  };
 
   return (
     <div className="product-item glide__slide glide__slide--active">
@@ -53,7 +69,9 @@ const ProductItem = ({ productItem }) => {
           >
             <i className="bi bi-basket-fill"></i>
           </button>
-          <button><i className="bi bi-heart-fill"></i></button>
+          <button onClick={handleFavoriteClick}>
+            <i className="bi bi-heart-fill" style={{ color: isFavorite ? 'darkred' : 'white' }}></i>
+          </button>
           <Link to={`product/${productId}`} className="product-link">
             <i className="bi bi-eye-fill"></i>
           </Link>

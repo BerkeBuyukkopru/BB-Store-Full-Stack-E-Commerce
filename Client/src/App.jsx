@@ -30,6 +30,7 @@ import CreateSliderPage from "./pages/Admin/Sliders/CreateSliderPage";
 import UpdateSliderPage from "./pages/Admin/Sliders/UpdateSliderPage";
 import AboutPage from "./pages/AboutPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import FavoritesPage from "./pages/FavoritesPage";
 import "./App.css";
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
       <Route path="/blog/:id" element={<BlogDetailsPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+      <Route path="/favorites" element={<FavoritesPage />} />
 
       <Route path="/admin/*">
         <Route index element={<Navigate to="orders" replace />} />
