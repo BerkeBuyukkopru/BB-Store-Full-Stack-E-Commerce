@@ -1,7 +1,10 @@
 import "./Footer.css";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { SiteContext } from "../../../context/SiteContext";
 
 const Footer = () => {
+  const { siteSettings } = useContext(SiteContext);
   return (
     <footer className="footer">
       <div className="widgets-row">
@@ -9,17 +12,17 @@ const Footer = () => {
           <div className="footer-widgets">
             <div className="footer-logo">
               <Link to={"/"} className="logo">
-                <img src="/logo.png" alt="Logo" />
+                <img src={siteSettings?.logoUrl || "/logo.png"} alt="Logo" />
               </Link>
             </div>
             <div className="widget-nav-menu">
               <h4>Kurumsal</h4>
               <ul>
                 <li>
-                  <a href="#">Hakkımızda</a>
+                  <Link to={"/about"}>Hakkımızda</Link>
                 </li>
                 <li>
-                  <a href="#">M.S.S</a>
+                  <Link to={"/privacy-policy"}>M.S.S</Link>
                 </li>
               </ul>
             </div>

@@ -86,6 +86,33 @@ const getMenuItems = (navigate) => [
     onClick: () => navigate(`/admin/orders`),
   },
   {
+    key: "sub4",
+    icon: <DashboardOutlined />,
+    label: "Site Yönetimi",
+    children: [
+      {
+        key: "/admin/site-settings",
+        label: "Genel Ayarlar",
+        onClick: () => navigate(`/admin/site-settings`),
+      },
+      {
+        key: "/admin/site-settings/about",
+        label: "Hakkımızda",
+        onClick: () => navigate(`/admin/site-settings/about`),
+      },
+      {
+        key: "/admin/site-settings/privacy",
+        label: "M.S.S (Gizlilik)",
+        onClick: () => navigate(`/admin/site-settings/privacy`),
+      },
+      {
+        key: "/admin/sliders",
+        label: "Sliderlar",
+        onClick: () => navigate(`/admin/sliders`),
+      },
+    ],
+  },
+  {
     key: "/",
     icon: <RollbackOutlined />,
     label: "Ana Sayfaya Git",

@@ -22,6 +22,14 @@ import CouponPage from "./pages/Admin/Coupons/CouponPage";
 import CreateCouponPage from "./pages/Admin/Coupons/CreateCouponPage";
 import UpdateCouponPage from "./pages/Admin/Coupons/UpdateCategoryPage";
 import OrderPage from "./pages/Admin/Orders/OrderPage";
+import SiteSettingsPage from "./pages/Admin/SiteSettings/SiteSettingsPage";
+import AboutUsSettingsPage from "./pages/Admin/SiteSettings/AboutUsSettingsPage";
+import PrivacyPolicySettingsPage from "./pages/Admin/SiteSettings/PrivacyPolicySettingsPage";
+import SliderPage from "./pages/Admin/Sliders/SliderPage";
+import CreateSliderPage from "./pages/Admin/Sliders/CreateSliderPage";
+import UpdateSliderPage from "./pages/Admin/Sliders/UpdateSliderPage";
+import AboutPage from "./pages/AboutPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import "./App.css";
 
 function App() {
@@ -38,6 +46,8 @@ function App() {
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/product/:id" element={<ProductDetailsPage />} />
       <Route path="/blog/:id" element={<BlogDetailsPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
       <Route path="/admin/*">
         <Route index element={<Navigate to="orders" replace />} />
@@ -52,6 +62,14 @@ function App() {
         <Route path="coupons/create" element={<CreateCouponPage />} />
         <Route path="coupons/update/:id" element={<UpdateCouponPage />} />
         <Route path="orders" element={<OrderPage />} />
+        
+        {/* Site Yönetimi */}
+        <Route path="site-settings" element={<SiteSettingsPage />} />
+        <Route path="site-settings/about" element={<AboutUsSettingsPage />} />
+        <Route path="site-settings/privacy" element={<PrivacyPolicySettingsPage />} />
+        <Route path="sliders" element={<SliderPage />} />
+        <Route path="sliders/create" element={<CreateSliderPage />} />
+        <Route path="sliders/update/:id" element={<UpdateSliderPage />} />
       </Route>
     </Routes>
   );

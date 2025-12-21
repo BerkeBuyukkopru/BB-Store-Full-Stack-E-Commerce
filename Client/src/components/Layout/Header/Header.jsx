@@ -4,6 +4,8 @@ import { CartContext } from "../../../context/CartContext";
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
+import { SiteContext } from "../../../context/SiteContext";
+import { message, Popconfirm } from "antd";
 
 const Header = ({ setIsSearchShow }) => {
   const { cartItems } = useContext(CartContext);
@@ -11,11 +13,16 @@ const Header = ({ setIsSearchShow }) => {
   const { pathname } = useLocation();
 
   const { user, logout } = useContext(AuthContext);
+  const { siteSettings } = useContext(SiteContext);
 
   return (
     <header>
       <div className="global-notification">
-        <p>B&B Store’a Hoş Geldiniz...</p>
+        <div className="container">
+          <p>
+            {siteSettings?.globalNotification || "THEME FAQ'S"}
+          </p>
+        </div>
       </div>
 
       <div className="header-row">
@@ -27,7 +34,7 @@ const Header = ({ setIsSearchShow }) => {
 
             <div className="header-left">
               <Link to={"/"} className="logo">
-                <img src="/logo.png" alt="Logo" />
+                <img src={siteSettings?.logoUrl || "/logo.png"} alt="Logo" />
               </Link>
             </div>
 
@@ -37,10 +44,9 @@ const Header = ({ setIsSearchShow }) => {
                   <li className="menu-list-item">
                     <Link
                       to={"/"}
-                      href="#"
                       className={`menu-link ${pathname === "/" && "active"}`}
                     >
-                      Anasayfa
+                      Ana Sayfa
                     </Link>
                   </li>
 
@@ -123,22 +129,21 @@ const Header = ({ setIsSearchShow }) => {
                 </div>
 
                 {user && (
-                  <button
-                    className="search-button"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "Çıkış yapmak istediğinize emin misiniz?"
-                        )
-                      ) {
-                        {
-                          logout();
-                        }
-                      }
+                  <Popconfirm
+                    title="Çıkış Yap"
+                    description="Çıkış yapmak istediğinize emin misiniz?"
+                    onConfirm={() => {
+                        logout();
+                        message.success("Başarıyla çıkış yapıldı."); // Optional: Add feedback
                     }}
+                    okText="Evet"
+                    cancelText="Hayır"
+                    placement="bottomRight"
                   >
-                    <i className="bi bi-box-arrow-right"></i>
-                  </button>
+                     <button className="search-button">
+                        <i className="bi bi-box-arrow-right"></i>
+                    </button>
+                  </Popconfirm>
                 )}
               </div>
             </div>

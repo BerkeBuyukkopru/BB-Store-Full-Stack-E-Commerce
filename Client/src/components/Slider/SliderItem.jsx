@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 const SliderItem = ({ imageSrc }) => {
   return (
     <div className="slider-item fade">
@@ -8,8 +9,8 @@ const SliderItem = ({ imageSrc }) => {
     </div>
   );
 };
-
 export default SliderItem;
+
 SliderItem.propTypes = {
   imageSrc: PropTypes.string,
 };

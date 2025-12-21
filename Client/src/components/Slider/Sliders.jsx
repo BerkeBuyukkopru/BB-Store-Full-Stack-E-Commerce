@@ -1,31 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SliderItem from "./SliderItem";
 import "./Sliders.css";
 
 const Sliders = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [sliders, setSliders] = useState([]);
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+  useEffect(() => {
+    const fetchSliders = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/sliders`);
+            if (response.ok) {
+                const data = await response.json();
+                setSliders(data);
+            }
+        } catch (error) {
+            console.error("Slider verisi alınamadı:", error);
+        }
+    };
+    fetchSliders();
+  }, [apiUrl]);
 
   const nextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % 3);
+    setCurrentSlide((prev) => (prev + 1) % sliders.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + 3) % 3);
+    setCurrentSlide((prev) => (prev - 1 + sliders.length) % sliders.length);
   };
+
+  if (sliders.length === 0) return null; // Veya bir loading/default slider
 
   return (
     <section className="slider">
       <div className="slider-elements">
-        {currentSlide === 0 && (
-          <SliderItem imageSrc="img/slider/best_sweatshirt.png" />
-        )}
-        {currentSlide === 1 && (
-          <SliderItem imageSrc="img/slider/best_sweatshirt.png" />
-        )}
-        {currentSlide === 2 && (
-          <SliderItem imageSrc="img/slider/best_sweatshirt.png" />
-        )}
-
+        {sliders.map((slider, index) => (
+             <div key={slider.id} style={{ display: index === currentSlide ? "block" : "none" }}>
+                 <SliderItem imageSrc={slider.imageUrl} title={slider.title} desc={slider.description} btnLink={slider.buttonLink} />
+             </div>
+        ))}
         <div className="slider-buttons">
           <button onClick={prevSlide}>
             <i className="bi bi-chevron-left"></i>
@@ -35,24 +49,15 @@ const Sliders = () => {
           </button>
         </div>
         <div className="slider-dots">
-          <button
-            className={`slider-dot ${currentSlide === 0 ? "active" : ""}`}
-            onClick={() => setCurrentSlide(0)}
-          >
-            <span></span>
-          </button>
-          <button
-            className={`slider-dot ${currentSlide === 1 ? "active" : ""}`}
-            onClick={() => setCurrentSlide(1)}
-          >
-            <span></span>
-          </button>
-          <button
-            className={`slider-dot ${currentSlide === 2 ? "active" : ""}`}
-            onClick={() => setCurrentSlide(2)}
-          >
-            <span></span>
-          </button>
+          {sliders.map((_, index) => (
+            <button
+              key={index}
+              className={`slider-dot ${currentSlide === index ? "active" : ""}`}
+              onClick={() => setCurrentSlide(index)}
+            >
+              <span></span>
+            </button>
+          ))}
         </div>
       </div>
     </section>

@@ -44,6 +44,15 @@ header {
   align-items: center;
   margin-left: -20px;
 }
+.header-left .logo {
+    display: flex;
+    align-items: center;
+}
+.header-left .logo img {
+    max-height: 80px; /* Header row is 90px, this leaves margin */
+    max-width: 150px;
+    object-fit: contain;
+}
 /*HEADER LEFT */
 
 /*HEADER CENTER*/
@@ -143,6 +152,10 @@ header {
 }
 .header-right .header-account .bi-person {
   font-size: 26px;
+}
+.header-right .bi-box-arrow-right {
+    font-size: 24px;
+    cursor: pointer;
 }
 .header-right .header-cart .header-cart-link .header-cart-count {
   width: 16px;

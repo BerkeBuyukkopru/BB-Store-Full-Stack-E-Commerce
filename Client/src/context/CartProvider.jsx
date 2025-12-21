@@ -23,10 +23,22 @@ const CartProvider = ({ children }) => {
   }, [cartItems, appliedCoupon]);
 
   const addToCart = (cartItem) => {
-    setCartItems((prevCart) => [
-      ...prevCart,
-      { ...cartItem, quantity: cartItem.quantity ? cartItem.quantity : 1 },
-    ]);
+    setCartItems((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === cartItem.id);
+      
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.id === cartItem.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [
+          ...prevCart,
+          { ...cartItem, quantity: cartItem.quantity ? cartItem.quantity : 1 },
+        ];
+      }
+    });
   };
 
   const removeFromCart = (itemId) => {
@@ -36,6 +48,15 @@ const CartProvider = ({ children }) => {
     if (filteredCartItems.length === 0) setAppliedCoupon(null);
   };
 
+  const updateItemQuantity = (itemId, quantity) => {
+    if (quantity < 1) return;
+    setCartItems((prevCart) =>
+      prevCart.map((item) =>
+        item.id === itemId ? { ...item, quantity: quantity } : item
+      )
+    );
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -43,6 +64,7 @@ const CartProvider = ({ children }) => {
         setCartItems,
         addToCart,
         removeFromCart,
+        updateItemQuantity,
         appliedCoupon,
         setAppliedCoupon 
       }}

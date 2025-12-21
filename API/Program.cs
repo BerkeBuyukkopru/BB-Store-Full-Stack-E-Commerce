@@ -34,7 +34,10 @@ builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<ProductRepository>();
 builder.Services.AddSingleton<CouponRepository>();
+builder.Services.AddSingleton<CouponRepository>();
 builder.Services.AddSingleton<OrderRepository>();
+builder.Services.AddSingleton<SiteSettingRepository>();
+builder.Services.AddSingleton<SliderRepository>();
 
 // Background Services
 builder.Services.AddHostedService<OrderExpirationService>();

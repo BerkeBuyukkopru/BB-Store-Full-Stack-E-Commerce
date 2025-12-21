@@ -8,7 +8,7 @@ const ProductItem = ({ productItem }) => {
   const { cartItems, addToCart } = useContext(CartContext);
 
   const productId = productItem._id || productItem.id;
-  const filteredCart = cartItems.find((cartItem) => cartItem.id === productId);
+
 
   // ✨ Backend DTO Uyumu: productPrice içinden verileri alıyoruz
   const originalPrice = productItem.productPrice?.current || 0;
@@ -50,7 +50,6 @@ const ProductItem = ({ productItem }) => {
               id: productId, // Context'te standart ID kullanmak için
               price: discountedPrice, // Sepete indirimli fiyatı gönderiyoruz
             })}
-            disabled={filteredCart}
           >
             <i className="bi bi-basket-fill"></i>
           </button>
