@@ -15,6 +15,9 @@ builder.Services.Configure<DatabaseSettings>(
 builder.Services.AddSingleton<IDatabaseSettings>(sp =>
     sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<DatabaseSettings>>().Value);
 
+builder.Services.Configure<IyzicoPaymentOptions>(
+    builder.Configuration.GetSection("IyzicoSettings"));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
@@ -31,6 +34,10 @@ builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<ProductRepository>();
 builder.Services.AddSingleton<CouponRepository>();
+builder.Services.AddSingleton<OrderRepository>();
+
+// Background Services
+builder.Services.AddHostedService<OrderExpirationService>();
 
 // Token oluşturma servisi
 builder.Services.AddSingleton<ITokenService, TokenService>();

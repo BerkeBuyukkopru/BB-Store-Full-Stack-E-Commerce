@@ -23,14 +23,6 @@ const SIDER_WIDTH = 200;
 
 const getMenuItems = (navigate) => [
   {
-    key: "/admin",
-    icon: <DashboardOutlined />,
-    label: "Dashboard",
-    onClick: () => {
-      navigate(`/admin`);
-    },
-  },
-  {
     key: "sub1",
     icon: <AppstoreOutlined />,
     label: "Kategoriler",
@@ -178,7 +170,7 @@ const AdminLayout = ({ children }) => {
             }}
           />
           <Link 
-              to={"/admin"} 
+              to={"/admin/orders"} 
               className="admin-logo" 
               style={{marginRight: 20, height: '100%', display: 'flex', alignItems: 'center'}}
           >

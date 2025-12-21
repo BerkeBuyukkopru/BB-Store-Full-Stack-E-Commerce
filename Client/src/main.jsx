@@ -7,13 +7,16 @@ import { Layout } from "./layouts/Layout.jsx";
 import App from "./App.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./index.css";
+import "./index.css"; 
+
+import ScrollToTop from "./components/ScrollToTop";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <CartProvider>
       <AuthContextProvider>
         <Layout>
+          <ScrollToTop />
           <App />
         </Layout>
       </AuthContextProvider>

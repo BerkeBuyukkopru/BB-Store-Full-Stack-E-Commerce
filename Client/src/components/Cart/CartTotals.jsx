@@ -1,11 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
-import { useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { message } from "antd";
 
 const CartTotals = () => {
   const [cargoChecked, setCargoChecked] = useState(false);
+  const navigate = useNavigate();
 
   const { cartItems } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
 
   const cartItemTotals = cartItems.map((item) => {
     return item.price * item.quantity;
@@ -20,6 +24,14 @@ const CartTotals = () => {
   const cartTotals = cargoChecked
     ? (subTotals + cargoPrice).toFixed(2)
     : subTotals.toFixed(2);
+
+  const handleCheckout = () => {
+    if (!user) {
+      message.info("Ödeme yapabilmek için giriş yapmanız gerekmektedir.");
+      return;
+    }
+    navigate("/payment");
+  };
 
   return (
     <div className="cart-totals">
@@ -62,7 +74,12 @@ const CartTotals = () => {
         </tbody>
       </table>
       <div className="checkout">
-        <button className="btn btn-lg">Sepeti Onayla</button>
+        <button 
+          className="btn btn-lg" 
+          onClick={handleCheckout}
+        >
+          Sepeti Onayla
+        </button>
       </div>
     </div>
   );
