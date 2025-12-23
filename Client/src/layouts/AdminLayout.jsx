@@ -8,7 +8,8 @@ import {
   DashboardOutlined,
   ShoppingCartOutlined,
   AppstoreOutlined,
-  MenuOutlined, // Mobil menü butonu için eklendi
+  MenuOutlined,
+  FileTextOutlined // Blog ikonu
 } from "@ant-design/icons";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useState, useContext, useEffect } from "react"; // Durum yönetimi için eklendi
@@ -84,6 +85,23 @@ const getMenuItems = (navigate) => [
     icon: <ShoppingCartOutlined />,
     label: "Siparişler",
     onClick: () => navigate(`/admin/orders`),
+  },
+  {
+    key: "sub5",
+    icon: <FileTextOutlined />,
+    label: "Blog Yönetimi",
+    children: [
+      {
+        key: "/admin/blogs",
+        label: "Blog Listesi",
+        onClick: () => navigate(`/admin/blogs`),
+      },
+      {
+        key: "/admin/blogs/create",
+        label: "Yeni Blog Ekle",
+        onClick: () => navigate("/admin/blogs/create"),
+      },
+    ],
   },
   {
     key: "sub4",

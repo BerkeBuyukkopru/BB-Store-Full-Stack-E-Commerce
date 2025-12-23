@@ -1,38 +1,88 @@
-.blog-list .blog-image {
-  display: flex;
+.blog-item {
+  height: 100%;
 }
 
-.blog-list .blog-image img {
+.blog-item .blog-image {
+  display: block;
   width: 100%;
+  height: 250px; /* Sabit resim yüksekliği */
+  overflow: hidden;
+}
+
+.blog-item .blog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Resmi orantılı sığdır */
+  transition: transform 0.3s ease;
+}
+
+.blog-item:hover .blog-image img {
+  transform: scale(1.1);
 }
 
 .blog-item .blog-info {
-  padding: 30px 10px 25px 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 5px 15px rgb(0 0 0 / 8%);
+  height: calc(100% - 250px); /* Resim dışındaki alan */
+  background-color: #fff;
 }
 
 .blog-item .blog-info-top {
-  font-size: 14px;
+  font-size: 13px;
   color: #b2b3b8;
+  margin-bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.blog-item .blog-info-center {
   margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
 }
 
 .blog-item .blog-info-center a {
-  font-size: 20px;
-  margin-bottom: 20px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Başlığı 2 satırla sınırla */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 54px; /* 2 satır yüksekliği kadar yer ayır */
+}
+
+.blog-summary {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Özeti 3 satırla sınırla */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 63px; /* 3 satır yüksekliği kadar yer ayır (yaklaşık 21px satır yüksekliği) */
+  width: 100%;
+}
+
+.blog-item .blog-info-bottom {
+  margin-top: auto; /* Butonu en alta it */
 }
 
 .blog-item .blog-info-bottom a {
   font-size: 14px;
   border-bottom: 1px solid;
   padding-bottom: 4px;
-  margin-top: 10px;
   display: inline-block;
   transition: 0.2s ease;
+  color: #333;
 }
 
 .blog-item .blog-info-bottom a:hover {

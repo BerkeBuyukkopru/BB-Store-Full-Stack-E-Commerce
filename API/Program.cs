@@ -38,6 +38,7 @@ builder.Services.AddSingleton<CouponRepository>();
 builder.Services.AddSingleton<OrderRepository>();
 builder.Services.AddSingleton<SiteSettingRepository>();
 builder.Services.AddSingleton<SliderRepository>();
+builder.Services.AddSingleton<BlogRepository>();
 
 // Background Services
 builder.Services.AddHostedService<OrderExpirationService>();

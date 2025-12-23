@@ -31,6 +31,9 @@ import UpdateSliderPage from "./pages/Admin/Sliders/UpdateSliderPage";
 import AboutPage from "./pages/AboutPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import FavoritesPage from "./pages/FavoritesPage";
+import BlogListPage from "./pages/Admin/Blogs/BlogListPage";
+import CreateBlogPage from "./pages/Admin/Blogs/CreateBlogPage";
+import UpdateBlogPage from "./pages/Admin/Blogs/UpdateBlogPage";
 import "./App.css";
 
 function App() {
@@ -72,6 +75,11 @@ function App() {
         <Route path="sliders" element={<SliderPage />} />
         <Route path="sliders/create" element={<CreateSliderPage />} />
         <Route path="sliders/update/:id" element={<UpdateSliderPage />} />
+        
+        {/* Blog Yönetimi */}
+        <Route path="blogs" element={<BlogListPage />} />
+        <Route path="blogs/create" element={<CreateBlogPage />} />
+        <Route path="blogs/update/:id" element={<UpdateBlogPage />} />
       </Route>
     </Routes>
   );
