@@ -114,7 +114,7 @@ const CategoryPage = () => {
       key: "actions",
       render: (_, record) => (
         <Space>
-          <Button type="primary" style={{ width: 80 }} onClick={()=> navigate(`/admin/categories/update/${record.id || record._id}`)}>
+          <Button className="admin-edit-btn" onClick={()=> navigate(`/admin/categories/update/${record.id || record._id}`)}>
             Düzenle
           </Button>
 
@@ -125,7 +125,7 @@ const CategoryPage = () => {
             cancelText="Hayır"
             onConfirm={() => deleteCategory(record.id || record._id)}
           >
-            <Button type="primary" danger style={{ width: 80 }}>
+            <Button className="admin-delete-btn">
               Kaldır
             </Button>
           </Popconfirm>

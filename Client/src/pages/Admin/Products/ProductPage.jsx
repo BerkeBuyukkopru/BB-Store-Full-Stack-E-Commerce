@@ -181,9 +181,9 @@ const ProductPage = () => {
       key: "actions",
       render: (_, record) => (
         <Space>
+        <Space>
           <Button
-            type="primary"
-            style={{ width: 80 }}
+            className="admin-edit-btn"
             onClick={() =>
               navigate(`/admin/products/update/${record._id || record.id}`)
             }
@@ -197,10 +197,11 @@ const ProductPage = () => {
             cancelText="Hayır"
             onConfirm={() => deleteProduct(record._id || record.id)}
           >
-            <Button type="primary" danger style={{ width: 80 }}>
+            <Button className="admin-delete-btn">
               Sil
             </Button>
           </Popconfirm>
+        </Space>
         </Space>
       ),
     },

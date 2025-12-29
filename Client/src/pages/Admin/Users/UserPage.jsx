@@ -120,7 +120,7 @@ const AdminUserPage = () => {
           cancelText="Hayır"
           onConfirm={() => deleteUser(record.id)}
         >
-          <Button type="primary" danger>
+          <Button className="admin-delete-btn">
             Sil
           </Button>
         </Popconfirm>

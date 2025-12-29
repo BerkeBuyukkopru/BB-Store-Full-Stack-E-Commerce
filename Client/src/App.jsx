@@ -36,6 +36,9 @@ import BlogListPage from "./pages/Admin/Blogs/BlogListPage";
 import CreateBlogPage from "./pages/Admin/Blogs/CreateBlogPage";
 import UpdateBlogPage from "./pages/Admin/Blogs/UpdateBlogPage";
 import AdminContactPage from "./pages/Admin/Contacts/ContactPage";
+import CargoPage from "./pages/Admin/Cargo/CargoPage";
+import CreateCargoPage from "./pages/Admin/Cargo/CreateCargoPage";
+import UpdateCargoPage from "./pages/Admin/Cargo/UpdateCargoPage";
 import UserLayout from "./layouts/UserLayout"; // Assuming UserLayout exists and is imported
 import AdminLayoutWrapper from "./layouts/AdminLayoutWrapper";
 
@@ -93,6 +96,11 @@ function App() {
 
         {/* İletişim Mesajları */}
         <Route path="contacts" element={<AdminContactPage />} />
+
+        {/* Kargo Yönetimi */}
+        <Route path="cargo" element={<CargoPage />} />
+        <Route path="cargo/create" element={<CreateCargoPage />} />
+        <Route path="cargo/update/:id" element={<UpdateCargoPage />} />
       </Route>
     </Routes>
   );

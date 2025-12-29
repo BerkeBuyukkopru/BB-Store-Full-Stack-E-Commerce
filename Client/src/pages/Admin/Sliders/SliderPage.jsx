@@ -66,7 +66,7 @@ const SliderPage = () => {
       render: (_, record) => (
         <div style={{ display: "flex", gap: "10px" }}>
              <Button
-                type="primary"
+                className="admin-edit-btn"
                 onClick={() => navigate(`/admin/sliders/update/${record.id}`)}
             >
                 Düzenle
@@ -77,7 +77,7 @@ const SliderPage = () => {
                 okText="Evet"
                 cancelText="Hayır"
             >
-                <Button type="primary" danger>Sil</Button>
+                <Button className="admin-delete-btn">Sil</Button>
             </Popconfirm>
         </div>
       ),

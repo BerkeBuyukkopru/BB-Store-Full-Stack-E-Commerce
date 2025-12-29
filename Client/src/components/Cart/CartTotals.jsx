@@ -1,14 +1,42 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { AuthContext } from "../../context/AuthContext";
-import { message, Button } from "antd";
+import { message, Button, Select, Spin } from "antd";
+
 import AddressModal from "../Modals/AddressModal";
 
 const CartTotals = () => {
   const [cargoChecked, setCargoChecked] = useState(false);
+  const [cargoCompanies, setCargoCompanies] = useState([]);
+  const [selectedCargo, setSelectedCargo] = useState(null);
+  const [loadingCargo, setLoadingCargo] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [address, setAddress] = useState(null);
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+  useEffect(() => {
+    const fetchCargoCompanies = async () => {
+        setLoadingCargo(true);
+        try {
+            const response = await fetch(`${apiUrl}/CargoCompany`, {
+                credentials: "include"
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setCargoCompanies(data);
+                // if(data.length > 0) {
+                //    setSelectedCargo(data[0]);
+                // }
+            }
+        } catch (error) {
+            console.log("Kargo veri hatası:", error);
+        } finally {
+            setLoadingCargo(false);
+        }
+    }
+    fetchCargoCompanies();
+  }, [apiUrl]);
   
   const navigate = useNavigate();
 
@@ -23,10 +51,8 @@ const CartTotals = () => {
     return previousValue + currentValue;
   }, 0);
 
-  const cargoPrice = 90;
-
-  const cartTotals = cargoChecked
-    ? (subTotals + cargoPrice).toFixed(2)
+  const cartTotals = selectedCargo
+    ? (subTotals + selectedCargo.price).toFixed(2)
     : subTotals.toFixed(2);
 
   const handleCheckout = () => {
@@ -36,6 +62,10 @@ const CartTotals = () => {
     }
     if (!address) {
         message.warning("Lütfen bir teslimat adresi seçin.");
+        return;
+    }
+    if (!selectedCargo) {
+        message.warning("Lütfen bir kargo firması seçin.");
         return;
     }
     navigate("/payment");
@@ -63,15 +93,34 @@ const CartTotals = () => {
           <tr>
             <th>Kargo</th>
             <td>
-               <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '5px' }}>
-                 Kargo: 90 TL
-                 <input
-                   type="checkbox"
-                   id="cargo"
-                   checked={cargoChecked}
-                   onChange={() => setCargoChecked(!cargoChecked)}
-                 />
-               </label>
+               {loadingCargo ? <Spin size="small" /> : (
+                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                    <Select
+                        style={{ width: 200 }}
+                        placeholder="Kargo Seçiniz"
+                        value={selectedCargo ? selectedCargo.id : undefined}
+                        onChange={(value) => {
+                            const cargo = cargoCompanies.find(c => c.id === value);
+                            setSelectedCargo(cargo);
+                        }}
+                        options={cargoCompanies.map(c => ({ 
+                            value: c.id, 
+                            label: (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    {c.logoUrl && (
+                                        <img 
+                                            src={c.logoUrl} 
+                                            alt={c.companyName} 
+                                            style={{ width: '30px', height: '20px', objectFit: 'contain' }} 
+                                        />
+                                    )}
+                                    <span>{c.companyName} - {c.price} TL</span>
+                                </div>
+                            )
+                        }))}
+                    />
+                 </div>
+               )}
             </td>
           </tr>
           <tr>

@@ -79,7 +79,8 @@ const BlogListPage = () => {
       key: "actions",
       render: (_, record) => (
         <Space>
-          <Button type="primary" onClick={() => navigate(`/admin/blogs/update/${record.id}`)}>
+        <Space>
+          <Button className="admin-edit-btn" onClick={() => navigate(`/admin/blogs/update/${record.id}`)}>
             Düzenle
           </Button>
           <Popconfirm
@@ -89,10 +90,11 @@ const BlogListPage = () => {
             okText="Evet"
             cancelText="Hayır"
           >
-            <Button type="primary" danger>
+            <Button className="admin-delete-btn">
               Sil
             </Button>
           </Popconfirm>
+        </Space>
         </Space>
       ),
     },

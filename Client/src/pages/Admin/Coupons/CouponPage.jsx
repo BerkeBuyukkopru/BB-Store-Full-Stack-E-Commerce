@@ -107,9 +107,9 @@ const CouponPage = () => {
       key: "actions",
       render: (_, record) => (
         <Space>
+        <Space>
           <Button
-            type="primary"
-            style={{ width: 80 }}
+            className="admin-edit-btn"
             onClick={() =>
               navigate(`/admin/coupons/update/${record.id || record._id}`)
             }
@@ -124,10 +124,11 @@ const CouponPage = () => {
             cancelText="Hayır"
             onConfirm={() => deleteCoupon(record.id || record._id)}
           >
-            <Button type="primary" danger style={{ width: 80 }}>
+            <Button className="admin-delete-btn">
               Kaldır
             </Button>
           </Popconfirm>
+        </Space>
         </Space>
       ),
     },
