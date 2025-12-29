@@ -24,6 +24,9 @@ namespace API.Models
         public string ConversationId { get; set; } = string.Empty;
         public string BasketId { get; set; } = string.Empty;
 
+        public Address? Address { get; set; }
+        public decimal CargoFee { get; set; }
+        
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

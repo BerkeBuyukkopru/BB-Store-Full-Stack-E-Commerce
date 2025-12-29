@@ -135,7 +135,7 @@ const Header = ({ setIsSearchShow }) => {
                 </button>
 
                 <div>
-                  <Link to={"/auth"} className="header-account">
+                  <Link to={user ? "/profile" : "/auth"} className="header-account">
                     <i className="bi bi-person"></i>
                   </Link>
                 </div>

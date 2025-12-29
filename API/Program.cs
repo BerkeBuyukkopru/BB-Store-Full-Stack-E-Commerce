@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
         builder => builder
-        .WithOrigins("http://localhost:5173") 
+        .WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:5175") 
         .AllowAnyMethod() // GET, POST, PUT, DELETE gibi tüm metodlara izin ver
         .AllowAnyHeader() // Tüm başlık tiplerine izin ver
         .AllowCredentials()); // Eğer HTTP-Only Cookie kullanılıyorsa KRİTİKTİR!
@@ -112,7 +112,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 // **********************************************
 // YENİ EKLENEN KISIM: CORS MIDDLEWARE'i

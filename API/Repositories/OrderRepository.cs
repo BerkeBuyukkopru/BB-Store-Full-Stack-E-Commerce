@@ -38,5 +38,10 @@ namespace API.Repositories
             // Find orders where Status is "Pending" AND CreatedAt < threshold
             return await _orders.Find(x => x.Status == "Pending" && x.CreatedAt < threshold).ToListAsync();
         }
+
+        public async Task<List<Order>> GetByUserIdAsync(string userId)
+        {
+            return await _orders.Find(x => x.User != null && x.User.Id == userId && x.Status == "PaymentSuccess").SortByDescending(y => y.CreatedAt).ToListAsync();
+        }
     }
 }

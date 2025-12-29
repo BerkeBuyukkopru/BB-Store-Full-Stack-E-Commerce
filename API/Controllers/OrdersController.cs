@@ -21,5 +21,19 @@ namespace API.Controllers
             var orders = await _orderRepository.GetAllAsync();
             return Ok(orders);
         }
+
+        [HttpGet("my-orders")]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public async Task<IActionResult> GetMyOrders()
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var orders = await _orderRepository.GetByUserIdAsync(userId);
+            return Ok(orders);
+        }
     }
 }

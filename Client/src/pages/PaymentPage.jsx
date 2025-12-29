@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 
@@ -10,15 +11,37 @@ const PaymentPage = () => {
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
+    const location = useLocation();
+    const { selectedCargo, address: selectedAddress } = location.state || {}; // Get passed data
+
   useEffect(() => {
     const initializePayment = async () => {
       if (cartItems.length === 0) return;
 
       try {
-        const total = cartItems.reduce(
+        const cartTotal = cartItems.reduce(
           (acc, item) => acc + item.price * item.quantity,
           0
         );
+        
+        const cargoPrice = selectedCargo ? parseFloat(selectedCargo.price) : 0;
+        const total = cartTotal + cargoPrice; // Include cargo price
+
+        // 1. Determine Address (Prefer passed address, fallback to fetch)
+        let chosenAddress = selectedAddress || null;
+        if (!chosenAddress) {
+             try {
+                const addressResponse = await fetch(`${apiUrl}/address`, { credentials: "include" });
+                if (addressResponse.ok) {
+                    const addresses = await addressResponse.json();
+                    if (addresses.length > 0) {
+                        chosenAddress = addresses[0]; 
+                    }
+                }
+            } catch (addrErr) {
+                console.log("Adres çekilemedi.", addrErr);
+            }
+        }
 
         const payload = {
             User: {
@@ -27,6 +50,7 @@ const PaymentPage = () => {
                 Surname: user.surname || "Guest Surname",
                 Email: user.email,
             },
+            Address: chosenAddress,
             BasketItems: cartItems.map(item => ({
                 Id: item._id || item.id,
                 Name: item.name,
@@ -34,8 +58,10 @@ const PaymentPage = () => {
                 Price: item.price,
                 Quantity: item.quantity,
                 Size: item.size || "",
-                Color: item.color || ""
+                Color: item.color || "",
+                Img: item.img || []
             })),
+            CargoFee: cargoPrice,
             TotalPrice: total
         };
 

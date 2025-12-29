@@ -1,7 +1,7 @@
 import { Form, Input, Button, message } from "antd";
 import { useEffect } from "react";
 
-const AddressForm = ({ onSuccess, editingAddress, setEditingAddress }) => {
+const AddressForm = ({ onSuccess, onCancel, editingAddress, setEditingAddress }) => {
   const [form] = Form.useForm();
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -113,20 +113,20 @@ const AddressForm = ({ onSuccess, editingAddress, setEditingAddress }) => {
         <Input.TextArea rows={3} />
       </Form.Item>
 
-      <Button type="primary" htmlType="submit" className="w-full" style={{ backgroundColor: 'black', borderColor: 'black', color: 'white' }}>
-        {editingAddress ? "Adresi Güncelle" : "Adres Ekle"}
-      </Button>
-      {editingAddress && (
-          <Button 
-            className="w-full mt-2" 
+      <div style={{ display: 'flex', gap: '15px', marginTop: '10px' }}>
+        <Button type="primary" htmlType="submit" style={{ flex: 1, backgroundColor: 'black', borderColor: 'black', color: 'white', height: '40px' }}>
+            {editingAddress ? "Adresi Güncelle" : "Adres Ekle"}
+        </Button>
+        <Button 
+            style={{ flex: 1, height: '40px', borderColor: '#d9d9d9', color: 'black' }}
             onClick={() => { 
-                setEditingAddress(null); 
                 form.resetFields(); 
+                if (onCancel) onCancel();
             }}
-          >
+        >
             Vazgeç
-          </Button>
-      )}
+        </Button>
+      </div>
     </Form>
   );
 };

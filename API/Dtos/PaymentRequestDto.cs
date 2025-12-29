@@ -3,6 +3,8 @@ namespace API.Dtos
     public class PaymentRequestDto
     {
         public UserDto? User { get; set; }
+        public API.Models.Address? Address { get; set; }
+        public decimal CargoFee { get; set; }
         public List<BasketItemDto> BasketItems { get; set; } = new();
         public decimal TotalPrice { get; set; }
         
@@ -24,5 +26,6 @@ namespace API.Dtos
         public int Quantity { get; set; }
         public string Size { get; set; } = string.Empty;
         public string Color { get; set; } = string.Empty;
+        public List<string> Img { get; set; } = new();
     }
 }

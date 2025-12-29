@@ -74,18 +74,18 @@ textarea {
   overflow: auto;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="number"]{
+input[type="text"]:not(.ant-input),
+input[type="password"]:not(.ant-input),
+input[type="email"]:not(.ant-input),
+input[type="number"]:not(.ant-input){
     outline: none;
-    border-color:  1px solid whitesmoke;
+    border: 1px solid whitesmoke;
     padding: 8px 8px 8px 15px;
 }
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus{
+input[type="text"]:not(.ant-input):focus,
+input[type="password"]:not(.ant-input):focus,
+input[type="email"]:not(.ant-input):focus,
+input[type="number"]:not(.ant-input):focus{
     border: 1.6px solid gray;
 }
 input[type="number"]::-webkit-inner-spin-button {
@@ -173,6 +173,12 @@ input[type="number"]::-webkit-inner-spin-button {
     box-shadow: none !important;
 }
 
+/* Ensure inner input of affix wrapper (like Password) has no border */
+.ant-input-affix-wrapper input.ant-input {
+    border: none !important;
+    box-shadow: none !important;
+}
+
 /* Admin Utility Buttons */
 .admin-edit-btn {
     background-color: transparent !important;
@@ -231,6 +237,32 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Dropdown Hover/Active Item */
 .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-    background-color: #f5f5f5 !important;
+    color: black !important;
+}
+
+/* Ant Design Menu Overrides */
+.ant-menu-item-selected {
+    background-color: #f0f0f0 !important;
+    color: black !important;
+}
+
+/* Remove the blue vertical bar on the right */
+.ant-menu-item-selected::after {
+    border-right-color: transparent !important;
+}
+
+/* Ensure layout sider background matches */
+.ant-layout-sider, .ant-menu {
+    background: white !important;
+}
+
+/* Hover state */
+.ant-menu-item:hover {
+    color: black !important;
+}
+
+/* Active/Selected text color */
+.ant-menu-item-selected a, 
+.ant-menu-item-selected span {
     color: black !important;
 }

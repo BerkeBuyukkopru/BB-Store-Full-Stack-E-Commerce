@@ -163,4 +163,67 @@ public class AuthController : ControllerBase
         return Ok(new { message = "Successfully logged out." });
     }
 
+
+    [HttpPut("update-profile")]
+    [Authorize]
+    public async Task<IActionResult> UpdateProfile([FromBody] UserUpdateDto updateDto)
+    {
+        try
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Unauthorized();
+
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null) return NotFound("Kullanıcı bulunamadı.");
+
+            // Update fields
+            user.Name = updateDto.Name;
+            user.Surname = updateDto.Surname;
+            user.Email = updateDto.Email; // Note: In real app, changing email should require verification
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _userRepository.UpdateAsync(userId, user);
+
+            return Ok(new { message = "Profil başarıyla güncellendi.", user = new { user.Name, user.Surname, user.Email } });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Internal server error." });
+        }
+    }
+
+    [HttpPost("change-password")]
+    [Authorize]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto passwordDto)
+    {
+        try
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Unauthorized();
+
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null) return NotFound("Kullanıcı bulunamadı.");
+
+            // Verify current password
+            if (!BCrypt.Net.BCrypt.Verify(passwordDto.CurrentPassword, user.Password))
+            {
+                return BadRequest(new { error = "Mevcut şifre hatalı." });
+            }
+
+            // Hash new password
+            string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(passwordDto.NewPassword);
+            user.Password = newHashedPassword;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _userRepository.UpdateAsync(userId, user);
+
+            return Ok(new { message = "Şifre başarıyla değiştirildi." });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { error = "Internal server error." });
+        }
+    }
 }

@@ -68,7 +68,7 @@ const CartTotals = () => {
         message.warning("Lütfen bir kargo firması seçin.");
         return;
     }
-    navigate("/payment");
+    navigate("/payment", { state: { selectedCargo, address } });
   };
 
   const handleAddressClick = () => {

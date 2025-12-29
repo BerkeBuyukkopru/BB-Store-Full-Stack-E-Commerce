@@ -142,6 +142,12 @@ namespace API.Repositories
         {
             foreach (var item in basketItems)
             {
+                // Skip if item is "Cargo" or not a valid ObjectId (to prevent crash)
+                if (item.Id == "Cargo" || !ObjectId.TryParse(item.Id, out _)) 
+                {
+                    continue;
+                }
+
                 var product = await GetByIdAsync(item.Id);
                 if (product != null)
                 {

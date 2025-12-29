@@ -41,7 +41,9 @@ namespace API.Controllers
                 TotalPrice = paymentRequest.TotalPrice,
                 ConversationId = conversationId,
                 BasketId = basketId,
-                Status = "Pending"
+                Status = "Pending",
+                Address = paymentRequest.Address,
+                CargoFee = paymentRequest.CargoFee // Save CargoFee separately
             };
             await _orderRepository.CreateAsync(newOrder);
 
@@ -71,15 +73,15 @@ namespace API.Controllers
             {
                 Id = paymentRequest.User?.Id ?? "0",
                 Name = paymentRequest.User?.Name ?? "John",
-                Surname = "Doe",
-                GsmNumber = "+905350000000",
+                Surname = paymentRequest.User?.Surname ?? "Doe",
+                GsmNumber = paymentRequest.Address?.Phone ?? "+905350000000",
                 Email = paymentRequest.User?.Email ?? "email@email.com",
                 IdentityNumber = "74300864791",
                 LastLoginDate = "2015-10-05 12:43:35",
                 RegistrationDate = "2013-04-21 15:12:09",
-                RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+                RegistrationAddress = paymentRequest.Address?.AddressDetail ?? "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
                 Ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "85.34.78.112",
-                City = "Istanbul",
+                City = paymentRequest.Address?.City ?? "Istanbul",
                 Country = "Turkey",
                 ZipCode = "34732"
             };
@@ -88,9 +90,9 @@ namespace API.Controllers
             var billingAddress = new Iyzipay.Model.Address
             {
                 ContactName = buyer.Name + " " + buyer.Surname,
-                City = "Istanbul",
+                City = paymentRequest.Address?.City ?? "Istanbul",
                 Country = "Turkey",
-                Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+                Description = paymentRequest.Address?.AddressDetail ?? "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
                 ZipCode = "34742"
             };
             request.BillingAddress = billingAddress;
@@ -109,6 +111,20 @@ namespace API.Controllers
                     Price = (item.Price * item.Quantity).ToString(new CultureInfo("en-US"))
                 };
                 basketItems.Add(basketItem);
+            }
+
+            // Add Cargo Fee as a separate item for Iyzico (if exists)
+            if (paymentRequest.CargoFee > 0)
+            {
+                var cargoItem = new Iyzipay.Model.BasketItem
+                {
+                    Id = "Cargo",
+                    Name = "Kargo Ücreti",
+                    Category1 = "Kargo",
+                    ItemType = Iyzipay.Model.BasketItemType.PHYSICAL.ToString(),
+                    Price = paymentRequest.CargoFee.ToString(new CultureInfo("en-US"))
+                };
+                basketItems.Add(cargoItem);
             }
 
             request.BasketItems = basketItems;
@@ -248,6 +264,20 @@ namespace API.Controllers
                     Price = (item.Price * item.Quantity).ToString(new CultureInfo("en-US"))
                 };
                 basketItems.Add(basketItem);
+            }
+
+            // Add Cargo Fee as a separate item for Iyzico (if exists)
+            if (paymentRequest.CargoFee > 0)
+            {
+                var cargoItem = new Iyzipay.Model.BasketItem
+                {
+                    Id = "Cargo",
+                    Name = "Kargo Ücreti",
+                    Category1 = "Kargo",
+                    ItemType = Iyzipay.Model.BasketItemType.PHYSICAL.ToString(),
+                    Price = paymentRequest.CargoFee.ToString(new CultureInfo("en-US"))
+                };
+                basketItems.Add(cargoItem);
             }
 
             request.BasketItems = basketItems;
