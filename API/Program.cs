@@ -40,6 +40,7 @@ builder.Services.AddSingleton<SliderRepository>();
 builder.Services.AddSingleton<BlogRepository>();
 builder.Services.AddSingleton<ContactRepository>();
 builder.Services.AddSingleton<CargoCompanyRepository>();
+builder.Services.AddSingleton<ReviewRepository>();
 
 // Background Services
 builder.Services.AddHostedService<OrderExpirationService>();

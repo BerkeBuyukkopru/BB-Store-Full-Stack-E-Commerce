@@ -165,5 +165,14 @@ namespace API.Repositories
                 }
             }
         }
+
+        public async Task UpdateRatingAsync(string productId, double averageRating, int reviewCount)
+        {
+             var update = Builders<Product>.Update
+                .Set(p => p.Rating, averageRating)
+                .Set(p => p.ReviewCount, reviewCount);
+             
+             await _products.UpdateOneAsync(p => p.Id == productId, update);
+        }
     }
 }

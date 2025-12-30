@@ -1,19 +1,30 @@
 using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace API.Dtos
 {
-    public class ReviewDto
+    public class CreateReviewDto
     {
-        [Required(ErrorMessage = "Yorum içeriği zorunludur.")]
-        public string Text { get; set; } = string.Empty;
+        [Required]
+        public string TargetId { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Puan alanı zorunludur.")]
-        [Range(1, 5, ErrorMessage = "Puan 1 ile 5 arasında olmalıdır.")] 
-        public int Rating { get; set; } 
+        public string TargetType { get; set; } = "Product"; // "Product" or "Blog"
 
-        [Required(ErrorMessage = "Kullanıcı bilgisi zorunludur.")]
-        public string User { get; set; } = string.Empty; 
+        public string Comment { get; set; } = string.Empty;
+
+        public int Rating { get; set; }
+    }
+
+    public class ReviewResponseDto
+    {
+        public string Id { get; set; } = string.Empty;
+        public string UserId { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty; // For display
+        public string UserImg { get; set; } = string.Empty; // For display
+        public string TargetId { get; set; } = string.Empty;
+        public string TargetType { get; set; } = string.Empty;
+
+        public string Comment { get; set; } = string.Empty;
+        public int Rating { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

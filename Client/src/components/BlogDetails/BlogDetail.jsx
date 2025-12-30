@@ -60,6 +60,13 @@ const BlogDetail = () => {
             <div className="blog-content" dangerouslySetInnerHTML={{ __html: blog.content }}></div>
           </div>
         </article>
+
+        <div style={{ margin: "40px 0", borderTop: "1px solid #e0e0e0" }}></div>
+        
+        {/* Yorum Alanı */}
+        <div className="tab-panel">
+           <Review singleProduct={blog} type="blog" active="active" />
+        </div>
       </div>
     </section>
   );

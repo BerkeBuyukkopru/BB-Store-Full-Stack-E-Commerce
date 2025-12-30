@@ -3,9 +3,11 @@ import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { FavoritesContext } from "../../context/FavoritesContext";
 import "./ProductItem.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import RatingBadge from "../Reviews/RatingBadge";
 
 const ProductItem = ({ productItem }) => {
+  const navigate = useNavigate();
   const { cartItems, addToCart } = useContext(CartContext);
   const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext); // FavoritesContext entegrasyonu
 
@@ -34,33 +36,32 @@ const ProductItem = ({ productItem }) => {
   };
 
   return (
-    <div className="product-item">
+    <div
+      className="product-item"
+      onClick={() => navigate(`/product/${productId}`)}
+    >
       <div className="product-image">
-        <Link to={`/product/${productId}`}>
-          {/* ✨ Backend'den gelen dizi formatındaki görseller */}
-          <img src={productItem.img[0]} alt="" className="img1" />
-          <img src={productItem.img[1] || productItem.img[0]} alt="" className="img2" />
-        </Link>
+        <img src={productItem.img[0]} alt="" className="img1" />
+        <img src={productItem.img[1]} alt="" className="img2" />
       </div>
       <div className="product-info">
-        <Link to={`/product/${productId}`} className="product-title">
+        <a href="/" className="product-title">
           {productItem.name}
-        </Link>
-        <ul className="product-star">
-          {[...Array(5)].map((_, i) => (
-            <li key={i}><i className="bi bi-star-fill"></i></li>
-          ))}
-        </ul>
+        </a>
         <div className="product-prices">
-          <strong className="new-price">{discountedPrice.toFixed(2)} TL</strong>
-          {discountPercentage > 0 && (
-            <span className="old-price">{originalPrice.toFixed(2)} TL</span>
+          <RatingBadge rating={productItem.rating || 0} reviewCount={productItem.reviewCount || 0} showCount={false} />
+          <strong className="new-price">
+            {productItem.productPrice.discount > 0
+              ? productItem.productPrice.discount.toFixed(2)
+              : productItem.productPrice.current.toFixed(2)}
+            {" TL"}
+          </strong>
+          {productItem.productPrice.discount > 0 && (
+            <span className="old-price">
+              {productItem.productPrice.current.toFixed(2)} TL
+            </span>
           )}
         </div>
-        {discountPercentage > 0 && (
-          <span className="product-discount">-{discountPercentage}%</span>
-        )}
-
       </div>
     </div>
   );

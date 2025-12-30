@@ -39,8 +39,7 @@ public class ProductController : ControllerBase
                 Gender = productDto.Gender,
 
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Reviews = new List<Review>()
+                UpdatedAt = DateTime.UtcNow
             };
 
             await _productRepository.CreateAsync(newProduct);

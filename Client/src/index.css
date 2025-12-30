@@ -172,7 +172,51 @@ input[type="number"]::-webkit-inner-spin-button {
     border-color: black !important;
     box-shadow: none !important;
 }
+/* Rating Badge Styles */
+.rating-badge-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+.rating-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 24px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.rating-badge-green {
+  background-color: #28a745; /* Green */
+}
+
+.rating-badge-yellow {
+  background-color: #ffc107; /* Yellow */
+  color: #333; /* Darker text for yellow bg */
+}
+
+.rating-badge-orange {
+  background-color: #fd7e14; /* Orange */
+}
+
+.rating-badge-red {
+  background-color: #dc3545; /* Red */
+}
+
+.rating-badge-gray {
+  background-color: #6c757d; /* Gray for 0 rating */
+}
+
+.rating-count {
+  font-size: 13px;
+  color: #666;
+  font-weight: 400;
+}
 /* Ensure inner input of affix wrapper (like Password) has no border */
 .ant-input-affix-wrapper input.ant-input {
     border: none !important;

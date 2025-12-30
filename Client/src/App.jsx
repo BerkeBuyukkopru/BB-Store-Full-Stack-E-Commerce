@@ -17,6 +17,7 @@ import UserProfileInfo from "./pages/Profile/UserProfileInfo";
 import UserPasswordChange from "./pages/Profile/UserPasswordChange";
 import UserAddressManager from "./pages/Profile/UserAddressManager";
 import UserOrders from "./pages/Profile/UserOrders";
+import UserReviews from "./pages/Profile/UserReviews";
 import "./App.css";
 import UserPage from "./pages/Admin/Users/UserPage";
 import CategoryPage from "./pages/Admin/Categories/CategoryPage";
@@ -47,6 +48,7 @@ import CreateCargoPage from "./pages/Admin/Cargo/CreateCargoPage";
 import UpdateCargoPage from "./pages/Admin/Cargo/UpdateCargoPage";
 import UserLayout from "./layouts/UserLayout"; // Assuming UserLayout exists and is imported
 import AdminLayoutWrapper from "./layouts/AdminLayoutWrapper";
+import AdminReviews from "./pages/Admin/Reviews/AdminReviews";
 
 function App() {
   return (
@@ -71,6 +73,7 @@ function App() {
           <Route path="password" element={<UserPasswordChange />} />
           <Route path="address" element={<UserAddressManager />} />
           <Route path="orders" element={<UserOrders />} />
+          <Route path="reviews" element={<UserReviews />} />
         </Route>
       </Route>
 
@@ -118,7 +121,11 @@ function App() {
         {/* Kargo Yönetimi */}
         <Route path="cargo" element={<CargoPage />} />
         <Route path="cargo/create" element={<CreateCargoPage />} />
+        <Route path="cargo/create" element={<CreateCargoPage />} />
         <Route path="cargo/update/:id" element={<UpdateCargoPage />} />
+
+        {/* Yorum Yönetimi */}
+        <Route path="reviews" element={<AdminReviews />} />
       </Route>
     </Routes>
   );

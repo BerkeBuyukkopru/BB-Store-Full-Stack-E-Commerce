@@ -1,42 +1,41 @@
+import PropTypes from "prop-types";
+import { Rate } from "antd";
 
-const ReviewItem = () => {
+const ReviewItem = ({ item }) => {
+  const { userName, comment, rating, createdAt } = item;
+
+  const formattedDate = new Date(createdAt).toLocaleDateString("tr-TR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <li className="comment-item">
-      <div className="comment-avatar">
-        <img src="/img/avatars/avatar1.jpg" alt="" />
-      </div>
       <div className="comment-text">
         <ul className="comment-star">
-          <li>
-            <i className="bi bi-star-fill"></i>
-          </li>
-          <li>
-            <i className="bi bi-star-fill"></i>
-          </li>
-          <li>
-            <i className="bi bi-star-fill"></i>
-          </li>
-          <li>
-            <i className="bi bi-star-fill"></i>
-          </li>
-          <li>
-            <i className="bi bi-star-fill"></i>
-          </li>
+             {rating > 0 && <Rate disabled defaultValue={rating} />}
         </ul>
         <div className="comment-meta">
-          <strong>admin</strong>
+          <strong>{userName}</strong>
           <span>-</span>
-          <time>29 Ekim, 2025</time>
+          <time>{formattedDate}</time>
         </div>
         <div className="comment-description">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro,
-            molestiae!
-          </p>
+          <p>{comment}</p>
         </div>
       </div>
     </li>
   );
+};
+
+ReviewItem.propTypes = {
+  item: PropTypes.shape({
+    userName: PropTypes.string,
+    comment: PropTypes.string,
+    rating: PropTypes.number,
+    createdAt: PropTypes.string,
+  }),
 };
 
 export default ReviewItem;

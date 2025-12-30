@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Review from "../../Reviews/Review";
 import "./Tabs.css";
 
-const Tabs = ({ singleProduct }) => {
+const Tabs = ({ singleProduct, onReviewAdded }) => {
   const [activeTab, setActiveTab] = useState("desc");
 
   const handleTabClick = (e, tab) => {
@@ -103,6 +103,8 @@ const Tabs = ({ singleProduct }) => {
         <Review
           active={activeTab === "review" ? "content active" : "content"}
           singleProduct={singleProduct}
+          type="product"
+          onReviewAdded={onReviewAdded}
         />
       </div>
     </div>
@@ -113,4 +115,5 @@ export default Tabs;
 
 Tabs.propTypes = {
   singleProduct: PropTypes.object.isRequired,
+  onReviewAdded: PropTypes.func
 };

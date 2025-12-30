@@ -10,7 +10,8 @@ import {
   AppstoreOutlined,
   MenuOutlined,
   FileTextOutlined,
-  RocketOutlined // Kargo ikonu
+  RocketOutlined, // Kargo ikonu
+  MessageOutlined // Yorum ikonu
 } from "@ant-design/icons";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useState, useContext, useEffect } from "react"; // Durum yönetimi için eklendi
@@ -86,6 +87,12 @@ const getMenuItems = (navigate) => [
     icon: <ShoppingCartOutlined />,
     label: "Siparişler",
     onClick: () => navigate(`/admin/orders`),
+  },
+  {
+    key: "/admin/reviews",
+    icon: <MessageOutlined />,
+    label: "Yorumlar",
+    onClick: () => navigate(`/admin/reviews`),
   },
   {
     key: "sub5",

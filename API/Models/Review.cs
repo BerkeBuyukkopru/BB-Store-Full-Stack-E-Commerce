@@ -9,11 +9,20 @@ namespace API.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
-        public string Text { get; set; } = string.Empty;
-
-        public int Rating { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; } = string.Empty;
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public string User { get; set; } = string.Empty;
+        public string TargetId { get; set; } = string.Empty; // ProductId or BlogId
+
+        public string TargetType { get; set; } = "Product"; // "Product" or "Blog"
+
+        public string Comment { get; set; } = string.Empty;
+
+        public int Rating { get; set; } // 1-5 Stars (0 for Blog)
+
+        public bool IsApproved { get; set; } = true; // For potential moderation
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

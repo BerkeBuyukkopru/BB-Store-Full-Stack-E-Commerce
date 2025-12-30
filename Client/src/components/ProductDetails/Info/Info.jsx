@@ -4,6 +4,7 @@ import { useContext, useRef, useState } from "react";
 import { CartContext } from "../../../context/CartContext";
 import { FavoritesContext } from "../../../context/FavoritesContext";
 import { message } from "antd";
+import RatingBadge from "../../Reviews/RatingBadge";
 
 const Info = ({ singleProduct }) => {
   const quantityRef = useRef();
@@ -19,20 +20,15 @@ const Info = ({ singleProduct }) => {
 
   const productId = singleProduct._id || singleProduct.id;
   
-  // Favori kontrolü (ID, Beden, Renk eşleşmeli - ama arayüzde sadece "Bu ürün favoride mi?" diye genel bakıyoruz genelde
-  // Ancak kullanıcı spesifik bir varyasyonu favoriye eklediyse butonun durumu değişmeli mi?
-  // Kullanıcı deneyimi için: Eğer bu varyasyon favorideyse "Favoriden Çıkar", yoksa "Ekle".
-  // Şimdilik composite key ile kontrol edelim.
   const isFavorite = favorites.some((fav) => 
       (fav._id || fav.id) === productId && 
       fav.selectedSize === selectedSize?.size && 
       fav.selectedColor === selectedColor
   );
 
-  // Beden verilerini normalize et (string[] veya object[] gelebilir)
   const availableSizes = Array.isArray(singleProduct.sizes) 
     ? singleProduct.sizes.map(s => {
-        if (typeof s === 'string') return { size: s, stock: 10 }; // Legacy veri varsayılan stok
+        if (typeof s === 'string') return { size: s, stock: 10 };
         return s;
     })
     : [];
@@ -67,11 +63,6 @@ const Info = ({ singleProduct }) => {
            message.warning("Favoriye eklemek için renk seçiniz.");
            return;
       }
-
-      // API backend 'ToggleFavorite' expects { ProductId, Size, Color }
-      // But FavoritesContext currently expects a product object?
-      // We will assume FavoritesContext is updated or will be updated to handle this data.
-      // We pass identifying info.
       
       if (isFavorite) {
            removeFromFavorites(productId, selectedSize.size, selectedColor);
@@ -80,7 +71,7 @@ const Info = ({ singleProduct }) => {
               ...singleProduct,
               id: productId,
               price: discountedPrice,
-              selectedSize: selectedSize.size, // Context naming convention
+              selectedSize: selectedSize.size, 
               selectedColor: selectedColor
            });
       }
@@ -90,14 +81,7 @@ const Info = ({ singleProduct }) => {
     <div className="product-info">
       <h1 className="product-title">{singleProduct.name}</h1>
       <div className="product-review">
-        <ul className="product-star">
-          <li><i className="bi bi-star-fill"></i></li>
-          <li><i className="bi bi-star-fill"></i></li>
-          <li><i className="bi bi-star-fill"></i></li>
-          <li><i className="bi bi-star-fill"></i></li>
-          <li><i className="bi bi-star-half"></i></li>
-        </ul>
-        <span>2 Yorum</span>
+         <RatingBadge rating={singleProduct.rating || 0} reviewCount={singleProduct.reviewCount || 0} showCount={true} />
       </div>
       <div className="product-price">
         {discountPercentage > 0 && (
@@ -178,9 +162,6 @@ const Info = ({ singleProduct }) => {
         </div>
       </form>
       <div className="divider"></div>
-      
-      {/* İstenmeyen kısımlar (SKU, Kategori, Tags) kaldırıldı */}
-
     </div>
   );
 };

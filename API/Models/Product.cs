@@ -14,6 +14,7 @@ namespace API.Models
         public int Stock { get; set; }
     }
 
+    [BsonIgnoreExtraElements]
     public class Product
     {
         [BsonId]
@@ -24,7 +25,7 @@ namespace API.Models
 
         public List<string> Img { get; set; } = new List<string>();
 
-        public List<Review> Reviews { get; set; } = new List<Review>();
+        // REMOVED List<Review> Reviews - using separate collection now.
 
         public string Description { get; set; } = string.Empty;
 
@@ -37,6 +38,10 @@ namespace API.Models
         public int TotalStock { get; set; }
 
         public Price ProductPrice { get; set; } = new Price();
+
+        // New Rating Fields
+        public double Rating { get; set; } = 0;
+        public int ReviewCount { get; set; } = 0;
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string Category { get; set; } = string.Empty;

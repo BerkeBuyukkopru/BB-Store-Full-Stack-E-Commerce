@@ -21,6 +21,7 @@ const ProfileLayout = () => {
     if (path.includes("/profile/orders")) setSelectedKey("orders");
     else if (path.includes("/profile/password")) setSelectedKey("password");
     else if (path.includes("/profile/address")) setSelectedKey("address");
+    else if (path.includes("/profile/reviews")) setSelectedKey("reviews");
     else setSelectedKey("info");
   }, [location]);
 
@@ -49,10 +50,16 @@ const ProfileLayout = () => {
       label: "Siparişlerim",
       onClick: () => navigate("/profile/orders"),
     },
+    {
+      key: "reviews",
+      icon: <span role="img" aria-label="star" className="anticon"><i className="bi bi-star"></i></span>,
+      label: "Yorumlarım",
+      onClick: () => navigate("/profile/reviews"),
+    },
   ];
 
   return (
-    <div className="container" style={{ padding: "50px 0" }}>
+    <div className="container" style={{ padding: "50px 0", maxWidth: "1500px" }}>
       <Layout style={{ background: "white", minHeight: "60vh" }}>
         <Sider width={250} style={{ background: "white", borderRight: "1px solid #f0f0f0" }} breakpoint="lg" collapsedWidth="0">
           <Menu
