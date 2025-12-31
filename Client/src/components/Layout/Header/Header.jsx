@@ -1,7 +1,7 @@
 import "./Header.css";
 import Proptypes from "prop-types";
 import { CartContext } from "../../../context/CartContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { SiteContext } from "../../../context/SiteContext";
@@ -11,11 +11,20 @@ import { message, Popconfirm } from "antd";
 const Header = ({ setIsSearchShow }) => {
   const { cartItems } = useContext(CartContext);
   const { favorites } = useContext(FavoritesContext); // FavoritesContext
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { pathname } = useLocation();
 
   const { user, logout } = useContext(AuthContext);
   const { siteSettings } = useContext(SiteContext);
+
+  const toggleSidebar = () => {
+      setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+      setIsSidebarOpen(false);
+  };
 
   return (
     <header>
@@ -31,7 +40,7 @@ const Header = ({ setIsSearchShow }) => {
         <div className="container">
           <div className="header-wrapper">
             <div className="header-mobile">
-              <i className="bi bi-list" id="btn-menu"></i>
+              <i className="bi bi-list" id="btn-menu" onClick={toggleSidebar}></i>
             </div>
 
             <div className="header-left">
@@ -40,9 +49,9 @@ const Header = ({ setIsSearchShow }) => {
               </Link>
             </div>
 
-            <div className="header-center" id="sidebar">
+            <div className="header-center" id="sidebar" style={{ left: isSidebarOpen ? "0" : "-100%" }}>
               <nav className="navigation">
-                <ul className="menu-list">
+                <ul className="menu-list" onClick={closeSidebar}>
                   <li className="menu-list-item">
                     <Link
                       to={"/"}
@@ -122,7 +131,7 @@ const Header = ({ setIsSearchShow }) => {
                 </ul>
               </nav>
 
-              <i className="bi-x-circle" id="close-sidebar"></i>
+              <i className="bi-x-circle" id="close-sidebar" onClick={closeSidebar}></i>
             </div>
 
             <div className="header-right">

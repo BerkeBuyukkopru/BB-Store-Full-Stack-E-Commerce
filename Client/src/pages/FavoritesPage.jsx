@@ -110,13 +110,82 @@ const FavoritesPage = () => {
           <h2>Favorilerim</h2>
         </div>
         
-        <Table
-            dataSource={favorites}
-            columns={columns}
-            rowKey={(record) => `${record._id || record.id}-${record.selectedSize}-${record.selectedColor}`}
-            locale={{ emptyText: "Henüz favorilere eklenmiş bir ürün yok." }}
-            pagination={false}
-        />
+        <div className="desktop-favorites-table">
+             <Table
+                dataSource={favorites}
+                columns={columns}
+                rowKey={(record) => `${record._id || record.id}-${record.selectedSize}-${record.selectedColor}`}
+                locale={{ emptyText: "Henüz favorilere eklenmiş bir ürün yok." }}
+                pagination={false}
+            />
+        </div>
+
+        <div className="mobile-favorites-grid">
+            {favorites.length > 0 ? (
+                favorites.map((product) => {
+                     const originalPrice = product.productPrice?.current || 0;
+                     const discountPercentage = product.productPrice?.discount || 0;
+                     const discountedPrice = originalPrice - (originalPrice * discountPercentage) / 100;
+                     
+                     const isProductInCart = cartItems.some((item) => 
+                        item.id === (product._id || product.id) &&
+                        item.size === product.selectedSize &&
+                        item.color === product.selectedColor
+                    );
+
+                    return (
+                        <div className="mobile-favorite-card" key={`${product._id || product.id}-${product.selectedSize}-${product.selectedColor}`}>
+                            <div className="mobile-favorite-image">
+                                <img src={product.img && product.img.length > 0 ? product.img[0] : ""} alt={product.name} />
+                            </div>
+                            <div className="mobile-favorite-info">
+                                <h3>{product.name}</h3>
+                                <div className="product-attrs">
+                                    <span>Renk: {product.selectedColor || "-"}</span>
+                                    <span>Beden: {product.selectedSize ? product.selectedSize.toUpperCase() : "-"}</span>
+                                </div>
+                                <div className="product-price">
+                                    {discountedPrice.toFixed(2)} TL
+                                </div>
+                                <div className="mobile-favorite-actions">
+                                    <Button 
+                                      className="add-to-cart-btn"
+                                      block
+                                      onClick={() => {
+                                           if (isProductInCart) {
+                                               message.warning("Bu ürün zaten sepetinizde ekli.");
+                                               return;
+                                           }
+                                           addToCart({
+                                              ...product,
+                                              id: product._id || product.id,
+                                              price: discountedPrice,
+                                              size: product.selectedSize,
+                                              color: product.selectedColor,
+                                              quantity: 1
+                                           });
+                                           message.success("Ürün sepete eklendi.");
+                                      }}
+                                    >
+                                      Sepete Ekle
+                                    </Button>
+                                    <Button 
+                                      className="remove-from-fav-btn"
+                                      danger
+                                      block
+                                      onClick={() => removeFromFavorites(product._id || product.id, product.selectedSize, product.selectedColor)}
+                                    >
+                                      Sil
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+            ) : (
+                <div style={{ textAlign: "center", width: "100%", padding: "20px" }}>Henüz favorilere eklenmiş bir ürün yok.</div>
+            )}
+        </div>
       </div>
     </section>
   );

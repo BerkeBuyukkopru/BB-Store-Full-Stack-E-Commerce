@@ -10,7 +10,9 @@ const MainLayout = ({ children }) => {
     <div className="main-layout">
       <Search isSearchShow={isSearchShow} setIsSearchShow={setIsSearchShow} />
       <Header setIsSearchShow={setIsSearchShow} />
-      {children}
+      <div className="main-content">
+        {children}
+      </div>
       <Footer />
     </div>
   );

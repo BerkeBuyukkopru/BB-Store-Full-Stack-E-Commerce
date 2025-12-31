@@ -177,5 +177,10 @@
     .product-wrapper .glide__arrow--right {
       right: 0px;
     }
+
+    .products .product-item .product-image {
+        height: auto !important;
+        aspect-ratio: 1 / 1; /* Maintain square aspect ratio or similar */
+    }
   }
   
