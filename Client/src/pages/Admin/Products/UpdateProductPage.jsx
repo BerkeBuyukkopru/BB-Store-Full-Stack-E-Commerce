@@ -50,8 +50,8 @@ const UpdateProductPage = () => {
             discount: singleProductData.productPrice?.discount,
             description: singleProductData.description,
 
-            img: (singleProductData.img || []).join("\n"),
-            colors: (singleProductData.colors || []).join("\n"),
+            img: (singleProductData.img || []).map(url => ({ url })),
+            colors: (singleProductData.colors || []).map(color => ({ color })),
             // Eski veri (string array) gelirse objeye çevir, yeni veri ise olduğu gibi kullan
             sizes: (singleProductData.sizes || []).map(s => {
                 if (typeof s === 'string') return { size: s, stock: 0 };
@@ -73,16 +73,10 @@ const UpdateProductPage = () => {
   }, [apiUrl, productId, form]);
 
   const onFinish = async (values) => {
-    const imgLinks = values.img
-      .split("\n")
-      .map((link) => link.trim())
-      .filter((l) => l.length > 0);
-    const colors = values.colors
-      .split("\n")
-      .map((color) => color.trim())
-      .filter((c) => c.length > 0);
+    const imgLinks = values.img ? values.img.map(i => i.url) : [];
+    const colors = values.colors ? values.colors.map(c => c.color) : [];
     
-    const sizes = values.sizes;
+    const sizes = values.sizes.map(s => ({ ...s, size: s.size.toUpperCase() }));
 
     setLoading(true);
     try {
@@ -246,26 +240,99 @@ const UpdateProductPage = () => {
             rules={[
               {
                 required: true,
-                message: "Lütfen en az 4 ürün görsel linki girin!",
+                validator: async (_, names) => {
+                   if (!names || names.length < 2) {
+                       return Promise.reject(new Error("Lütfen en az 2 ürün görsel linki girin!"));
+                   }
+                   return Promise.resolve();
+                },
               },
             ]}
           >
-            <Input.TextArea
-              placeholder="Her bir görsel linkini yeni bir satıra yazın."
-              autoSize={{ minRows: 4 }}
-            />
+            <Form.List name="img">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space
+                      key={key}
+                      style={{ display: "flex", marginBottom: 8 }}
+                      align="baseline"
+                    >
+                      <Form.Item
+                        {...restField}
+                        name={[name, "url"]}
+                        rules={[{ required: true, message: "Görsel linki giriniz" }]}
+                        style={{ flex: 1, width: "400px" }}
+                      >
+                        <Input placeholder="Görsel Linki (https://...)" />
+                      </Form.Item>
+                      <MinusCircleOutlined onClick={() => remove(name)} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
+                      Görsel Ekle
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </Form.Item>
           <Form.Item
-            label="Ürün Renkleri (Hex Kodları veya İsimler)"
+            label="Ürün Rengi (Tekil)"
             name="colors"
             rules={[
-              { required: true, message: "Lütfen en az 1 ürün rengi girin!" },
-            ]}
+                {
+                  required: true,
+                  validator: async (_, names) => {
+                     if (!names || names.length < 1) {
+                         return Promise.reject(new Error("Lütfen 1 renk girin!"));
+                     }
+                     return Promise.resolve();
+                  },
+                },
+              ]}
           >
-            <Input.TextArea
-              placeholder="Her bir renk kodunu yeni bir satıra yazın."
-              autoSize={{ minRows: 4 }}
-            />
+            <Form.List name="colors">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space
+                      key={key}
+                      style={{ display: "flex", marginBottom: 8 }}
+                      align="baseline"
+                    >
+                      <Form.Item
+                        {...restField}
+                        name={[name, "color"]}
+                        rules={[{ required: true, message: "Renk giriniz" }]}
+                        style={{ flex: 1, width: "200px" }}
+                      >
+                        <Input placeholder="Renk (Örn: Mavi, Red, #FFF)" />
+                      </Form.Item>
+                      <MinusCircleOutlined onClick={() => remove(name)} />
+                    </Space>
+                  ))}
+                  {fields.length < 1 && (
+                      <Form.Item>
+                        <Button
+                          type="dashed"
+                          onClick={() => add()}
+                          block
+                          icon={<PlusOutlined />}
+                        >
+                          Renk Ekle
+                        </Button>
+                      </Form.Item>
+                  )}
+                </>
+              )}
+            </Form.List>
           </Form.Item>
 
           <Form.Item

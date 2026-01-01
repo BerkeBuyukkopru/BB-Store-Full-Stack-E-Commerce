@@ -39,10 +39,16 @@ namespace API.Repositories
 
             if (filterParams.Genders != null && filterParams.Genders.Any())
             {
-                 if (filterParams.Genders.Contains("Man") || filterParams.Genders.Contains("Woman"))
-                     filter &= builder.In(p => p.Gender, filterParams.Genders);
-                 else
-                    filter &= builder.In(p => p.Gender, filterParams.Genders);
+                // Create a mutable list from the input filters
+                var targetGenders = new HashSet<string>(filterParams.Genders);
+
+                // If "Man" or "Woman" is selected, "Unisex" products should also be displayed
+                if (targetGenders.Contains("Man") || targetGenders.Contains("Woman"))
+                {
+                    targetGenders.Add("Unisex");
+                }
+
+                filter &= builder.In(p => p.Gender, targetGenders);
             }
 
             if (filterParams.Colors != null && filterParams.Colors.Any())

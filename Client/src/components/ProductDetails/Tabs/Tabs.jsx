@@ -66,6 +66,18 @@ const Tabs = ({ singleProduct, onReviewAdded }) => {
           <table>
             <tbody>
               <tr>
+                <th>Cinsiyet</th>
+                <td>
+                  <p>
+                    {singleProduct.gender === "Man" 
+                        ? "Erkek" 
+                        : singleProduct.gender === "Woman" 
+                        ? "Kadın" 
+                        : "Unisex"}
+                  </p>
+                </td>
+              </tr>
+              <tr>
                 <th>Renk</th>
                 <td>
                   <p>

@@ -56,7 +56,7 @@ const CreateProductPage = () => {
     
     const imgLinks = values.img ? values.img.map(i => i.url) : [];
     const colors = values.colors ? values.colors.map(c => c.color) : [];
-    const sizes = values.sizes;
+    const sizes = values.sizes.map(s => ({ ...s, size: s.size.toUpperCase() }));
 
     setLoading(true);
     try {
@@ -212,8 +212,8 @@ const CreateProductPage = () => {
               {
                 required: true,
                 validator: async (_, names) => {
-                   if (!names || names.length < 4) {
-                       return Promise.reject(new Error("Lütfen en az 4 ürün görsel linki girin!"));
+                   if (!names || names.length < 2) {
+                       return Promise.reject(new Error("Lütfen en az 2 ürün görsel linki girin!"));
                    }
                    return Promise.resolve();
                 },

@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 const PaymentPage = () => {
   const { cartItems, appliedCoupon } = useContext(CartContext);
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;

@@ -96,7 +96,16 @@ const Search = ({ isSearchShow, setIsSearchShow }) => {
                   />
                   <div className="search-info">
                     <h4>{resultItem.name}</h4>
-                    <span className="search-sku">SKU: PD0016</span>
+
+                    <div className="search-info-details" style={{fontSize: "12px", color: "#888", marginBottom: "5px"}}>
+                        <span>
+                            {resultItem.gender === "Man" ? "Erkek" : resultItem.gender === "Woman" ? "Kadın" : "Unisex"}
+                        </span>
+                         - 
+                        <span>
+                            {resultItem.colors && resultItem.colors.length > 0 ? resultItem.colors.join(", ") : ""}
+                        </span>
+                    </div>
                     <span className="search-price">
                       {resultItem.productPrice.current.toFixed(2)} TL
                     </span>
