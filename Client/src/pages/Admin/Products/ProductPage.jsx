@@ -159,11 +159,10 @@ const ProductPage = () => {
             <Button 
                 icon={<EyeOutlined />} 
                 onClick={() => {
-                    // Check if sizes is a string array (old data) or object array (new data)
                     let stockData = [];
                     if (Array.isArray(sizes)) {
                         stockData = sizes.map(s => {
-                            if (typeof s === 'string') return { size: s, stock: 0 }; // Legacy support
+                            if (typeof s === 'string') return { size: s, stock: 0 }; 
                             return s;
                         });
                     }

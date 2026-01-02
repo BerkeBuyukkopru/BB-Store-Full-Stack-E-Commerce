@@ -28,7 +28,7 @@ import ProductPage from "./pages/Admin/Products/ProductPage";
 import UpdateProductPage from "./pages/Admin/Products/UpdateProductPage";
 import CouponPage from "./pages/Admin/Coupons/CouponPage";
 import CreateCouponPage from "./pages/Admin/Coupons/CreateCouponPage";
-import UpdateCouponPage from "./pages/Admin/Coupons/UpdateCategoryPage";
+import UpdateCouponPage from "./pages/Admin/Coupons/UpdateCouponPage";
 import OrderPage from "./pages/Admin/Orders/OrderPage";
 import SiteSettingsPage from "./pages/Admin/SiteSettings/SiteSettingsPage";
 import AboutUsSettingsPage from "./pages/Admin/SiteSettings/AboutUsSettingsPage";
@@ -46,7 +46,7 @@ import AdminContactPage from "./pages/Admin/Contacts/ContactPage";
 import CargoPage from "./pages/Admin/Cargo/CargoPage";
 import CreateCargoPage from "./pages/Admin/Cargo/CreateCargoPage";
 import UpdateCargoPage from "./pages/Admin/Cargo/UpdateCargoPage";
-import UserLayout from "./layouts/UserLayout"; // Assuming UserLayout exists and is imported
+import UserLayout from "./layouts/UserLayout";
 import AdminLayoutWrapper from "./layouts/AdminLayoutWrapper";
 import AdminReviews from "./pages/Admin/Reviews/AdminReviews";
 
@@ -67,7 +67,6 @@ function App() {
         <Route path="product/:id" element={<ProductDetailsPage />} />
         <Route path="blog/:id" element={<BlogDetailsPage />} />
         
-        {/* Profile Routes - Nested inside UserLayout to keep Header/Footer */}
         <Route path="profile" element={<ProfileLayout />}>
           <Route index element={<UserProfileInfo />} />
           <Route path="password" element={<UserPasswordChange />} />
@@ -77,16 +76,9 @@ function App() {
         </Route>
       </Route>
 
-      {/* Routes that might not use UserLayout or have specific absolute paths */}
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/payment/success" element={<PaymentSuccessPage />} />
       <Route path="/payment/failure" element={<PaymentFailurePage />} />
-      {/* The following routes are already defined as relative paths under UserLayout,
-          but if they need to be accessible directly without UserLayout, they can be
-          defined as absolute paths here. However, for consistency, it's often better
-          to keep them under UserLayout if they share the same layout.
-          The instruction implies adding them as absolute paths outside UserLayout. */}
-
 
       <Route path="/admin/*" element={<AdminLayoutWrapper />}>
         <Route index element={<Navigate to="orders" replace />} />

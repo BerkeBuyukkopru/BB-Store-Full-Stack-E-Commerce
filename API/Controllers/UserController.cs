@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Repositories;
 using API.Dtos; // UserDto'nun kullanıldığı yer
 using Microsoft.AspNetCore.Authorization; // [Authorize] için
-using System.Linq; // Select metodu için (bazen gerekiyor)
+using System.Linq;
 using System.Threading.Tasks; // async/await için
 using API.Models;
 
@@ -59,7 +59,6 @@ public class UsersController : ControllerBase
                 return NotFound(new { error = "Kullanıcı bulunamadı." });
             }
 
-            // ✨ DÜZELTME 1: Models.UserRole yerine sadece UserRole kullanıyoruz
             if (userToDelete.Role == UserRole.admin)
             {
                 var adminCount = await _userRepository.CountAdminsAsync();

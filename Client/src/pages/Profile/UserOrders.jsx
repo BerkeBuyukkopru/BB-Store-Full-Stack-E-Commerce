@@ -23,7 +23,7 @@ const UserOrders = () => {
                 message.error("Siparişler getirilemedi.");
             }
         } catch (error) {
-            console.log("Fetch orders error", error);
+
         } finally {
             setLoading(false);
         }

@@ -5,7 +5,6 @@ const AddressForm = ({ onSuccess, onCancel, editingAddress, setEditingAddress })
   const [form] = Form.useForm();
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // Populate form when editingAddress changes
   useEffect(() => {
     if (editingAddress) {
         form.setFieldsValue(editingAddress);
@@ -31,7 +30,7 @@ const AddressForm = ({ onSuccess, onCancel, editingAddress, setEditingAddress })
       if (response.ok) {
         message.success(editingAddress ? "Adres güncellendi." : "Adres başarıyla eklendi.");
         form.resetFields();
-        if (setEditingAddress) setEditingAddress(null); // Clear edit mode
+        if (setEditingAddress) setEditingAddress(null); 
         if (onSuccess) onSuccess();
       } else {
         message.error("Bir hata oluştu.");

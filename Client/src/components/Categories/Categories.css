@@ -3,12 +3,12 @@
 }
 
 .categories-carousel {
-    margin: 0 40px; /* Add margin to make space for buttons */
+    margin: 0 40px; 
 }
 
 .carousel-button {
     position: absolute;
-    top: 55%; /* Centered vertically relative to content below title roughly */
+    top: 55%; 
     transform: translateY(-50%);
     z-index: 10;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);

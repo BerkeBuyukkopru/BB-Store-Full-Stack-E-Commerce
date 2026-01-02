@@ -25,12 +25,9 @@ const CartTotals = () => {
             if (response.ok) {
                 const data = await response.json();
                 setCargoCompanies(data);
-                // if(data.length > 0) {
-                //    setSelectedCargo(data[0]);
-                // }
             }
         } catch (error) {
-            console.log("Kargo veri hatası:", error);
+
         } finally {
             setLoadingCargo(false);
         }

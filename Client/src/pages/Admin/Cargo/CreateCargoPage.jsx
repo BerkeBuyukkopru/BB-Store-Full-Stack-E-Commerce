@@ -36,7 +36,7 @@ const CreateCargoPage = () => {
         message.error("Kargo firması oluşturulurken bir hata oluştu.");
       }
     } catch (error) {
-      console.log("Kargo oluşturma hatası:", error);
+
       message.error("Bir hata oluştu.");
     } finally {
       setLoading(false);

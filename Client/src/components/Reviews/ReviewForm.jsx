@@ -7,7 +7,7 @@ const ReviewForm = ({ singleProduct, type = "product", onSuccess }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(AuthContext); // Use Context instead of localStorage
+  const { user } = useContext(AuthContext); 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
@@ -42,9 +42,8 @@ const ReviewForm = ({ singleProduct, type = "product", onSuccess }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization not needed if using cookies
         },
-        credentials: "include", // Use cookies
+        credentials: "include", 
         body: JSON.stringify(payload) 
       });
 
@@ -53,10 +52,11 @@ const ReviewForm = ({ singleProduct, type = "product", onSuccess }) => {
         setRating(0);
         if (onSuccess) onSuccess();
       } else {
-        message.error("Yorum gönderilirken bir hata oluştu.");
+        const errorData = await response.json();
+        message.error(errorData.error || "Yorum gönderilirken bir hata oluştu.");
       }
     } catch (error) {
-       console.log("Review error", error);
+
        message.error("Bağlantı hatası.");
     } finally {
       setLoading(false);

@@ -25,7 +25,7 @@ const UserProfileInfo = () => {
                 });
             }
         } catch(error){
-            console.log("Error fetching user data", error);
+
         } finally {
             setLoading(false);
         }
@@ -58,7 +58,7 @@ const UserProfileInfo = () => {
                 message.error("Profil güncellenemedi.");
             }
         } catch (error) {
-            console.log("Update error", error);
+
             message.error("Bir hata oluştu.");
         } finally {
             setLoading(false);

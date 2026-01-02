@@ -16,7 +16,7 @@ const FavoritesProvider = ({ children }) => {
     } else {
       setFavorites([]);
     }
-  }, [user]); // apiUrl dependency removed to avoid unnecessary re-fetches
+  }, [user]); 
 
   const fetchFavorites = async () => {
     try {
@@ -28,7 +28,7 @@ const FavoritesProvider = ({ children }) => {
         setFavorites(data);
       }
     } catch (error) {
-      console.log("Favoriler getirilemedi:", error);
+
     }
   };
 
@@ -37,7 +37,6 @@ const FavoritesProvider = ({ children }) => {
       return message.warning("Favorilere eklemek için giriş yapmalısınız.");
     }
 
-    // Optimistic Update
     const productItemId = product._id || product.id;
     const isAlreadyFavorite = favorites.some((fav) => 
         (fav._id || fav.id) === productItemId && 
@@ -66,7 +65,6 @@ const FavoritesProvider = ({ children }) => {
       });
 
       if (!response.ok) {
-           // Revert if failed
            setFavorites((prev) => prev.filter((item) => 
                 !((item._id || item.id) === productItemId && 
                   item.selectedSize === product.selectedSize && 
@@ -78,7 +76,7 @@ const FavoritesProvider = ({ children }) => {
       }
 
     } catch (error) {
-      console.log(error);
+
       setFavorites((prev) => prev.filter((item) => 
             !((item._id || item.id) === productItemId && 
               item.selectedSize === product.selectedSize && 
@@ -90,7 +88,6 @@ const FavoritesProvider = ({ children }) => {
   const removeFromFavorites = async (productId, size, color) => {
     if (!user) return;
 
-    // Optimistic Update
     setFavorites((prev) => prev.filter((item) => 
         !((item._id || item.id) === productId && 
           item.selectedSize === size && 
@@ -114,14 +111,13 @@ const FavoritesProvider = ({ children }) => {
       });
 
       if (!response.ok) {
-        // Revert (Need to fetch again ideally, or keep a backup)
         fetchFavorites();
         message.error("Favorilerden çıkarılırken hata oluştu.");
       } else {
           message.success("Favorilerden çıkarıldı.");
       }
     } catch (error) {
-      console.log(error);
+
       fetchFavorites();
     }
   };

@@ -35,7 +35,7 @@ const UpdateCouponPage = () => {
 
         const data = await response.json();
 
-        console.log("Backend'den Gelen Kupon:", data);
+
 
         if (data) {
           form.setFieldsValue({

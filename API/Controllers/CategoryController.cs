@@ -9,10 +9,12 @@ using Microsoft.AspNetCore.Authorization;
 public class CategoryController : ControllerBase
 {
     private readonly CategoryRepository _categoryRepository;
+    private readonly ProductRepository _productRepository;
 
-    public CategoryController(CategoryRepository categoryRepository)
+    public CategoryController(CategoryRepository categoryRepository, ProductRepository productRepository)
     {
         _categoryRepository = categoryRepository;
+        _productRepository = productRepository;
     }
 
     [HttpPost]
@@ -138,6 +140,14 @@ public class CategoryController : ControllerBase
     {
         try
         {
+            // Kategoride ürün var mı kontrol et
+            var productCount = await _productRepository.GetCountByCategoryIdAsync(id);
+
+            if (productCount > 0)
+            {
+                return BadRequest(new { error = "Bu kategoriye ait ürünler bulunmaktadır. Önce ürünleri silmelisiniz." });
+            }
+
             var deletedCategory = await _categoryRepository.DeleteAsync(id);
 
             if (deletedCategory == null)

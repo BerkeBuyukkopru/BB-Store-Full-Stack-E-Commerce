@@ -12,7 +12,7 @@ const PaymentPage = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     const location = useLocation();
-    const { selectedCargo, address: selectedAddress } = location.state || {}; // Get passed data
+    const { selectedCargo, address: selectedAddress } = location.state || {};
 
   useEffect(() => {
     const initializePayment = async () => {
@@ -24,16 +24,13 @@ const PaymentPage = () => {
           0
         );
         
-        // ✨ İndirim Hesaplama
-        
         const discountAmount = appliedCoupon 
             ? (cartTotal * (appliedCoupon.discountPercent / 100)) 
             : 0;
 
         const cargoPrice = selectedCargo ? parseFloat(selectedCargo.price) : 0;
-        const total = cartTotal - discountAmount + cargoPrice; // Include cargo price & deduct discount
+        const total = cartTotal - discountAmount + cargoPrice;
 
-        // 1. Determine Address (Prefer passed address, fallback to fetch)
         let chosenAddress = selectedAddress || null;
         if (!chosenAddress) {
              try {
@@ -45,18 +42,16 @@ const PaymentPage = () => {
                     }
                 }
             } catch (addrErr) {
-                console.log("Adres çekilemedi.", addrErr);
+
             }
         }
 
-        // ✨ Prepare Basket Items with Rounded Prices to prevent mismatch
         const basketItems = cartItems.map(item => {
             const itemOriginalPrice = item.price;
             let itemDiscountedPrice = appliedCoupon 
                 ? itemOriginalPrice * (1 - appliedCoupon.discountPercent / 100) 
                 : itemOriginalPrice;
             
-            // Round to 2 decimals strictly to match what Iyzico will likely calculate/see
             itemDiscountedPrice = Math.round(itemDiscountedPrice * 100) / 100;
 
             return {
@@ -71,10 +66,6 @@ const PaymentPage = () => {
             };
         });
 
-
-        
-        // ✨ Calculate Total from the SUM of rounded items + Cargo
-        // This ensures (Sum of Items) + Cargo === TotalPrice is ALWAYS true mathematically
         const derivedTotal = basketItems.reduce((acc, item) => acc + (item.Price * item.Quantity), 0) + cargoPrice;
 
         const payload = {
@@ -143,7 +134,6 @@ const PaymentPage = () => {
       {error && <div className="text-center text-red-500">{error}</div>}
       
       <div id="payment-container" className="flex justify-center">
-        {/* Iyzico formu buraya yüklenecek */}
       </div>
     </div>
   );

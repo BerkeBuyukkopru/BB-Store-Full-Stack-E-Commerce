@@ -9,10 +9,12 @@ using Microsoft.AspNetCore.Authorization;
 public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
+    private readonly ReviewRepository _reviewRepository;
 
-    public ProductController(ProductRepository productRepository)
+    public ProductController(ProductRepository productRepository, ReviewRepository reviewRepository)
     {
         _productRepository = productRepository;
+        _reviewRepository = reviewRepository;
     }
 
     [HttpPost]
@@ -181,6 +183,11 @@ public class ProductController : ControllerBase
         try
         {
             var deletedProduct = await _productRepository.DeleteAsync(id);
+
+            if(deletedProduct != null) 
+            {
+                await _reviewRepository.DeleteByTargetIdAsync(id);
+            }
 
             if (deletedProduct == null)
             {

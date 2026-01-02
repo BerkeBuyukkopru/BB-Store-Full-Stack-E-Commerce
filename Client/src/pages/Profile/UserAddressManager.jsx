@@ -21,7 +21,7 @@ const UserAddressManager = () => {
         setAddresses(data);
       }
     } catch (error) {
-      console.log(error);
+
     } finally {
       setLoading(false);
     }
@@ -44,7 +44,7 @@ const UserAddressManager = () => {
               message.error("Silinemedi.");
           }
       } catch (error) {
-          console.log(error);
+
       }
   }
 

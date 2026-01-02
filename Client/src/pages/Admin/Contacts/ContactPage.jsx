@@ -19,7 +19,7 @@ const ContactPage = () => {
         message.error("Mesajlar getirilirken hata oluştu.");
       }
     } catch (error) {
-      console.log("Veri hatası:", error);
+
     } finally {
       setLoading(false);
     }
@@ -46,7 +46,7 @@ const ContactPage = () => {
         message.error("Güncelleme başarısız.");
       }
     } catch (error) {
-       console.log("Update hatası", error);
+
     }
   };
 

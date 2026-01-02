@@ -28,7 +28,7 @@ const CreateBlogPage = () => {
         message.error("Blog oluşturulurken bir hata oluştu.");
       }
     } catch (error) {
-      console.log("Blog oluşturma hatası:", error);
+
       message.error("Bir hata oluştu.");
     } finally {
       setLoading(false);

@@ -16,7 +16,7 @@ const ProductItem = ({ productItem }) => {
   // Favori kontrolü
   const isFavorite = favorites.some((fav) => (fav._id || fav.id) === productId);
 
-  // ✨ Backend DTO Uyumu: productPrice içinden verileri alıyoruz
+  // Backend DTO Uyumu: productPrice içinden verileri alıyoruz
   const originalPrice = productItem.productPrice?.current || 0;
   const discountPercentage = productItem.productPrice?.discount || 0;
 

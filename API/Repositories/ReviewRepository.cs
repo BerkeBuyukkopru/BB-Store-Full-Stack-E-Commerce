@@ -44,5 +44,15 @@ namespace API.Repositories
         {
             await _reviews.DeleteOneAsync(r => r.Id == id);
         }
+
+        public async Task DeleteByTargetIdAsync(string targetId)
+        {
+            await _reviews.DeleteManyAsync(r => r.TargetId == targetId);
+        }
+
+        public async Task<bool> HasUserReviewedAsync(string userId, string targetId)
+        {
+            return await _reviews.Find(r => r.UserId == userId && r.TargetId == targetId).AnyAsync();
+        }
     }
 }

@@ -5,7 +5,7 @@ import "./FooterPromotion.css";
 const FooterPromotion = () => {
     const { siteSettings } = useContext(SiteContext);
 
-    if (!siteSettings) return null; // veya loading state
+    if (!siteSettings) return null; 
 
   return (
     <div className="promotion-row">

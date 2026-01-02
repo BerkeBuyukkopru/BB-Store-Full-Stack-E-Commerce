@@ -24,8 +24,6 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Ensure ID is null or let DB handle it? Mongo handles empty ID usually.
-            // Just basic validation
             if (string.IsNullOrWhiteSpace(contact.Name) || string.IsNullOrWhiteSpace(contact.Email) || string.IsNullOrWhiteSpace(contact.Message))
             {
                 return BadRequest("Ad, Email ve Mesaj alanları zorunludur.");

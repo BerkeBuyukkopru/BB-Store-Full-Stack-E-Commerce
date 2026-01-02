@@ -1,4 +1,4 @@
-import { Layout, Menu, Button, message } from "antd"; // Button eklendi
+import { Layout, Menu, Button, message } from "antd";
 import PropTypes from "prop-types";
 import {
   UserOutlined,
@@ -14,7 +14,7 @@ import {
   MessageOutlined // Yorum ikonu
 } from "@ant-design/icons";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { useState, useContext, useEffect } from "react"; // Durum yönetimi için eklendi
+import { useState, useContext, useEffect } from "react"; 
 import { AuthContext } from "../context/AuthContext";
 
 

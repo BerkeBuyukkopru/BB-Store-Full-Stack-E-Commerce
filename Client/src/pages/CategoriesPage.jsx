@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { message, Spin } from "antd";
-import CategoryItem from "../components/Categories/CategoryItem"; // Import CategoryItem
+import CategoryItem from "../components/Categories/CategoryItem";
 import "./CategoriesPage.css";
-// We need to ensure the parent 'categories' class is present for styling to work, or import Categories.css if needed.
-// Based on CategoryItem.css, styles differ if inside .categories.
-// Let's assume we can add 'categories' class to the wrapper.
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
@@ -25,7 +22,7 @@ const CategoriesPage = () => {
             message.error("Kategoriler yüklenirken hata oluştu.");
         }
       } catch (error) {
-        console.log("Veri hatası:", error);
+
       } finally {
         setLoading(false);
       }
@@ -39,11 +36,11 @@ const CategoriesPage = () => {
   if (loading) return <Spin size="large" style={{ display: "block", margin: "100px auto" }} />;
 
   return (
-    <div className="categories-page container categories"> {/* Added 'categories' class for styling */}
+    <div className="categories-page container categories">
       {(!selectedGender || selectedGender === "Man") && (
         <div className="gender-section">
           <h2 className="section-title">Erkek</h2>
-          <ul className="category-list"> {/* Used ul.category-list to match Homepage structure */}
+          <ul className="category-list">
             {menCategories.map(item => (
               <CategoryItem 
                 key={item._id || item.id} 

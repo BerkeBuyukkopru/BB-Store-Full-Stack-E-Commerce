@@ -22,7 +22,6 @@ const CreateProductPage = () => {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // Kategori verilerini çekme (Aynı kalır, bu kısım çalışıyor)
   const fetchCategories = useCallback(async () => {
     setLoading(true);
 
@@ -47,12 +46,8 @@ const CreateProductPage = () => {
     fetchCategories();
   }, [fetchCategories]);
 
-  // Ürün oluşturma (POST) fonksiyonu
+
   const onFinish = async (values) => {
-    // Görseller ve Renkler Form.List'ten array of objects olarak gelebilir veya primitives.
-    // images: [{ url: "..." }] -> ["..."]
-    // colors: [{ color: "..." }] -> ["..."]
-    // Ancak Form.List primitive array (sadece string array) desteklemez, obje kullanırız.
     
     const imgLinks = values.img ? values.img.map(i => i.url) : [];
     const colors = values.colors ? values.colors.map(c => c.color) : [];
@@ -113,7 +108,6 @@ const CreateProductPage = () => {
               img: [{ url: "" }]
           }}
         >
-          {/* ... Name, Category, Price, Description fields remain the same ... */}
           <Form.Item
             label="Ürün İsmi"
             name="name"
@@ -204,7 +198,6 @@ const CreateProductPage = () => {
             <ReactQuill theme="snow" style={{ backgroundColor: "white" }} />
           </Form.Item>
 
-          {/* DYNAMIC IMAGES INPUT */}
           <Form.Item
             label="Ürün Görselleri (Linkler)"
             name="img"
@@ -255,7 +248,6 @@ const CreateProductPage = () => {
             </Form.List>
           </Form.Item>
 
-          {/* DYNAMIC COLORS INPUT - LIMITED TO 1 */}
           <Form.Item
             label="Ürün Rengi (Tekil)"
             name="colors"
@@ -288,11 +280,9 @@ const CreateProductPage = () => {
                       >
                         <Input placeholder="Renk (Örn: Mavi, Red, #FFF)" />
                       </Form.Item>
-                      {/* Only show remove button if user added it, or maybe allow removing the single one to clear? */}
                       <MinusCircleOutlined onClick={() => remove(name)} />
                     </Space>
                   ))}
-                  {/* LIMIT ADD BUTTON: ONLY SHOW IF Less than 1 item */}
                   {fields.length < 1 && (
                       <Form.Item>
                         <Button
@@ -310,7 +300,6 @@ const CreateProductPage = () => {
             </Form.List>
           </Form.Item>
 
-          {/* DYNAMIC SIZES INPUT (EXISTING) */}
           <Form.Item
             label="Ürün Bedenleri"
             name="sizes"

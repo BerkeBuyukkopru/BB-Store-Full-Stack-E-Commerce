@@ -20,7 +20,7 @@ const BlogDetail = () => {
           message.error("Blog bulunamadı.");
         }
       } catch (error) {
-        console.log("Veri hatası:", error);
+
       }
     };
     if (id) {

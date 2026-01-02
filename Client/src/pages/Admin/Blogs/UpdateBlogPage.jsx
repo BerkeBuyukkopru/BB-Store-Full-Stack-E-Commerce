@@ -28,7 +28,7 @@ const UpdateBlogPage = () => {
                 message.error("Blog verileri yüklenemedi.");
             }
         } catch (error) {
-            console.log("Veri hatası:", error);
+
         } finally {
             setFetching(false);
         }
@@ -55,7 +55,7 @@ const UpdateBlogPage = () => {
         message.error("Blog güncellenirken bir hata oluştu.");
       }
     } catch (error) {
-      console.log("Blog güncelleme hatası:", error);
+
       message.error("Bir hata oluştu.");
     } finally {
       setLoading(false);

@@ -11,8 +11,8 @@ namespace API.Services
     {
         private readonly OrderRepository _orderRepository;
         private readonly ILogger<OrderExpirationService> _logger;
-        private readonly TimeSpan _checkInterval = TimeSpan.FromMinutes(1); // Check every 1 minute
-        private readonly TimeSpan _expirationThreshold = TimeSpan.FromMinutes(15); // Expire if older than 15 mins
+        private readonly TimeSpan _checkInterval = TimeSpan.FromMinutes(1);
+        private readonly TimeSpan _expirationThreshold = TimeSpan.FromMinutes(15);
 
         public OrderExpirationService(OrderRepository orderRepository, ILogger<OrderExpirationService> logger)
         {
@@ -43,7 +43,6 @@ namespace API.Services
         {
             var thresholdTime = DateTime.UtcNow.Subtract(_expirationThreshold);
             
-            // Get orders that are pending and older than 15 mins
             var expiredOrders = await _orderRepository.GetExpiredPendingOrdersAsync(thresholdTime);
 
             if (expiredOrders.Any())
@@ -52,7 +51,7 @@ namespace API.Services
 
                 foreach (var order in expiredOrders)
                 {
-                    order.Status = "PaymentFailed"; // Or "Timeout" or "Cancelled"
+                    order.Status = "PaymentFailed";
                     await _orderRepository.UpdateAsync(order.Id!, order);
                     _logger.LogInformation($"Order {order.OrderNumber} marked as PaymentFailed.");
                 }

@@ -55,11 +55,18 @@ const CategoryPage = () => {
         message.success("Kategori başarıyla silindi.");
         fetchCategories();
       } else if (response.status === 400 || response.status === 404) {
-        const errorData = await response.json();
-        message.error(
-          errorData.message ||
-            "Silme işlemi sırasında bir kısıtlama hatası oluştu."
-        );
+        const errorText = await response.text();
+        try {
+            const errorData = JSON.parse(errorText);
+            message.error(
+                errorData.error || 
+                errorData.message || 
+                "Silme işlemi sırasında bir kısıtlama hatası oluştu."
+            );
+        } catch (e) {
+            // Eğer JSON değilse direkt metni göster
+            message.error(errorText || "Silme işlemi yapılamadı.");
+        }
       } else {
         message.error(
           "Silme işlemi başarısız. Yetkiniz yok veya sunucu hatası."

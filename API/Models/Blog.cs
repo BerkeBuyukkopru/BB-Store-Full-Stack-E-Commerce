@@ -11,7 +11,7 @@ namespace API.Models
 
         public string Title { get; set; } = string.Empty;
 
-        public string Content { get; set; } = string.Empty; // HTML Content from React Quill
+        public string Content { get; set; } = string.Empty; 
 
         public string ImageUrl { get; set; } = string.Empty;
 

@@ -9,7 +9,6 @@ const ExpandableComment = ({ comment }) => {
 
     if (!comment) return "-";
 
-    // If comment is short enough (e.g., < 40 chars), display as is without button
     if (comment.length < 40) {
         return <span>{comment}</span>;
     }
@@ -55,7 +54,7 @@ const AdminReviews = () => {
                 setReviews(data);
             }
         } catch (error) {
-            console.log("Fetch reviews error", error);
+
         } finally {
             setLoading(false);
         }
@@ -78,7 +77,7 @@ const AdminReviews = () => {
                 message.error("Silme işlemi başarısız.");
             }
         } catch (error) {
-            console.log("Delete error", error);
+
         }
     };
 
@@ -98,7 +97,7 @@ const AdminReviews = () => {
         },
         {
             title: "Hedef",
-            dataIndex: "targetName", // Changed from targetType to targetName
+            dataIndex: "targetName",
             key: "targetName",
             render: (text, record) => (
                 <div style={{ display: "flex", flexDirection: "column" }}>

@@ -50,7 +50,6 @@ const UpdateCategoryPage = () => {
     const onFinish = async (values) => {
         setLoading(true);
         try {
-            // ✨ Rota düzeltildi: /api/categories yerine /category
             const response = await fetch(`${apiUrl}/category/${categoryId}`, {
                 method: "PUT",
                 headers: {
@@ -78,7 +77,6 @@ const UpdateCategoryPage = () => {
 
 
     return (
-        // ✨ MİMARİ UYUMU: Sayfanın tamamı Card içine alındı
         <Card title="Kategori Düzenle" style={{ maxWidth: 600, margin: '20px auto' }}>
             <Spin spinning={loading}>
                 <Form
@@ -88,7 +86,6 @@ const UpdateCategoryPage = () => {
                     autoComplete="off"
                     onFinish={onFinish}
                 >
-                    {/* Kategori Adı Alanı */}
                     <Form.Item
                         label="Kategori Adı"
                         name="name"
@@ -114,7 +111,6 @@ const UpdateCategoryPage = () => {
                         </Select>
                     </Form.Item>
 
-                    {/* Kategori Görseli (Link) Alanı */}
                     <Form.Item
                         label="Görsel URL'si"
                         name="img"
@@ -128,13 +124,11 @@ const UpdateCategoryPage = () => {
                         <Input placeholder="Görsel linki" />
                     </Form.Item>
 
-                    {/* Butonlar */}
                     <Form.Item>
                         <Space>
                             <Button type="primary" htmlType="submit">
                                 Güncelle
                             </Button>
-                            {/* İptal butonu eklendi, listeye döner */}
                             <Button onClick={() => navigate("/admin/categories")}>
                                 İptal
                             </Button>

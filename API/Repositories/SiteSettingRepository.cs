@@ -16,7 +16,6 @@ namespace API.Repositories
 
         public async Task<SiteSetting> GetAsync()
         {
-            // Always return the first document. If none exists, create one.
             var setting = await _settings.Find(_ => true).FirstOrDefaultAsync();
             if (setting == null)
             {
@@ -35,7 +34,7 @@ namespace API.Repositories
         public async Task UpdateAsync(SiteSetting updatedSetting)
         {
             var existing = await GetAsync();
-            updatedSetting.Id = existing.Id; // Ensure ID matches
+            updatedSetting.Id = existing.Id;
             await _settings.ReplaceOneAsync(x => x.Id == existing.Id, updatedSetting);
         }
     }

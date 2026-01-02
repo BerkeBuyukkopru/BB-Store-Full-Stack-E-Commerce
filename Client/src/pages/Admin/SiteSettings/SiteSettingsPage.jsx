@@ -35,7 +35,7 @@ const SiteSettingsPage = () => {
 
   useEffect(() => {
     fetchSettings();
-  }, [apiUrl, form]); // Added form to dependencies
+  }, [apiUrl, form]);
 
   const onFinish = async (values) => {
     setProcessing(true);

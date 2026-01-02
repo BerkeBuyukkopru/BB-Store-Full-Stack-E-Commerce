@@ -179,7 +179,7 @@ public class AuthController : ControllerBase
             // Update fields
             user.Name = updateDto.Name;
             user.Surname = updateDto.Surname;
-            user.Email = updateDto.Email; // Note: In real app, changing email should require verification
+            user.Email = updateDto.Email;
             user.UpdatedAt = DateTime.UtcNow;
 
             await _userRepository.UpdateAsync(userId, user);
@@ -205,13 +205,11 @@ public class AuthController : ControllerBase
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) return NotFound("Kullanıcı bulunamadı.");
 
-            // Verify current password
             if (!BCrypt.Net.BCrypt.Verify(passwordDto.CurrentPassword, user.Password))
             {
                 return BadRequest(new { error = "Mevcut şifre hatalı." });
             }
 
-            // Hash new password
             string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(passwordDto.NewPassword);
             user.Password = newHashedPassword;
             user.UpdatedAt = DateTime.UtcNow;

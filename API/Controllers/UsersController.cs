@@ -31,7 +31,6 @@ namespace API.Controllers
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) return NotFound("User not found.");
 
-            // Check existence by PId, Size, Color
             var existingItem = user.Favorites.FirstOrDefault(f => 
                 f.ProductId == item.ProductId && 
                 f.Size == item.Size && 
@@ -70,14 +69,13 @@ namespace API.Controllers
             var productIds = user.Favorites.Select(f => f.ProductId).Distinct().ToList();
             var products = await _productRepository.GetByIdsAsync(productIds);
 
-            // Merge product details with size/color info
             var favoriteList = user.Favorites.Select(fav => {
                 var product = products.FirstOrDefault(p => p.Id == fav.ProductId);
                 if (product == null) return null;
                 
                 return new 
                 {
-                    _id = product.Id, // Frontend expects _id or id
+                    _id = product.Id, 
                     id = product.Id,
                     name = product.Name,
                     img = product.Img,

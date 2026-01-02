@@ -21,7 +21,7 @@ const CargoPage = () => {
                 message.error("Veri getirme başarısız.");
             }
         } catch (error) {
-            console.log("Veri hatası:", error);
+
             message.error("Veri hatası.");
         } finally {
             setLoading(false);
@@ -41,7 +41,7 @@ const CargoPage = () => {
                 message.error("Silme başarısız.");
             }
         } catch (error) {
-            console.log("Silme hatası:", error);
+
         }
     };
 

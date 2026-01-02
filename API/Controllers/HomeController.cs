@@ -1,4 +1,3 @@
-// API/Controllers/HomeController.cs
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController] 

@@ -10,10 +10,12 @@ namespace API.Controllers
     public class BlogsController : ControllerBase
     {
         private readonly BlogRepository _blogRepository;
+        private readonly ReviewRepository _reviewRepository;
 
-        public BlogsController(BlogRepository blogRepository)
+        public BlogsController(BlogRepository blogRepository, ReviewRepository reviewRepository)
         {
             _blogRepository = blogRepository;
+            _reviewRepository = reviewRepository;
         }
 
         [HttpGet]
@@ -57,7 +59,7 @@ namespace API.Controllers
             if (existingBlog == null) return NotFound("Blog not found.");
 
             blog.Id = existingBlog.Id;
-            blog.CreatedAt = existingBlog.CreatedAt; // Keep original creation date
+            blog.CreatedAt = existingBlog.CreatedAt;
             blog.UpdatedAt = DateTime.UtcNow;
 
             await _blogRepository.UpdateAsync(id, blog);
@@ -77,6 +79,7 @@ namespace API.Controllers
             if (existingBlog == null) return NotFound("Blog not found.");
 
             await _blogRepository.DeleteAsync(id);
+            await _reviewRepository.DeleteByTargetIdAsync(id);
             return Ok("Blog deleted successfully.");
         }
     }

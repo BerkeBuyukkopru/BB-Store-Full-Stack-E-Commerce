@@ -1,29 +1,24 @@
-
-/* Column Widths for Cart Table */
 .cart-form table .product-thumbnail {
   width: 90px;
 }
 
 .cart-form table .product-name {
-  width: auto; /* Allow name to take available space */
+  width: auto; 
   min-width: 150px;
 }
 
 .cart-form table .product-color, 
 .cart-form table .product-size {
   width: 80px;
-  text-align: center; /* Center align these simple values */
+  text-align: center; 
 }
-/* Also center the data cells for consistency if desired, 
-   but CartTable.jsx headers are text-align: start by default in CSS.
-   Let's override specific headers if we want centering. */
 .cart-form table th.product-color,
 .cart-form table th.product-size {
     text-align: center;
 }
 
-.cart-form table td:nth-child(3), /* Color */
-.cart-form table td:nth-child(4)  /* Size */
+.cart-form table td:nth-child(3), 
+.cart-form table td:nth-child(4)  
 {
     text-align: center;
 }

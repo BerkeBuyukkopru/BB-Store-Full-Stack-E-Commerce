@@ -1,11 +1,11 @@
 .blog-item {
-  height: 500px; /* Fixed height for uniformity */
+  height: 500px; 
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  border-radius: 8px; /* Consistent radius */
+  border-radius: 8px; 
   overflow: hidden;
-  border: 1px solid #000; /* Thin black border */
+  border: 1px solid #000; 
 }
 
 .blog-item .blog-image {
@@ -20,7 +20,7 @@
   height: 100%;
   object-fit: cover; /* Resmi orantılı sığdır */
   transition: transform 0.3s ease;
-  padding: 10px; /* Padding inside the image container */
+  padding: 10px; 
 }
 
 .blog-item:hover .blog-image img {
@@ -33,7 +33,7 @@
   flex-direction: column;
   align-items: center;
   box-shadow: 0 5px 15px rgb(0 0 0 / 8%);
-  flex: 1; /* Automatically fill remaining height */
+  flex: 1; 
   background-color: #fff;
 }
 
@@ -44,9 +44,9 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; /* Center vertically if 1 line */
+  align-items: center; 
   gap: 10px;
-  min-height: 40px; /* Force 2-line height to align titles */
+  min-height: 40px; 
   text-align: center;
 }
 
@@ -62,7 +62,7 @@
   color: #333;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Başlığı 2 satırla sınırla */
-  line-clamp: 2; /* Standard property */
+  line-clamp: 2; 
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -76,7 +76,7 @@
   text-align: center;
   display: -webkit-box;
   -webkit-line-clamp: 3; /* Özeti 3 satırla sınırla */
-  line-clamp: 3; /* Standard property */
+  line-clamp: 3; 
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

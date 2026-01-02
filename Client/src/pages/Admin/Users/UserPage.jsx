@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Table, message } from "antd"; // Popconfirm ve Button eklendi
+import { Button, Popconfirm, Table, message } from "antd";
 import { useCallback, useEffect, useState } from "react";
 
 const AdminUserPage = () => {
@@ -52,7 +52,6 @@ const AdminUserPage = () => {
         message.success("Kullanıcı başarıyla silindi.");
         fetchUsers();
       } else if (response.status === 400 || response.status === 404) {
-        // ✨ KRİTİK: 400 (BadRequest) veya 404 hatalarından JSON mesajını oku
         const errorData = await response.json();
         message.error(
           errorData.message ||

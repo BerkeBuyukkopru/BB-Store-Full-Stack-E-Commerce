@@ -56,7 +56,7 @@ const UserReviews = () => {
                 setReviews(data);
             }
         } catch (error) {
-            console.log("Fetch reviews error", error);
+
         } finally {
             setLoading(false);
         }
@@ -84,7 +84,7 @@ const UserReviews = () => {
                 message.error("Silme işlemi başarısız.");
             }
         } catch (error) {
-            console.log("Delete error", error);
+
         }
     };
 

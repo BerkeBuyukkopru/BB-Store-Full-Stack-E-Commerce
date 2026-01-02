@@ -30,7 +30,7 @@ const Search = ({ isSearchShow, setIsSearchShow }) => {
       const data = await res.json();
       setSearchResults(data);
     } catch (error) {
-      console.log("Arama hatası:", error);
+
     }
   };
 

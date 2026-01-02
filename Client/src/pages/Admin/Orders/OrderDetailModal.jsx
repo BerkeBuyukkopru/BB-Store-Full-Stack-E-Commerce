@@ -86,8 +86,6 @@ const OrderDetailModal = ({ open, onCancel, order }) => {
     >
       <div style={{ maxHeight: "70vh", overflowY: "auto", paddingRight: "5px" }}>
         
-        {/* Üst Bilgi Kartı */}
-        {/* Üst Bilgi Kartı */}
         <Card variant="borderless" style={{ background: "#f9f9f9", marginBottom: 20 }}>
           <Descriptions title="Genel Bilgiler" bordered size="small" column={{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }}>
             <Descriptions.Item label="Sipariş Numarası">{orderNumber}</Descriptions.Item>

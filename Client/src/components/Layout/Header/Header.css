@@ -1,11 +1,10 @@
-/*HEADER */
 header {
   border-bottom: 1px solid whitesmoke;
   position: sticky;
   width: 100%;
   top: 0;
   background: white;
-  z-index: 999; /* Ensure Header is always on top */
+  z-index: 999;
 }
 .global-notification {
   background-color: black;
@@ -49,7 +48,7 @@ header {
     align-items: center;
 }
 .header-left .logo img {
-    max-height: 80px; /* Header row is 90px, this leaves margin */
+    max-height: 80px; 
     max-width: 150px;
     object-fit: contain;
 }

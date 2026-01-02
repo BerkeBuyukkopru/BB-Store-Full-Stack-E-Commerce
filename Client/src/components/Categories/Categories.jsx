@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import CategoryItem from "./CategoryItem";
-import "./Categories.css"; // We keep this but will modify it or override styles
+import "./Categories.css"; 
 import { message, Carousel, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
@@ -21,15 +21,12 @@ const Categories = () => {
           message.error("Kategoriler yüklenirken bir hata oluştu.");
         }
       } catch (error) {
-        console.log("Veri hatası:", error);
+
       }
     };
     fetchCategories();
   }, [apiUrl]);
 
-  const onChange = (currentSlide) => {
-    // console.log(currentSlide);
-  };
 
   const responsiveSettings = [
     {
@@ -62,7 +59,6 @@ const Categories = () => {
           <h2>Kategoriler</h2>
         </div>
         
-        {/* Custom Navigation Buttons */}
         <Button 
             shape="circle" 
             icon={<LeftOutlined />} 
@@ -76,7 +72,7 @@ const Categories = () => {
             slidesToShow={4}
             slidesToScroll={1}
             autoplay
-            autoplaySpeed={10000} // 10 seconds
+            autoplaySpeed={10000} 
             infinite
             draggable
             dots={false}
@@ -85,7 +81,7 @@ const Categories = () => {
         >
           {categories.map((category) => (
             <div key={category._id || category.id} className="carousel-item-wrapper">
-                {/* Wrapper div essential because Antd Carousel injects styles on immediate children */}
+
                 <div style={{ padding: "0 10px" }}> 
                     <CategoryItem category={category} />
                 </div>

@@ -28,7 +28,7 @@ function NextBtn({ onClick }) {
 }
 
 const Gallery = ({ singleProduct }) => {
-  // ✨ İlk görseli başlangıç değeri yapıyoruz
+  // İlk görseli başlangıç değeri yapıyoruz
   const [activeImg, setActiveImg] = useState({
     img: singleProduct.img[0],
     imgIndex: 0,
@@ -54,7 +54,7 @@ const Gallery = ({ singleProduct }) => {
   return (
     <div className="product-gallery">
       <div className="single-image-wrapper">
-        {/* ✨ Aktif resmi göster */}
+        {/* Aktif resmi göster */}
         <img src={`${activeImg.img}`} id="single-image" alt="" />
       </div>
       <div className="product-thumb">

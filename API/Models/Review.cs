@@ -13,15 +13,15 @@ namespace API.Models
         public string UserId { get; set; } = string.Empty;
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public string TargetId { get; set; } = string.Empty; // ProductId or BlogId
+        public string TargetId { get; set; } = string.Empty;
 
-        public string TargetType { get; set; } = "Product"; // "Product" or "Blog"
+        public string TargetType { get; set; } = "Product"; 
 
         public string Comment { get; set; } = string.Empty;
 
-        public int Rating { get; set; } // 1-5 Stars (0 for Blog)
+        public int Rating { get; set; } 
 
-        public bool IsApproved { get; set; } = true; // For potential moderation
+        public bool IsApproved { get; set; } = true; 
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

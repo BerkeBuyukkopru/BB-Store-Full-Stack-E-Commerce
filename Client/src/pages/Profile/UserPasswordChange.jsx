@@ -30,7 +30,7 @@ const UserPasswordChange = () => {
                 message.error(errorData.error || "Şifre değiştirilemedi.");
             }
         } catch (error) {
-            console.log("Password change error", error);
+
             message.error("Bir hata oluştu.");
         } finally {
             setLoading(false);

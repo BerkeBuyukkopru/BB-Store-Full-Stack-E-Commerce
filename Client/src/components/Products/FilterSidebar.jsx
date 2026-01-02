@@ -15,7 +15,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
     sizes: [],
   });
   
-  // Selected Filters
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedGenders, setSelectedGenders] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
@@ -24,7 +23,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // Sync state when sidebar opens or initialFilters change
   useEffect(() => {
       if (visible && initialFilters) {
           if (initialFilters.categories) setSelectedCategories(initialFilters.categories);
@@ -35,7 +33,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
           if (initialFilters.minPrice !== undefined && initialFilters.maxPrice !== undefined) {
              setPriceRange([Number(initialFilters.minPrice), Number(initialFilters.maxPrice)]);
           } else if (options.minPrice !== undefined && options.maxPrice !== undefined) {
-             // If no filter price, reset to defaults from API options
              setPriceRange([options.minPrice, options.maxPrice]);
           }
       }
@@ -48,9 +45,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
             if (response.ok) {
                 const data = await response.json();
                 setOptions(data);
-                // Set initial price range only if we haven't set it from URL yet (or if URL was empty)
-                // But actually, the sync effect above handles priority over URL.
-                // We just need to make sure options are loaded.
                 
                  if (data.minPrice !== undefined && data.maxPrice !== undefined && (!initialFilters || !initialFilters.minPrice)) {
                     setPriceRange([data.minPrice, data.maxPrice]);
@@ -63,7 +57,7 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
         }
     };
 
-    if (visible && options.categories.length === 0) { // Fetch only once
+    if (visible && options.categories.length === 0) {
         fetchOptions();
     }
   }, [visible, apiUrl]);
@@ -117,7 +111,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
       ) : (
           <div className="filter-groups">
               
-              {/* Genders */}
                <div className="filter-group">
                   <Title level={5}>Cinsiyet</Title>
                   <Checkbox.Group 
@@ -128,7 +121,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
                   />
               </div>
 
-              {/* Price */}
               <div className="filter-group">
                   <Title level={5}>Fiyat Aralığı</Title>
                   <Slider 
@@ -158,7 +150,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
                   </div>
               </div>
 
-               {/* Colors */}
                <div className="filter-group">
                   <Title level={5}>Renk</Title>
                    <Checkbox.Group 
@@ -169,7 +160,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
                   />
               </div>
 
-               {/* Sizes */}
                <div className="filter-group">
                   <Title level={5}>Beden</Title>
                    <Checkbox.Group 
@@ -179,18 +169,6 @@ const FilterSidebar = ({ visible, onClose, onFilterApply, initialFilters }) => {
                         className="vertical-checkbox-group"
                   />
               </div>
-
-               {/* Categories - Maybe optional if we are already in a category? */}
-                {/* 
-              <div className="filter-group">
-                  <Title level={5}>Kategori</Title>
-                   <Checkbox.Group 
-                        options={options.categories.map(c => ({ label: c, value: c }))} // Ideally map IDs to Names
-                        value={selectedCategories} 
-                        onChange={setSelectedCategories} 
-                  />
-              </div>
-              */}
 
           </div>
       )}

@@ -31,6 +31,11 @@ namespace API.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return Unauthorized();
 
+            if (createReviewDto.TargetType == "Product" && await _reviewRepository.HasUserReviewedAsync(userId, createReviewDto.TargetId))
+            {
+                return BadRequest(new { error = "Bu ürüne zaten bir değerlendirme yaptınız." });
+            }
+
             var review = new Review
             {
                 UserId = userId,
@@ -43,7 +48,6 @@ namespace API.Controllers
 
             await _reviewRepository.CreateAsync(review);
 
-            // Update Product Rating logic if it's a product
             if (createReviewDto.TargetType == "Product")
             {
                await UpdateProductRating(createReviewDto.TargetId);
@@ -76,8 +80,6 @@ namespace API.Controllers
             if (userId == null) return Unauthorized();
 
             var reviews = await _reviewRepository.GetByUserIdAsync(userId);
-             // We might want to enrich this with Product Name / Blog Title in future, but for now basic info
-             // Updated to full enrichment for consistency
             var response = await MapToDto(reviews);
             return Ok(response);
         }
@@ -117,7 +119,6 @@ namespace API.Controllers
             return Ok(new { message = "Yorum silindi." });
         }
 
-        // Helper to recalculate and update product rating
         private async Task UpdateProductRating(string productId)
         {
             var reviews = await _reviewRepository.GetByTargetIdAsync(productId);
@@ -133,7 +134,6 @@ namespace API.Controllers
             }
         }
 
-        // Helper to map Review to DTO with User info
         private async Task<List<ReviewResponseDto>> MapToDto(List<Review> reviews)
         {
             var dtos = new List<ReviewResponseDto>();
@@ -159,7 +159,7 @@ namespace API.Controllers
                     var blog = await _blogRepository.GetByIdAsync(r.TargetId);
                      if (blog != null)
                     {
-                        targetName = blog.Title; // Removing HTML tags later in frontend might be safer, but title should be clean
+                        targetName = blog.Title;
                         targetImage = blog.ImageUrl;
                     }
                 }

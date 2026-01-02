@@ -20,7 +20,7 @@ const BlogListPage = () => {
         message.error("Bloglar getirilirken hata oluştu.");
       }
     } catch (error) {
-      console.log("Veri hatası:", error);
+
     } finally {
       setLoading(false);
     }
@@ -39,7 +39,7 @@ const BlogListPage = () => {
         message.error("Silme işlemi başarısız.");
       }
     } catch (error) {
-      console.log("Silme hatası:", error);
+
     }
   };
 

@@ -4,12 +4,11 @@ import { CartContext } from "../../context/CartContext";
 
 const CartCoupon = () => {
   const [couponCode, setCouponCode] = useState("");
-  // ✨ Context'ten kupon bilgilerini alıyoruz
+
   const { cartItems, setCartItems, appliedCoupon, setAppliedCoupon } = useContext(CartContext);
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const applyCoupon = async () => {
-    // 🔒 ENGELLEME: Eğer zaten bir kupon uygulanmışsa işlemi durdur
     if (appliedCoupon) {
       return message.warning("Bu alışverişte zaten bir kupon kullandınız!");
     }
@@ -28,11 +27,11 @@ const CartCoupon = () => {
       const data = await res.json();
       const discountPercent = data.discountPercent;
 
-      setAppliedCoupon(data); // ✨ Kupon nesnesini kaydederek sistemi kilitliyoruz
+      setAppliedCoupon(data); 
       message.success(`${couponCode} kuponu ile %${discountPercent} indirim uygulandı.`);
       setCouponCode("");
     } catch (error) {
-      console.log("Kupon hatası:", error);
+
       message.error("Kupon uygulanırken bir hata oluştu.");
     }
   };
@@ -46,13 +45,13 @@ const CartCoupon = () => {
           placeholder={appliedCoupon ? "Kupon uygulandı" : "Kupon Kodu"}
           onChange={(e) => setCouponCode(e.target.value)}
           value={couponCode}
-          disabled={!!appliedCoupon} // ✨ Kupon varsa girişi kapat
+          disabled={!!appliedCoupon} 
         />
         <button 
            className="btn" 
            type="button" 
            onClick={applyCoupon}
-           disabled={!!appliedCoupon} // ✨ Kupon varsa butonu kapat
+           disabled={!!appliedCoupon} 
         >
           {appliedCoupon ? "Uygulandı" : "Kupon Uygula"}
         </button>

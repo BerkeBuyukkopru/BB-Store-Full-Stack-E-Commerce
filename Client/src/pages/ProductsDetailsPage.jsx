@@ -18,7 +18,7 @@ const ProductDetailsPage = () => {
       const data = await response.json();
       setSingleProduct(data);
     } catch (error) {
-      console.log("Veri hatası:", error);
+
     }
   }, [apiUrl, productId]);
 

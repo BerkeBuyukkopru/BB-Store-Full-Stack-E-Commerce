@@ -28,9 +28,6 @@ namespace API.Repositories
 
         public async Task<List<Product>> GetAllAsync(ProductFilterParams filterParams)
         {
-            // --- Aggregation Pipeline for Filtering with Calculated Price ---
-            
-            // 1. Basic Filters (Category, Gender, Colors, Sizes) - Same as before
             var builder = Builders<Product>.Filter;
             var filter = builder.Empty;
 
@@ -39,10 +36,8 @@ namespace API.Repositories
 
             if (filterParams.Genders != null && filterParams.Genders.Any())
             {
-                // Create a mutable list from the input filters
                 var targetGenders = new HashSet<string>(filterParams.Genders);
 
-                // If "Man" or "Woman" is selected, "Unisex" products should also be displayed
                 if (targetGenders.Contains("Man") || targetGenders.Contains("Woman"))
                 {
                     targetGenders.Add("Unisex");
@@ -61,14 +56,8 @@ namespace API.Repositories
                 filter &= builder.ElemMatch(p => p.Sizes, sizeFilter);
             }
 
-            // Start Aggregation
-            // Note: We cannot use standard 'builder' for FinalPrice filtering yet because it doesn't exist in the document.
-            // We match basic filters first to reduce working set.
             var initialAggregate = _products.Aggregate().Match(filter);
 
-            // 2. Add 'FinalPrice' Field
-            // Logic: if Discount > 0 => Current - (Current * Discount / 100) else Current
-            // We use BsonDocument projection for flexibility
             var addFieldsStage = new BsonDocument("$addFields", new BsonDocument
             {
                 { "FinalPrice", new BsonDocument
@@ -92,10 +81,8 @@ namespace API.Repositories
                 }
             });
             
-            // Change pipeline type to BsonDocument
             var aggregateWithPrice = initialAggregate.AppendStage<BsonDocument>(addFieldsStage);
 
-            // 3. Price Filtering (on FinalPrice)
             if (filterParams.MinPrice.HasValue)
             {
                 aggregateWithPrice = aggregateWithPrice.Match(new BsonDocument("FinalPrice", new BsonDocument("$gte", filterParams.MinPrice.Value)));
@@ -105,8 +92,6 @@ namespace API.Repositories
                 aggregateWithPrice = aggregateWithPrice.Match(new BsonDocument("FinalPrice", new BsonDocument("$lte", filterParams.MaxPrice.Value)));
             }
             
-            // 4. Sorting
-            // Re-map string SortBy to BsonDocument sort definition
             BsonDocument sortDef;
             switch (filterParams.SortBy)
             {
@@ -134,26 +119,15 @@ namespace API.Repositories
             }
             aggregateWithPrice = aggregateWithPrice.Sort(sortDef);
 
-            // 5. Final Projection & Materialization
-            // The aggregation returns BsonDocuments (with added FinalPrice). 
-            // We need to map back to 'Product' objects. BsonSerializer.Deserialize or simple As<Product>.
-            // Since 'FinalPrice' is extra, ignoring extra elements in model is key (already done with [BsonIgnoreExtraElements]).
-            
             return await aggregateWithPrice.As<Product>().ToListAsync();
         }
 
-        // --- Aggregation for Dynamic Filter Options ---
         public async Task<Dictionary<string, object>> GetFilterOptionsAsync()
         {
-            // 1. Get All Categories (Distinct) - Actually Categories are IDs, maybe we need counts?
-            // Let's just return distinct values present in Products.
             var categories = await _products.Distinct(p => p.Category, Builders<Product>.Filter.Empty).ToListAsync();
 
-            // 2. Get All Genders
             var genders = await _products.Distinct(p => p.Gender, Builders<Product>.Filter.Empty).ToListAsync();
 
-            // 3. Get Min/Max Price
-            // 3. Get Min/Max Price (Calculated based on FinalPrice)
             var priceStats = await _products.Aggregate()
                 .Project(p => new 
                 { 
@@ -168,19 +142,17 @@ namespace API.Repositories
                 })
                 .FirstOrDefaultAsync();
 
-            // 4. Get All Colors (Unwind colors array then distinct)
             var colors = await _products.Aggregate()
                 .Unwind(p => p.Colors)
                 .Group(new BsonDocument { { "_id", "$Colors" } })
                 .ToListAsync();
             var colorList = colors.Select(c => c["_id"].AsString).OrderBy(c=>c).ToList();
 
-            // 5. Get All Sizes (Unwind sizes array then distinct)
             var sizes = await _products.Aggregate()
                 .Unwind(p => p.Sizes)
                 .Group(new BsonDocument { { "_id", "$Sizes.Size" } })
                 .ToListAsync();
-             var sizeList = sizes.Select(s => s["_id"].AsString).OrderBy(s => s).ToList(); // Custom sort might be needed for sizes (S, M, L..)
+             var sizeList = sizes.Select(s => s["_id"].AsString).OrderBy(s => s).ToList();
 
              return new Dictionary<string, object>
              {
@@ -227,10 +199,8 @@ namespace API.Repositories
         }
 
 
-        // --- Migration Helper ---
         public async Task MigrateLegacySizesAsync()
         {
-            // 1. Fetch all documents as raw BsonDocuments to avoid deserialization error
             var rawProducts = await _products.Database.GetCollection<BsonDocument>("products").Find(new BsonDocument()).ToListAsync();
 
             foreach (var doc in rawProducts)
@@ -239,30 +209,25 @@ namespace API.Repositories
                 {
                     var sizesArray = doc["Sizes"].AsBsonArray;
                     
-                    // Check if the array contains Strings (Legacy format)
                     if (sizesArray.Count > 0 && sizesArray[0].IsString)
                     {
                         var newSizesList = new BsonArray();
                         foreach (var size in sizesArray) 
                         {
-                            // Convert string size to object with default stock
                             var sizeObj = new BsonDocument
                             {
                                 { "Size", size.AsString },
-                                { "Stock", 5 } // Default stock for migrated items
+                                { "Stock", 5 }
                             };
                             newSizesList.Add(sizeObj);
                         }
 
-                        // Calculate TotalStock
                         var totalStock = newSizesList.Count * 5;
 
-                        // Create update definition
                         var updates = Builders<BsonDocument>.Update
                             .Set("Sizes", newSizesList)
                             .Set("TotalStock", totalStock);
 
-                        // Update the document
                          await _products.Database.GetCollection<BsonDocument>("products").UpdateOneAsync(
                             new BsonDocument("_id", doc["_id"]),
                             updates
@@ -275,7 +240,6 @@ namespace API.Repositories
         {
             foreach (var item in basketItems)
             {
-                // Skip if item is "Cargo" or not a valid ObjectId (to prevent crash)
                 if (item.Id == "Cargo" || !ObjectId.TryParse(item.Id, out _)) 
                 {
                     continue;
@@ -288,15 +252,19 @@ namespace API.Repositories
                     if (sizeToUpdate != null)
                     {
                         sizeToUpdate.Stock -= item.Quantity;
-                        if (sizeToUpdate.Stock < 0) sizeToUpdate.Stock = 0; // Prevent negative stock
+                        if (sizeToUpdate.Stock < 0) sizeToUpdate.Stock = 0;
                     }
                     
-                    // Recalculate TotalStock
                     product.TotalStock = product.Sizes.Sum(s => s.Stock);
 
                     await UpdateAsync(product.Id!, product);
                 }
             }
+        }
+
+        public async Task<long> GetCountByCategoryIdAsync(string categoryId)
+        {
+            return await _products.CountDocumentsAsync(p => p.Category == categoryId);
         }
 
         public async Task UpdateRatingAsync(string productId, double averageRating, int reviewCount)

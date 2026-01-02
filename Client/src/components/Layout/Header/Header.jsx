@@ -10,7 +10,7 @@ import { message, Popconfirm } from "antd";
 
 const Header = ({ setIsSearchShow }) => {
   const { cartItems } = useContext(CartContext);
-  const { favorites } = useContext(FavoritesContext); // FavoritesContext
+  const { favorites } = useContext(FavoritesContext); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { pathname } = useLocation();
@@ -168,7 +168,7 @@ const Header = ({ setIsSearchShow }) => {
                     description="Çıkış yapmak istediğinize emin misiniz?"
                     onConfirm={() => {
                         logout();
-                        message.success("Başarıyla çıkış yapıldı."); // Optional: Add feedback
+                        message.success("Başarıyla çıkış yapıldı."); 
                     }}
                     okText="Evet"
                     cancelText="Hayır"

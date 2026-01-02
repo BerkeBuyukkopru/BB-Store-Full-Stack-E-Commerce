@@ -41,7 +41,6 @@ namespace API.Controllers
                 return BadRequest("Adres başlığı ve Şehir zorunludur.");
             }
 
-            // Ensure ID is set (though model defaults it)
             if (address.Id == Guid.Empty) address.Id = Guid.NewGuid();
 
             await _userRepository.AddAddressAsync(userId, address);

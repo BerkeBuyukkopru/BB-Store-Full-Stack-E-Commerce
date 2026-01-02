@@ -1,5 +1,3 @@
-// API/Dtos/UserDto.cs
-
 using API.Models; // UserRole enum'ı için
 
 namespace API.Dtos

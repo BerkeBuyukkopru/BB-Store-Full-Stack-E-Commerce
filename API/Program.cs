@@ -113,15 +113,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// app.UseHttpsRedirection();
-
-// **********************************************
-// YENİ EKLENEN KISIM: CORS MIDDLEWARE'i
-// CORS, UseAuthentication'dan ÖNCE GELMELİDİR.
-// **********************************************
 app.UseCors("CorsPolicy"); 
 
-// YENİ: JWT Kimlik Doğrulama (Authentication) middleware'ini ekliyoruz.
+// JWT Kimlik Doğrulama (Authentication) middleware'ini ekliyoruz.
 // Authorization'dan ÖNCE GELMELİDİR.
 app.UseAuthentication(); 
 
@@ -130,11 +124,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// --- MIGRATION: Fix Legacy Data ---
 using (var scope = app.Services.CreateScope())
 {
     var productRepo = scope.ServiceProvider.GetRequiredService<ProductRepository>();
-    // Call the migration - this is safe to run on every startup as it checks for String type
     productRepo.MigrateLegacySizesAsync().GetAwaiter().GetResult();
 }
 

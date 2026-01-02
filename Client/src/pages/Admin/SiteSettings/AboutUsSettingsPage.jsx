@@ -39,7 +39,6 @@ const AboutUsSettingsPage = () => {
   const onFinish = async (values) => {
     setProcessing(true);
     try {
-      // Merge existing settings with new values
       const updatedSettings = {
         ...allSettings,
         aboutUsPageContent: values.aboutUsPageContent,
@@ -55,7 +54,7 @@ const AboutUsSettingsPage = () => {
 
       if (response.ok) {
         message.success("Hakkımızda sayfası güncellendi.");
-        refreshSiteSettings(); // Refresh global context
+        refreshSiteSettings();
         navigate("/admin");
       } else {
         message.error("Güncelleme başarısız.");

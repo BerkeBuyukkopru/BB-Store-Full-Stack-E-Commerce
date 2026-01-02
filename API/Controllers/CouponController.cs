@@ -42,7 +42,6 @@ public class CouponController : ControllerBase
 
             await _couponRepository.CreateAsync(newCoupon);
 
-            // 201 Created yanıtı döndürülür
             return CreatedAtAction(nameof(Create), new { id = newCoupon.Id }, newCoupon);
         }
         catch (Exception ex)

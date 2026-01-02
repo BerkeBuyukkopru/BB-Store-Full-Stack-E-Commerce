@@ -20,7 +20,7 @@ const Blogs = ({ isHome }) => {
           message.error("Bloglar getirilirken bir hata oluştu.");
         }
       } catch (error) {
-        console.log("Veri hatası:", error);
+
       }
     };
     fetchBlogs();
@@ -45,7 +45,6 @@ const Blogs = ({ isHome }) => {
         </div>
         
         {isHome ? (
-           /* Carousel Layout (Homepage) */
            <>
             <Button 
                 shape="circle" 
@@ -85,7 +84,6 @@ const Blogs = ({ isHome }) => {
             />
            </>
         ) : (
-           /* Grid Layout (Blog Page) */
            <ul className="blog-list" style={{ marginTop: "30px" }}>
               {blogs.map((blog) => (
                 <BlogItem key={blog.id} blog={blog} />

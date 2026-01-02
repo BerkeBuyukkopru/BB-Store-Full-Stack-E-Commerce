@@ -12,14 +12,11 @@ const Products = ({ isHome }) => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // State
   const [loading, setLoading] = useState(true);
   const [filterVisible, setFilterVisible] = useState(false);
 
-  // Derive state from URL
   const sortOption = searchParams.get("sort") || "newest";
   
-  // Parse filters from URL
   const filters = {
       categories: searchParams.getAll("categories"),
       genders: searchParams.getAll("genders"),
@@ -29,11 +26,9 @@ const Products = ({ isHome }) => {
       sizes: searchParams.getAll("sizes")
   };
 
-  // Special handling for legacy/direct link params
   const genderParam = searchParams.get("gender");
   const categoryParam = searchParams.get("categoryId");
 
-  // Merge direct params into filters if not present
   if (genderParam && !filters.genders.includes(genderParam)) filters.genders.push(genderParam);
   if (categoryParam && !filters.categories.includes(categoryParam)) filters.categories.push(categoryParam);
 
@@ -64,7 +59,6 @@ const Products = ({ isHome }) => {
         if (filters.minPrice !== undefined) params.append("MinPrice", filters.minPrice);
         if (filters.maxPrice !== undefined) params.append("MaxPrice", filters.maxPrice);
 
-        // Sort
         params.append("SortBy", sortOption);
 
 
@@ -77,7 +71,7 @@ const Products = ({ isHome }) => {
         if (response.ok) {
           const data = await response.json();
           if (isHome) {
-              const newestProducts = [...data].slice(0, 4); // Backend zaten newest dönebilir veya burada da kesebiliriz.
+              const newestProducts = [...data].slice(0, 4); 
               setProducts(newestProducts);
           } else {
               setProducts(data);
@@ -86,17 +80,13 @@ const Products = ({ isHome }) => {
           message.error("Ürünler getirilemedi.");
         }
       } catch (error) {
-        console.log("Veri hatası:", error);
+
       } finally {
         setLoading(false);
       }
     };
     
-    // isHome durumunda filtreleri yoksayabiliriz veya sadece sort'u kullanabiliriz.
-    // Anasayfada genelde filtre olmaz, sadece "En Yeniler" gelir.
     if (isHome) {
-        // Fetch logic for home (maybe existing simple logic is better to avoid sidebar overhead?)
-        // Let's keep using the new endpoint but with minimal params.
         const fetchHome = async () => {
              const response = await fetch(`${apiUrl}/product?SortBy=newest`);
              if (response.ok) {
@@ -109,13 +99,9 @@ const Products = ({ isHome }) => {
         fetchProducts();
     }
     
-  // Dependencies: Re-run when URL params change
-  // We use JSON.stringify for complex objects like filters to trigger effect only when deep values change
   }, [apiUrl, sortOption, isHome, JSON.stringify(filters)]);
 
   const handleFilterApply = (newFilters) => {
-      // Create new params object from current state to preserve other params if needed, 
-      // but usually filtering replaces the view context.
       const params = new URLSearchParams();
 
       if (newFilters.categories) newFilters.categories.forEach(c => params.append("categories", c));
@@ -126,15 +112,12 @@ const Products = ({ isHome }) => {
       if (newFilters.minPrice !== undefined) params.set("minPrice", newFilters.minPrice);
       if (newFilters.maxPrice !== undefined) params.set("maxPrice", newFilters.maxPrice);
       
-      // Preserve Sort
       params.set("sort", sortOption);
 
       setSearchParams(params);
   };
 
   const handleSortChange = (value) => {
-      // Preserve current filters, update sort
-      // We can directly clone current searchParams
       const params = new URLSearchParams(searchParams);
       params.set("sort", value);
       setSearchParams(params);

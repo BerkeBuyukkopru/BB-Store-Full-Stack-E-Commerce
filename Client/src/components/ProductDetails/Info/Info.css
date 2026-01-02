@@ -63,13 +63,11 @@
     margin-bottom: 10px;
   }
   
-  /* Make color wrapper look like size button */
   .site-main .colors .color-wrapper {
     padding: 8px 40px;
     border: 1px solid darkgray;
     font-size: 14px;
     cursor: pointer;
-    /* flex: 1; Removed to prevent full width stretch */
     text-align: center;
     transition: 0.2s ease all;
     display: flex;
@@ -90,7 +88,6 @@
   }
 
   .site-main .colors .color-wrapper span {
-      /* Reset any span styles if present */
       font-weight: inherit;
   }
   

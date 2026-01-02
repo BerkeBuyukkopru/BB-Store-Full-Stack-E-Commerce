@@ -9,7 +9,7 @@ namespace API.Dtos
         public List<BasketItemDto> BasketItems { get; set; } = new();
         public decimal TotalPrice { get; set; }
         
-        // Card Details
+        // Card Detay
         public string CardHolderName { get; set; } = string.Empty;
         public string CardNumber { get; set; } = string.Empty;
         public string ExpireMonth { get; set; } = string.Empty;

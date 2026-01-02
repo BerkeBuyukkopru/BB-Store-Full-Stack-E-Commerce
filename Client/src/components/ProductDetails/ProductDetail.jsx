@@ -12,7 +12,7 @@ const ProductDetail = ({ singleProduct, onReviewAdded }) => {
 
           <div className="single-content">
             <main className="site-main">
-              {/* ✨ Veriyi Gallery'ye gönderiyoruz */}
+              {/* Veriyi Gallery'ye gönderiyoruz */}
               <Gallery singleProduct={singleProduct} />
               <Info singleProduct={singleProduct} />
             </main>

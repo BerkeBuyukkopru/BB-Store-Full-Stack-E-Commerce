@@ -7,7 +7,7 @@ namespace API.Dtos
         [Required]
         public string TargetId { get; set; } = string.Empty;
 
-        public string TargetType { get; set; } = "Product"; // "Product" or "Blog"
+        public string TargetType { get; set; } = "Product"; 
 
         public string Comment { get; set; } = string.Empty;
 
@@ -18,12 +18,12 @@ namespace API.Dtos
     {
         public string Id { get; set; } = string.Empty;
         public string UserId { get; set; } = string.Empty;
-        public string UserName { get; set; } = string.Empty; // For display
-        public string UserImg { get; set; } = string.Empty; // For display
+        public string UserName { get; set; } = string.Empty; 
+        public string UserImg { get; set; } = string.Empty; 
         public string TargetId { get; set; } = string.Empty;
         public string TargetType { get; set; } = string.Empty;
-        public string TargetName { get; set; } = string.Empty; // Product Name or Blog Title
-        public string TargetImage { get; set; } = string.Empty; // Product Image or Blog Image
+        public string TargetName { get; set; } = string.Empty; 
+        public string TargetImage { get; set; } = string.Empty; 
 
         public string Comment { get; set; } = string.Empty;
         public int Rating { get; set; }

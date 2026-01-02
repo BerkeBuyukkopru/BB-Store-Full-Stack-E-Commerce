@@ -18,27 +18,25 @@
 /* Grid Layout */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns on large screens */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-/* Responsive Breakpoints */
-/* Responsive Breakpoints */
 @media (max-width: 1200px) {
   .product-grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns on laptops */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 992px) {
   .product-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .product-grid {
-    grid-template-columns: 1fr; /* 1 column on small tablets / large mobile */
+    grid-template-columns: 1fr;
     gap: 20px;
   }
 }
@@ -53,9 +51,6 @@
   }
 }
 
-/* Reverted color changes. Default Ant Design styles apply. */
-
-/* Keeping no-products-found functional style */
 .no-products-found {
     grid-column: 1 / -1;
     text-align: center;

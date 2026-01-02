@@ -1,4 +1,3 @@
-// API/Dtos/CategoryDto.cs
 using System.ComponentModel.DataAnnotations;
 namespace API.Dtos
 {

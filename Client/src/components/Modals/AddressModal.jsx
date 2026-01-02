@@ -7,7 +7,7 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isAddingNew, setIsAddingNew] = useState(false);
-  const [editingAddress, setEditingAddress] = useState(null); // New state for editing
+  const [editingAddress, setEditingAddress] = useState(null); 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const fetchAddresses = async () => {
@@ -21,7 +21,7 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
         setAddresses(data);
       }
     } catch (error) {
-      console.log(error);
+
     } finally {
       setLoading(false);
     }
@@ -31,7 +31,7 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
     if (isModalOpen) {
       fetchAddresses();
       setIsAddingNew(false);
-      setEditingAddress(null); // Clear editing state when modal opens
+      setEditingAddress(null); 
     }
   }, [isModalOpen]);
 
@@ -48,7 +48,7 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
     setIsAddingNew(false);
-    setEditingAddress(null); // Clear editing state when modal is cancelled
+    setEditingAddress(null); 
   };
 
   const deleteAddress = async (id) => {
@@ -65,13 +65,13 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
               message.error("Silinemedi.");
           }
       } catch (error) {
-          console.log(error);
+
       }
   }
 
   const handleEditAddress = (addr) => {
     setEditingAddress(addr);
-    setIsAddingNew(true); // Use isAddingNew to show the form, but it's for editing
+    setIsAddingNew(true); 
   };
 
   const handleAddressFormSuccess = () => {
@@ -105,7 +105,7 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
         <AddressForm
             onSuccess={handleAddressFormSuccess}
             onCancel={handleAddressFormCancel}
-            editingAddress={editingAddress} // Pass editingAddress to AddressForm
+            editingAddress={editingAddress} 
         />
       ) : (
         <div className="address-list-container">
@@ -137,7 +137,7 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
                                 </span>
                                 <Popconfirm title="Silmek istediğine emin misin?" onConfirm={() => deleteAddress(addr.id)} okText="Evet" cancelText="Hayır">
                                     <span
-                                        onClick={(e) => e.stopPropagation()} // Prevent radio selection when clicking delete
+                                        onClick={(e) => e.stopPropagation()} 
                                         style={{ color: 'darkred', fontWeight: 500, cursor: 'pointer' }}
                                     >
                                         Sil
@@ -155,7 +155,7 @@ const AddressModal = ({ isModalOpen, setIsModalOpen, setAddress }) => {
             style={{ width: '100%', marginTop: '15px', color: 'black', borderColor: 'black', backgroundColor: 'white' }}
             onClick={() => {
                 setIsAddingNew(true);
-                setEditingAddress(null); // Ensure no editing state when adding new
+                setEditingAddress(null); 
             }}
           >
             + Yeni Adres Ekle

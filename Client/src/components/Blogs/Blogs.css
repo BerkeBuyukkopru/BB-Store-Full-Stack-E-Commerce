@@ -1,4 +1,3 @@
-/*! blogs start  */
 .blogs {
     margin-bottom: 50px;
 }
@@ -7,7 +6,6 @@
     margin: 0 40px;
 }
 
-/* Reusing carousel button styles if not global, ensuring they are present here */
 .carousel-button {
     position: absolute;
     top: 55%; 
@@ -49,4 +47,3 @@
       grid-template-columns: 1fr;
     }
   }
-  /*! blogs end  */

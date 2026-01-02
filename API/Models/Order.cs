@@ -18,7 +18,7 @@ namespace API.Models
 
         public decimal TotalPrice { get; set; }
 
-        public string Status { get; set; } = "Pending"; // Pending, Success, Failed
+        public string Status { get; set; } = "Pending"; 
 
         public string PaymentId { get; set; } = string.Empty;
         public string ConversationId { get; set; } = string.Empty;

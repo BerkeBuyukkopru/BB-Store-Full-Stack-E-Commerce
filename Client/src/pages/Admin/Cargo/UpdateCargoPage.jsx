@@ -23,7 +23,7 @@ const UpdateCargoPage = () => {
                     message.error("Kargo bilgisi getirilemedi.");
                 }
             } catch (error) {
-                console.log("Veri hatası:", error);
+
             } finally {
                 setLoading(false);
             }
@@ -50,7 +50,7 @@ const UpdateCargoPage = () => {
                 message.error("Güncelleme başarısız.");
             }
         } catch (error) {
-            console.log("Güncelleme hatası:", error);
+
             message.error("Bir hata oluştu.");
         } finally {
             setLoading(false);

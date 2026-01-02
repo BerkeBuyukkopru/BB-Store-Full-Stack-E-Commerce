@@ -40,7 +40,7 @@ const Contact = () => {
         message.error("Mesaj gönderilirken bir hata oluştu.");
       }
     } catch (error) {
-      console.log("Mesaj gönderme hatası:", error);
+
       message.error("Bir sorun oluştu.");
     } finally {
       setLoading(false);

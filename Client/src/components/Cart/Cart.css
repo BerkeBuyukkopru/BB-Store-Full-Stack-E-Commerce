@@ -11,8 +11,6 @@
   flex-basis: 60%;
 }
 
-
-
 .cart-form table img {
   width: 60px;
 }
@@ -278,15 +276,12 @@
     color: white;
 }
 
-/* Base Breakpoints */
-
 @media (max-width: 992px) {
   .cart-page-wrapper {
     flex-direction: column;
     row-gap: 30px;
   }
   
-  /* Toggle Views */
   .desktop-cart-table {
       display: none;
   }
@@ -295,18 +290,12 @@
   }
 }
 
-/* Existing styles below */
-
-/* Column Widths and Alignment */
 .cart-form table th,
 .cart-form table td {
   text-align: center !important;
   vertical-align: middle !important;
 }
 
-/* Specific overrides if needed, but important should handle it. 
-   If Product Name needs to be left aligned, remove !important there.
-   For now, strictly following user request to center ALL. */
 
 .cart-form table .product-thumbnail {
   width: 90px;
@@ -331,8 +320,6 @@
   width: 150px;
 }
 
-/* Empty Cart State */
-/* Empty Cart State */
 .cart-page .empty-cart-message h2 {
   min-height: 50vh;
   display: flex;

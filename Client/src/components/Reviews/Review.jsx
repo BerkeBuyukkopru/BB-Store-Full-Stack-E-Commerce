@@ -20,7 +20,7 @@ const Review = ({ active, singleProduct, type = "product", onReviewAdded }) => {
         setReviews(data);
       }
     } catch (error) {
-      console.log("Reviews fetch error:", error);
+
     }
   };
 

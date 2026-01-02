@@ -43,7 +43,7 @@ namespace API.Controllers
                 BasketId = basketId,
                 Status = "Pending",
                 Address = paymentRequest.Address,
-                CargoFee = paymentRequest.CargoFee, // Save CargoFee separately
+                CargoFee = paymentRequest.CargoFee,
                 CargoCompanyName = paymentRequest.CargoCompanyName
             };
             await _orderRepository.CreateAsync(newOrder);
@@ -68,7 +68,6 @@ namespace API.Controllers
                 CallbackUrl = "http://localhost:5020/api/payment/callback"
             };
 
-            // ... buyer and address setup ...
             
             var buyer = new Iyzipay.Model.Buyer
             {
@@ -114,7 +113,6 @@ namespace API.Controllers
                 basketItems.Add(basketItem);
             }
 
-            // Add Cargo Fee as a separate item for Iyzico (if exists)
             if (paymentRequest.CargoFee > 0)
             {
                 var cargoItem = new Iyzipay.Model.BasketItem
@@ -157,7 +155,6 @@ namespace API.Controllers
 
             if (checkoutForm.Status == "success" && checkoutForm.PaymentStatus == "SUCCESS")
             {
-                // Payment Successful
                 API.Models.Order? order = null;
                 
                 if (!string.IsNullOrEmpty(checkoutForm.ConversationId))
@@ -176,7 +173,6 @@ namespace API.Controllers
                     order.PaymentId = checkoutForm.PaymentId;
                     await _orderRepository.UpdateAsync(order.Id!, order);
                     
-                    // Decrease Stock
                     await _productRepository.DecreaseStockAsync(order.BasketItems);
                 }
 
@@ -184,7 +180,6 @@ namespace API.Controllers
             }
             else
             {
-                // Payment Failed
                 var errorMessage = checkoutForm.ErrorMessage ?? "Ödeme işlemi başarısız.";
                 return Redirect($"http://localhost:5173/payment/failure?error={errorMessage}");
             }
@@ -267,7 +262,6 @@ namespace API.Controllers
                 basketItems.Add(basketItem);
             }
 
-            // Add Cargo Fee as a separate item for Iyzico (if exists)
             if (paymentRequest.CargoFee > 0)
             {
                 var cargoItem = new Iyzipay.Model.BasketItem

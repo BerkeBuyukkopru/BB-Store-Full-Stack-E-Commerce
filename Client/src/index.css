@@ -144,7 +144,6 @@ input[type="number"]::-webkit-inner-spin-button {
   border-color: black !important;
 }
 
-/* Ant Design Overrides */
 .ant-input:hover,
 .ant-input:focus,
 .ant-input-focused {
@@ -158,7 +157,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .ant-btn-primary:hover {
-  background-color: #333 !important; /* Slightly lighter black/gray */
+  background-color: #333 !important;
   border-color: #333 !important;
 }
 
@@ -175,14 +174,12 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: white !important;
 }
 
-/* Remove blue halo shadow from inputs */
 .ant-input-affix-wrapper:focus,
 .ant-input-affix-wrapper-focused,
 .ant-input-affix-wrapper:hover {
     border-color: black !important;
     box-shadow: none !important;
 }
-/* Rating Badge Styles */
 .rating-badge-container {
   display: flex;
   align-items: center;
@@ -202,24 +199,24 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .rating-badge-green {
-  background-color: #28a745; /* Green */
+  background-color: #28a745;
 }
 
 .rating-badge-yellow {
-  background-color: #ffc107; /* Yellow */
-  color: #333; /* Darker text for yellow bg */
+  background-color: #ffc107;
+  color: #333;
 }
 
 .rating-badge-orange {
-  background-color: #fd7e14; /* Orange */
+  background-color: #fd7e14;
 }
 
 .rating-badge-red {
-  background-color: #dc3545; /* Red */
+  background-color: #dc3545;
 }
 
 .rating-badge-gray {
-  background-color: #6c757d; /* Gray for 0 rating */
+  background-color: #6c757d;
 }
 
 .rating-count {
@@ -227,13 +224,10 @@ input[type="number"]::-webkit-inner-spin-button {
   color: #666;
   font-weight: 400;
 }
-/* Ensure inner input of affix wrapper (like Password) has no border */
 .ant-input-affix-wrapper input.ant-input {
     border: none !important;
     box-shadow: none !important;
 }
-
-/* Admin Utility Buttons */
 .admin-edit-btn {
     background-color: transparent !important;
     border: 1px solid black !important;
@@ -261,19 +255,14 @@ input[type="number"]::-webkit-inner-spin-button {
     color: white !important;
     border-color: darkred !important;
 }
-
-/* Ant Design Select Overrides */
 .ant-select-selector {
     border-color: #d9d9d9;
 }
-
-/* Hover state for the selector */
 .ant-select-selector:hover,
 .ant-select:hover .ant-select-selector {
     border-color: black !important;
 }
 
-/* Focus/Active state */
 .ant-select-focused .ant-select-selector,
 .ant-select-selector:focus,
 .ant-select-selector:active,
@@ -281,41 +270,27 @@ input[type="number"]::-webkit-inner-spin-button {
     border-color: black !important;
     box-shadow: none !important;
 }
-
-/* Dropdown Selected Item */
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
     background-color: #e6e6e6 !important;
     color: black !important;
     font-weight: 600;
 }
-
-/* Dropdown Hover/Active Item */
 .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
     color: black !important;
 }
-
-/* Ant Design Menu Overrides */
 .ant-menu-item-selected {
     background-color: #f0f0f0 !important;
     color: black !important;
 }
-
-/* Remove the blue vertical bar on the right */
 .ant-menu-item-selected::after {
     border-right-color: transparent !important;
 }
-
-/* Ensure layout sider background matches */
 .ant-layout-sider, .ant-menu {
     background: white !important;
 }
-
-/* Hover state */
 .ant-menu-item:hover {
     color: black !important;
 }
-
-/* Active/Selected text color */
 .ant-menu-item-selected a, 
 .ant-menu-item-selected span {
     color: black !important;
