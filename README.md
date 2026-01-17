@@ -73,7 +73,7 @@ The project structure consists of the following layers:
 </p>
 
 
-### 👕 Product Details & Reviews
+### Product Details & Reviews
 <p align="center">
   <img src="https://github.com/user-attachments/assets/06466076-3418-404a-b184-23f1d142cc9d" width="100%" />
   &nbsp;&nbsp;
@@ -81,7 +81,7 @@ The project structure consists of the following layers:
 </p>
 
 
-### 🛒 Shopping Experience
+### Shopping Experience
 <p align="center">
   <img src="https://github.com/user-attachments/assets/851fbb03-97f2-4ff2-9964-791e6c186a0e" width="100%" />
 </p>
