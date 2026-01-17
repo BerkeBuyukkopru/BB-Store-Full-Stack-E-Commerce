@@ -8,9 +8,9 @@
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-### 🛒 Front Office (User Interface)
+### Front Office (User Interface)
 * **Dynamic Storefront:** Responsive slider and "New Arrivals" sections.
 * **Advanced Filtering:** Real-time filtering by category, price range, color/size attributes, and gender.
 * **Instant Search:** Modal-based reactive search for products and categories.
@@ -18,7 +18,7 @@
 * **Authentication:** JWT-based secure login/register flow and favorites (wishlist) management.
 * **User Profile:** Order history tracking, address book management, and review system.
 
-### 💼 Back Office (Admin Dashboard)
+### Back Office (Admin Dashboard)
 * **Dashboard & Analytics:** Overview of sales and active orders.
 * **Product Management:** Granular stock tracking (SKU-based), rich text editor for descriptions, and multi-image support.
 * **CMS & Blog:** Integrated editor for blog posts, menu configuration, and slider management.
@@ -26,7 +26,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 The project is built on a performance-oriented and sustainable technology stack.
 
@@ -40,17 +40,17 @@ The project is built on a performance-oriented and sustainable technology stack.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 The backend is built as a **Web API** using a folder-based layered architecture. It implements the **Repository Pattern** to decouple the data access logic from the application logic, ensuring clean and maintainable code.
 
 The project structure consists of the following layers:
 
-* **📂 Models:** Represents the database entities (MongoDB Documents) such as `Product`, `User`, and `Order`.
-* **📂 Dtos (Data Transfer Objects):** Defines the data structures used for data transport between the client and server, ensuring that internal database entities are not exposed directly.
-* **📂 Repositories:** The Data Access Layer. Handles direct interactions with the MongoDB database (CRUD operations) using the MongoDB Driver.
-* **📂 Services:** Contains pure business logic and helper classes (e.g., `TokenService` for JWT generation, `OrderExpirationService` for background tasks).
-* **📂 Controllers:** The API Layer. Handles incoming HTTP requests, validates inputs via DTOs, orchestrates the Repositories/Services, and returns HTTP responses.
+* **Models:** Represents the database entities (MongoDB Documents) such as `Product`, `User`, and `Order`.
+* **Dtos (Data Transfer Objects):** Defines the data structures used for data transport between the client and server, ensuring that internal database entities are not exposed directly.
+* **Repositories:** The Data Access Layer. Handles direct interactions with the MongoDB database (CRUD operations) using the MongoDB Driver.
+* **Services:** Contains pure business logic and helper classes (e.g., `TokenService` for JWT generation, `OrderExpirationService` for background tasks).
+* **Controllers:** The API Layer. Handles incoming HTTP requests, validates inputs via DTOs, orchestrates the Repositories/Services, and returns HTTP responses.
 
 ---
 
@@ -90,7 +90,7 @@ The project structure consists of the following layers:
 </p>
 
 
-### ⚙️ Admin Dashboard
+### Admin Dashboard
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2d3c7c5b-0b24-4b09-b3a6-a1303a4bc55d" width="100%" />
 </p>
