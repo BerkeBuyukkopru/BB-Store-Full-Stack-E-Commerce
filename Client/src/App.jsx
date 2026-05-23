@@ -113,7 +113,6 @@ function App() {
         {/* Kargo Yönetimi */}
         <Route path="cargo" element={<CargoPage />} />
         <Route path="cargo/create" element={<CreateCargoPage />} />
-        <Route path="cargo/create" element={<CreateCargoPage />} />
         <Route path="cargo/update/:id" element={<UpdateCargoPage />} />
 
         {/* Yorum Yönetimi */}
