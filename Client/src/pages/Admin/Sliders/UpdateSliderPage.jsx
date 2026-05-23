@@ -33,6 +33,7 @@ const UpdateSliderPage = () => {
       const response = await fetch(`${apiUrl}/sliders/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(values),
       });
 

@@ -4,9 +4,11 @@ namespace API.Dtos
     {
         public UserDto? User { get; set; }
         public API.Models.Address? Address { get; set; }
+        public Guid? CargoCompanyId { get; set; }
         public decimal CargoFee { get; set; }
         public string CargoCompanyName { get; set; } = string.Empty;
         public List<BasketItemDto> BasketItems { get; set; } = new();
+        public string CouponCode { get; set; } = string.Empty;
         public decimal TotalPrice { get; set; }
         
         // Card Detay

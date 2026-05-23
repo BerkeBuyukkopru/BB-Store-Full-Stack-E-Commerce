@@ -49,6 +49,7 @@ const AboutUsSettingsPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(updatedSettings),
       });
 

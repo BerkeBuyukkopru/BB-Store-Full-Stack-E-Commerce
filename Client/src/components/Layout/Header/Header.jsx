@@ -5,12 +5,10 @@ import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { SiteContext } from "../../../context/SiteContext";
-import { FavoritesContext } from "../../../context/FavoritesContext";
 import { message, Popconfirm } from "antd";
 
 const Header = ({ setIsSearchShow }) => {
   const { cartItems } = useContext(CartContext);
-  const { favorites } = useContext(FavoritesContext); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { pathname } = useLocation();

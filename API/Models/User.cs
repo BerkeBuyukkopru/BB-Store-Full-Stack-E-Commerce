@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -26,6 +27,7 @@ namespace API.Models
 
         public string AvatarUrl { get; set; } = string.Empty;
 
+        [JsonIgnore]
         public string Password { get; set; } = string.Empty;
 
         [BsonRepresentation(BsonType.String)]

@@ -14,6 +14,7 @@ const CreateSliderPage = () => {
       const response = await fetch(`${apiUrl}/sliders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(values),
       });
 

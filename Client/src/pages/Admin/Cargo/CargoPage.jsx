@@ -74,8 +74,7 @@ const CargoPage = () => {
             title: "İşlemler",
             dataIndex: "id",
             key: "id",
-            render: (id, record) => (
-                <Space>
+            render: (id) => (
                 <Space>
                     <Button className="admin-edit-btn" onClick={() => navigate(`/admin/cargo/update/${id}`)}>
                         Düzenle
@@ -90,7 +89,6 @@ const CargoPage = () => {
                             Sil
                         </Button>
                     </Popconfirm>
-                </Space>
                 </Space>
             ),
         },

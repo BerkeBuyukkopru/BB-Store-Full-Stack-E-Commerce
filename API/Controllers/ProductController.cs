@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Models;
 using API.Repositories;
 using API.Dtos;
+using API.Services;
 using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
@@ -10,11 +11,13 @@ public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
     private readonly ReviewRepository _reviewRepository;
+    private readonly IHtmlSanitizationService _htmlSanitizer;
 
-    public ProductController(ProductRepository productRepository, ReviewRepository reviewRepository)
+    public ProductController(ProductRepository productRepository, ReviewRepository reviewRepository, IHtmlSanitizationService htmlSanitizer)
     {
         _productRepository = productRepository;
         _reviewRepository = reviewRepository;
+        _htmlSanitizer = htmlSanitizer;
     }
 
     [HttpPost]
@@ -31,7 +34,7 @@ public class ProductController : ControllerBase
             var newProduct = new Product
             {
                 Name = productDto.Name,
-                Description = productDto.Description,
+                Description = _htmlSanitizer.Sanitize(productDto.Description),
                 Img = productDto.Img,
                 Colors = productDto.Colors.Select(c => System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(c.ToLower())).ToList(),
                 Sizes = productDto.Sizes,
@@ -132,7 +135,7 @@ public class ProductController : ControllerBase
             }
             if (productUpdateDto.Description != null)
             {
-                existingProduct.Description = productUpdateDto.Description;
+                existingProduct.Description = _htmlSanitizer.Sanitize(productUpdateDto.Description);
             }
             if (productUpdateDto.Img != null)
             {

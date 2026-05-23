@@ -30,6 +30,7 @@ const SliderPage = () => {
     try {
       const response = await fetch(`${apiUrl}/sliders/${id}`, {
         method: "DELETE",
+        credentials: "include",
       });
       if (response.ok) {
         message.success("Slider silindi.");

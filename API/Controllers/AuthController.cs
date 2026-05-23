@@ -53,7 +53,14 @@ public class AuthController : ControllerBase
             // Veritabanı kayıt
             await _userRepository.CreateAsync(newUser);
 
-            return CreatedAtAction(nameof(Register), new { id = newUser.Id }, newUser);
+            return CreatedAtAction(nameof(Register), new { id = newUser.Id }, new
+            {
+                id = newUser.Id,
+                email = newUser.Email,
+                name = newUser.Name,
+                surname = newUser.Surname,
+                role = newUser.Role.ToString().ToLower()
+            });
         }
         catch (Exception ex)
         {
@@ -87,7 +94,7 @@ public class AuthController : ControllerBase
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true, // KRİTİK: JavaScript'in token'a erişimini engeller (XSS koruması)
-                Secure = false,   // Sadece HTTPS üzerinde gönderilir
+                Secure = Request.IsHttps,   // Production'da HTTPS üzerinde true olur
                 SameSite = SameSiteMode.Strict, // CSRF riskini azaltır
                 Expires = DateTime.UtcNow.AddHours(1) // Token ömrü
             };
@@ -155,7 +162,7 @@ public class AuthController : ControllerBase
         Response.Cookies.Delete("AuthToken", new CookieOptions
         {
             HttpOnly = true,
-            Secure = false,
+            Secure = Request.IsHttps,
             SameSite = SameSiteMode.Strict,
             Expires = DateTimeOffset.UtcNow.AddDays(-1) // Geçmiş bir zaman
         });

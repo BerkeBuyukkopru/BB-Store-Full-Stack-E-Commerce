@@ -121,7 +121,7 @@ const UserReviews = () => {
             key: "rating",
             width: 150,
             align: "center",
-            render: (rating, record) => (
+            render: (rating) => (
                 rating > 0 ? (
                     <div style={{ display: "flex", justifyContent: "center", width: "100%", whiteSpace: "nowrap" }}>
                         <Rate disabled value={rating} style={{ fontSize: 13, color: "#fadb14" }} />

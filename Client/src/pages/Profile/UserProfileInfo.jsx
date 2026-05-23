@@ -1,11 +1,9 @@
 import { Form, Input, Button, message, Spin } from "antd";
-import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
 
 const UserProfileInfo = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const { user, login } = useContext(AuthContext); // Re-login to update context if needed, or we might need a separate updateContext function
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     // Fetch latest user data or use context

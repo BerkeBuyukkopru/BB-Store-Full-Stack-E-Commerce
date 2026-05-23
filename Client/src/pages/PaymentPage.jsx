@@ -19,18 +19,7 @@ const PaymentPage = () => {
       if (cartItems.length === 0) return;
 
       try {
-        const cartTotal = cartItems.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        );
-        
-        const discountAmount = appliedCoupon 
-            ? (cartTotal * (appliedCoupon.discountPercent / 100)) 
-            : 0;
-
         const cargoPrice = selectedCargo ? parseFloat(selectedCargo.price) : 0;
-        const total = cartTotal - discountAmount + cargoPrice;
-
         let chosenAddress = selectedAddress || null;
         if (!chosenAddress) {
              try {
@@ -42,7 +31,7 @@ const PaymentPage = () => {
                     }
                 }
             } catch (addrErr) {
-
+                console.error("Adres bilgisi alınamadı:", addrErr);
             }
         }
 
@@ -77,6 +66,8 @@ const PaymentPage = () => {
             },
             Address: chosenAddress,
             BasketItems: basketItems,
+            CouponCode: appliedCoupon?.code || "",
+            CargoCompanyId: selectedCargo?.id || null,
             CargoFee: cargoPrice,
             CargoCompanyName: selectedCargo ? selectedCargo.companyName : "",
             TotalPrice: derivedTotal
@@ -87,6 +78,7 @@ const PaymentPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify(payload),
         });
 
@@ -129,7 +121,7 @@ const PaymentPage = () => {
     if(user && cartItems.length > 0) {
         initializePayment();
     }
-  }, [cartItems, user, apiUrl, appliedCoupon]);
+  }, [cartItems, user, apiUrl, appliedCoupon, selectedAddress, selectedCargo]);
 
 
 

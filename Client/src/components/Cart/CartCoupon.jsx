@@ -5,7 +5,7 @@ import { CartContext } from "../../context/CartContext";
 const CartCoupon = () => {
   const [couponCode, setCouponCode] = useState("");
 
-  const { cartItems, setCartItems, appliedCoupon, setAppliedCoupon } = useContext(CartContext);
+  const { appliedCoupon, setAppliedCoupon } = useContext(CartContext);
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const applyCoupon = async () => {

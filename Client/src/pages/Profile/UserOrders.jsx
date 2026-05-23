@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table, Spin, message, Badge, Button, Collapse, theme } from "antd";
-import { Link } from "react-router-dom";
+import { Spin, message, Badge, Collapse } from "antd";
 
 const UserOrders = () => {
     const [orders, setOrders] = useState([]);

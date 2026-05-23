@@ -1,8 +1,7 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import "./AdminReviews.css";
 import { Table, message, Popconfirm, Button, Spin, Tag, Rate } from "antd";
 import { DeleteOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-import { AuthContext } from "../../../context/AuthContext";
 
 const ExpandableComment = ({ comment }) => {
     const [expanded, setExpanded] = useState(false);
@@ -41,7 +40,6 @@ const AdminReviews = () => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(false);
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
-    const { user } = useContext(AuthContext);
 
     const fetchReviews = async () => {
         setLoading(true);

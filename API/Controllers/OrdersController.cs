@@ -1,5 +1,6 @@
 using API.Models;
 using API.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -16,6 +17,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAll()
         {
             var orders = await _orderRepository.GetAllAsync();

@@ -1,5 +1,6 @@
 using API.Models;
 using API.Repositories;
+using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +12,13 @@ namespace API.Controllers
     {
         private readonly BlogRepository _blogRepository;
         private readonly ReviewRepository _reviewRepository;
+        private readonly IHtmlSanitizationService _htmlSanitizer;
 
-        public BlogsController(BlogRepository blogRepository, ReviewRepository reviewRepository)
+        public BlogsController(BlogRepository blogRepository, ReviewRepository reviewRepository, IHtmlSanitizationService htmlSanitizer)
         {
             _blogRepository = blogRepository;
             _reviewRepository = reviewRepository;
+            _htmlSanitizer = htmlSanitizer;
         }
 
         [HttpGet]
@@ -42,6 +45,7 @@ namespace API.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromBody] Blog blog)
         {
+            blog.Content = _htmlSanitizer.Sanitize(blog.Content);
             await _blogRepository.CreateAsync(blog);
             return CreatedAtAction(nameof(GetById), new { id = blog.Id }, blog);
         }
@@ -59,6 +63,7 @@ namespace API.Controllers
             if (existingBlog == null) return NotFound("Blog not found.");
 
             blog.Id = existingBlog.Id;
+            blog.Content = _htmlSanitizer.Sanitize(blog.Content);
             blog.CreatedAt = existingBlog.CreatedAt;
             blog.UpdatedAt = DateTime.UtcNow;
 

@@ -155,7 +155,7 @@ const ProductPage = () => {
         title: "Stok Detayı",
         dataIndex: "sizes",
         key: "stockDetail",
-        render: (sizes, record) => (
+        render: (sizes) => (
             <Button 
                 icon={<EyeOutlined />} 
                 onClick={() => {
@@ -180,7 +180,6 @@ const ProductPage = () => {
       key: "actions",
       render: (_, record) => (
         <Space>
-        <Space>
           <Button
             className="admin-edit-btn"
             onClick={() =>
@@ -200,7 +199,6 @@ const ProductPage = () => {
               Sil
             </Button>
           </Popconfirm>
-        </Space>
         </Space>
       ),
     },

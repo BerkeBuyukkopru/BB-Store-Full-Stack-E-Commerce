@@ -47,10 +47,15 @@ builder.Services.AddHostedService<OrderExpirationService>();
 
 // Token oluşturma servisi
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddSingleton<IHtmlSanitizationService, HtmlSanitizationService>();
 
 
 // --- 4. JWT Kimlik Doğrulama Yapılandırması ---
-var jwtSecret = builder.Configuration["JwtSettings:Secret"] ?? throw new ArgumentNullException("JWT Secret key appsettings.json dosyasında bulunamadı.");
+var jwtSecret = builder.Configuration["JwtSettings:Secret"];
+if (string.IsNullOrWhiteSpace(jwtSecret))
+{
+    throw new InvalidOperationException("JwtSettings:Secret yapılandırması boş bırakılamaz. Değeri user-secrets, environment variable veya güvenli secret store üzerinden verin.");
+}
 var key = Encoding.ASCII.GetBytes(jwtSecret);
 
 builder.Services.AddAuthentication(options =>

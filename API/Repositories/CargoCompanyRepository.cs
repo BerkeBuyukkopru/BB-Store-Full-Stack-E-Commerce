@@ -18,7 +18,7 @@ namespace API.Repositories
         public async Task<List<CargoCompany>> GetAllAsync() =>
             await _cargoCompanies.Find(_ => true).ToListAsync();
 
-        public async Task<CargoCompany> GetByIdAsync(Guid id) =>
+        public async Task<CargoCompany?> GetByIdAsync(Guid id) =>
             await _cargoCompanies.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public async Task CreateAsync(CargoCompany cargoCompany) =>

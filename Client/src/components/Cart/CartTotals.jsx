@@ -7,7 +7,6 @@ import { message, Button, Select, Spin } from "antd";
 import AddressModal from "../Modals/AddressModal";
 
 const CartTotals = () => {
-  const [cargoChecked, setCargoChecked] = useState(false);
   const [cargoCompanies, setCargoCompanies] = useState([]);
   const [selectedCargo, setSelectedCargo] = useState(null);
   const [loadingCargo, setLoadingCargo] = useState(false);

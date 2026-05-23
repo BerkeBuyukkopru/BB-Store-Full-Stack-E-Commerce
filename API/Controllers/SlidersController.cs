@@ -1,5 +1,6 @@
 using API.Models;
 using API.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -31,6 +32,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromBody] Slider slider)
         {
             var existingOrder = await _repository.GetByOrderAsync(slider.Order);
@@ -44,6 +46,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update(string id, [FromBody] Slider slider)
         {
             var existing = await _repository.GetByIdAsync(id);
@@ -64,6 +67,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(string id)
         {
             var existing = await _repository.GetByIdAsync(id);

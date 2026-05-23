@@ -11,7 +11,7 @@ const Info = ({ singleProduct }) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
 
-  const { addToCart, cartItems } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
   const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoritesContext);
 
   const originalPrice = singleProduct.productPrice?.current || 0;
