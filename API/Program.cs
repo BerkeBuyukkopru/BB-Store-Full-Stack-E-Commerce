@@ -48,6 +48,7 @@ builder.Services.AddHostedService<OrderExpirationService>();
 // Token oluşturma servisi
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IHtmlSanitizationService, HtmlSanitizationService>();
+builder.Services.AddScoped<AdminSeedService>();
 
 
 // --- 4. JWT Kimlik Doğrulama Yapılandırması ---
@@ -132,7 +133,10 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var productRepo = scope.ServiceProvider.GetRequiredService<ProductRepository>();
-    productRepo.MigrateLegacySizesAsync().GetAwaiter().GetResult();
+    await productRepo.MigrateLegacySizesAsync();
+
+    var adminSeedService = scope.ServiceProvider.GetRequiredService<AdminSeedService>();
+    await adminSeedService.SeedAsync();
 }
 
 app.Run();
