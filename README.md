@@ -26,6 +26,8 @@ The project focuses on a realistic e-commerce flow rather than a static demo: pr
 - [Configuration](#configuration)
 - [Available Scripts](#available-scripts)
 - [Validation](#validation)
+- [Author](#author)
+- [License](#license)
 
 ---
 
@@ -377,6 +379,8 @@ After admin access is ready, catalog data can be created from the admin panel: c
 
 Use your own MongoDB database and Iyzico sandbox credentials when running the project locally.
 
+> Payment flow uses Iyzico Sandbox. Use sandbox API credentials and Iyzico test cards only. Make sure `IyzicoSettings:CallbackUrl` points to your running API URL.
+
 ---
 
 ## Available Scripts
@@ -416,6 +420,15 @@ Current notes:
 
 - The frontend production build may warn about large chunks. This does not block the build, but route-level code splitting can be added later for better performance.
 - `npm audit --audit-level=moderate` passes for moderate and higher severity issues. A low severity advisory may remain through the rich text editor dependency chain.
+
+---
+
+## Author
+
+Developed by **Berke Buyukkopru**.
+
+- GitHub: [BerkeBuyukkopru](https://github.com/BerkeBuyukkopru)
+- LinkedIn: [Berke Buyukkopru](https://www.linkedin.com/in/berke-buyukkopru/)
 
 ---
 
