@@ -197,7 +197,7 @@ The frontend is organized around pages, reusable components, and React Context p
 ## Project Structure
 
 ```text
-Full-Stack-E-Commerce-Project/
+BB-Store-Full-Stack-E-Commerce/
 |-- API/                                  # ASP.NET Core Web API backend
 |   |-- Controllers/                      # REST endpoints for auth, catalog, orders, payments, admin and CMS flows
 |   |-- Dtos/                             # Request/response contracts shared between controllers and the client
@@ -255,8 +255,8 @@ Generated folders such as `API/bin`, `API/obj`, `Client/node_modules`, and `Clie
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/BerkeBuyukkopru/Full-Stack-E-Commerce-Project.git
-cd Full-Stack-E-Commerce-Project
+git clone https://github.com/BerkeBuyukkopru/BB-Store-Full-Stack-E-Commerce.git
+cd BB-Store-Full-Stack-E-Commerce
 ```
 
 ### 2. Configure the API Secrets
